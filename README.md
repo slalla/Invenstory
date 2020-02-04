@@ -1,0 +1,2 @@
+# Invenstory
+Keeping track of collections is a tough ordeal. As a collector you may keep track of items through the use of spreadsheets, or with the use of a good-old-fashioned pencil and paper. However, these two mediums may become difficult to search as your collection grows in size, and if you need to quickly access data about your collection, these two mediums are not your friend. Invenstory is an idea for a personal inventory management system, designed for collectors. You can make, modify, and manipulate your collection, all from the comfort of a mobile application.
