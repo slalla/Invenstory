@@ -30,7 +30,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
                 ItemContract.COLUMN_CONDITION + "TEXT," +
                 ItemContract.COLUMN_PRICE + " REAL," +
                 ItemContract.COLUMN_LOCATION + " TEXT," +
-                ItemContract.COLUMN_PHOTO + " TEXT," +
+                ItemContract.COLUMN_PHOTO + " BLOB," +
                 ItemContract.COLUMN_COLLECTION + " INTEGER," +
                 "FOREIGN KEY(" + ItemContract.COLUMN_COLLECTION + ") " +
                 "REFERENCES " + CollectionContract.TABLE_NAME + "(" + CollectionContract.TABLE_ID + ")" +
