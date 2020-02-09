@@ -57,7 +57,7 @@ public class Item {
         this.collectionID = collectionID;
         this.price = price;
         this.location = location;
-        setcondition(condition);
+        setCondition(condition);
         if(initDate == null) {
             this.initDate = new Date();
         }
@@ -88,7 +88,7 @@ public class Item {
     public void setCollectionID(int collectionID) {this.collectionID = collectionID;}
 
     public Condition getCondition() { return  this.condition;}
-    private void setcondition(int conditionIn){
+    private void setCondition(int conditionIn){
         condition = Condition.getCondition(conditionIn);
     }
     private String getConditionText() { return condition.toString();}
