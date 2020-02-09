@@ -19,19 +19,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        InvenstoryDbHelper dbHelper = new InvenstoryDbHelper(getBaseContext());
-
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        Collection collection = new Collection("test", 1);
-
-        dbHelper.addCollection(collection);
-
-        Item item = new Item("item", collection.getId(), "Good", "$50.00", "home", new Date());
-        dbHelper.addItem(item);
-
-        ArrayList<Item> items = dbHelper.getItems(item.getCollectionID());
-
     }
 }
