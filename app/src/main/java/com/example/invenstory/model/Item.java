@@ -15,7 +15,7 @@ public class Item {
     /**
      * The item's physical condition.
      */
-    private String condition;
+    private Condition condition;
 
     /**
      * The cost of the item.
@@ -52,12 +52,12 @@ public class Item {
      * @param price The purchase price of the item
      * @param location The current location of the item
      */
-    public Item(String name, int collectionID, String condition, String price, String location, Date initDate) {
+    public Item(String name, int collectionID, int condition, String price, String location, Date initDate) {
         this.name = name;
         this.collectionID = collectionID;
-        this.condition = condition;
         this.price = price;
         this.location = location;
+        setCondition(condition);
         if(initDate == null) {
             this.initDate = new Date();
         }
@@ -75,7 +75,7 @@ public class Item {
      * @param location The current location of the item
      * @param att List of extra attributes of the item.
      */
-    public Item(String name, int collectionID, String condition, String price, String location, Date initDate, ArrayList<String> att) {
+    public Item(String name, int collectionID, int condition, String price, String location, Date initDate, ArrayList<String> att) {
         this(name, collectionID, condition, price, location, initDate);
         this.attributes = att;
     }
@@ -87,8 +87,11 @@ public class Item {
     public int getCollectionID() { return this.collectionID;}
     public void setCollectionID(int collectionID) {this.collectionID = collectionID;}
 
-    public String getCondition() { return  this.condition;}
-    public void setCondition(String condition) {this.condition = condition;}
+    public Condition getCondition() { return  this.condition;}
+    private void setCondition(int conditionIn){
+        condition = Condition.getCondition(conditionIn);
+    }
+    private String getConditionText() { return condition.toString();}
 
     public String getLocation() { return this.location;}
     public void setLocation(String location) { this.location = location;}
