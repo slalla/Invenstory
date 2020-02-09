@@ -34,7 +34,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + ItemContract.TABLE_NAME + " (" +
                     ItemContract.TABLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     ItemContract.COLUMN_NAME + " TEXT," +
-                    ItemContract.COLUMN_CONDITION + " TEXT," +
+                    ItemContract.COLUMN_CONDITION + " INTEGER," +
                     ItemContract.COLUMN_PRICE + " TEXT," +
                     ItemContract.COLUMN_LOCATION + " TEXT," +
                     ItemContract.COLUMN_DATE + " DATE," +
@@ -92,7 +92,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(ItemContract.COLUMN_NAME, item.getName());
-        values.put(ItemContract.COLUMN_CONDITION, item.getCondition());
+        values.put(ItemContract.COLUMN_CONDITION, item.getCondition().ordinal());
         values.put(ItemContract.COLUMN_PRICE, item.getPrice());
         values.put(ItemContract.COLUMN_LOCATION, item.getLocation());
         values.put(ItemContract.COLUMN_DATE, item.getDate().toString());
@@ -127,7 +127,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
             if (cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_NAME)) != null) {
                 Item item = new Item(cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_NAME)),
                         cursor.getInt(cursor.getColumnIndex(ItemContract.COLUMN_COLLECTION)),
-                        cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_CONDITION)),
+                        cursor.getInt(cursor.getColumnIndex(ItemContract.COLUMN_CONDITION)),
                         cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_PRICE)),
                         cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_LOCATION)),
                         null);
