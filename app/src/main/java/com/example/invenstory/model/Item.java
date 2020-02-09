@@ -90,6 +90,9 @@ public class Item {
     public String getCondition() { return  this.condition;}
     public void setCondition(String condition) {this.condition = condition;}
 
+    public String getPrice() { return this.price; }
+    public void setPrice(String price) { this.price = price; }
+
     public String getLocation() { return this.location;}
     public void setLocation(String location) { this.location = location;}
 

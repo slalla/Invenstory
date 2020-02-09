@@ -2,12 +2,17 @@ package com.example.invenstory.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InvenstoryDbHelper extends SQLiteOpenHelper {
 
@@ -16,6 +21,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
 
     public static final String TAG = "InvenstoryDbHelper";
 
+    //SQLite Create Table statement for the Collection table
     public static final String SQL_CREATE_COLLECTION =
             "CREATE TABLE " + CollectionContract.TABLE_NAME + " (" +
                     CollectionContract.TABLE_ID + " INTEGER PRIMARY KEY," +
@@ -23,20 +29,22 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
                     ");"
             ;
 
+    //SQLite Create Table statement for the Item table
     public static final String SQL_CREATE_ITEM =
             "CREATE TABLE " + ItemContract.TABLE_NAME + " (" +
-                    ItemContract.TABLE_ID + " INTEGER PRIMARY KEY," +
+                    ItemContract.TABLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     ItemContract.COLUMN_NAME + " TEXT," +
-                    ItemContract.COLUMN_CONDITION + "TEXT," +
-                    ItemContract.COLUMN_PRICE + " REAL," +
+                    ItemContract.COLUMN_CONDITION + " TEXT," +
+                    ItemContract.COLUMN_PRICE + " TEXT," +
                     ItemContract.COLUMN_LOCATION + " TEXT," +
+                    ItemContract.COLUMN_DATE + " DATE," +
                     ItemContract.COLUMN_PHOTO + " BLOB," +
                     ItemContract.COLUMN_COLLECTION + " INTEGER NOT NULL," +
                     "FOREIGN KEY(" + ItemContract.COLUMN_COLLECTION + ") " +
                     "REFERENCES " + CollectionContract.TABLE_NAME + "(" + CollectionContract.TABLE_ID + ")" +
                     ");"
             ;
-
+    //SQLite Create Table statement for the Attributes table
     public static final String SQL_CREATE_ATTRIBUTES =
             "CREATE TABLE " + AttributesContract.TABLE_NAME + " (" +
                     AttributesContract.TABLE_ID + " INTEGER PRIMARY KEY," +
@@ -48,6 +56,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
                     ");"
             ;
 
+    //TODO figure out what to do with this delete entries
     public static final String SQL_DELETE_ENTRIES = "";
 
     public InvenstoryDbHelper(Context context) {
@@ -82,15 +91,52 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        // values.put(ItemContract.TABLE_ID, item.getId());
         values.put(ItemContract.COLUMN_NAME, item.getName());
-        //  values.put(ItemContract.COLUMN_CONDITION, item.getCondition());
-        // values.put(ItemContract.COLUMN_PRICE, item.getValue());
-        // values.put(ItemContract.COLUMN_LOCATION, item.getLocation());
+        values.put(ItemContract.COLUMN_CONDITION, item.getCondition());
+        values.put(ItemContract.COLUMN_PRICE, item.getPrice());
+        values.put(ItemContract.COLUMN_LOCATION, item.getLocation());
+        values.put(ItemContract.COLUMN_DATE, item.getDate().toString());
         //TODO: Add image column
-        values.put(ItemContract.COLUMN_COLLECTION, item.getGroupName());
+        values.put(ItemContract.COLUMN_COLLECTION, item.getCollectionID());
 
         // returns the id of the newly create row or -1 if there was an error
         return db.insert(ItemContract.TABLE_NAME, null, values);
+    }
+
+    public Long addCollection(Collection collection) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(CollectionContract.TABLE_ID, collection.getId());
+        values.put(CollectionContract.COLUMN_NAME, collection.getName());
+
+        return db.insert(CollectionContract.TABLE_NAME, null, values);
+
+    }
+
+    public ArrayList<Item> getItems(int collectionId) {
+        ArrayList<Item> items = new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+
+        String query = "SELECT * FROM " + ItemContract.TABLE_NAME +
+                " WHERE " + ItemContract.COLUMN_COLLECTION + " = " + collectionId;
+
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            if (cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_NAME)) != null) {
+                Item item = new Item(cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_NAME)),
+                        cursor.getInt(cursor.getColumnIndex(ItemContract.COLUMN_COLLECTION)),
+                        cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_CONDITION)),
+                        cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_PRICE)),
+                        cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_LOCATION)),
+                        null);
+
+                items.add(item);
+            }
+            cursor.moveToNext();
+        }
+        db.close();
+        return items;
     }
 }

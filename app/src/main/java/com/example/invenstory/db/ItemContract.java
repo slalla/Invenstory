@@ -18,6 +18,7 @@ public final class ItemContract {
     public static final String COLUMN_CONDITION = "condition";
     public static final String COLUMN_PRICE = "price";
     public static final String COLUMN_LOCATION = "location";
+    public static final String COLUMN_DATE = "init_date";
     public static final String COLUMN_PHOTO = "images";
     public static final String COLUMN_COLLECTION = "collection_id";
 }
