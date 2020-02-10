@@ -93,6 +93,9 @@ public class Item {
     }
     private String getConditionText() { return condition.toString();}
 
+    public String getPrice() { return this.price; }
+    public void setPrice(String price) { this.price = price; }
+
     public String getLocation() { return this.location;}
     public void setLocation(String location) { this.location = location;}
 
