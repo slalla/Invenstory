@@ -50,6 +50,9 @@ public class HomePage extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        //TODO figure out how to launch an intent instead of a fragment from the button calls
+        //Also need to figure out why the galleryFragment does not launch
     }
 
     @Override
