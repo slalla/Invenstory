@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Invenstory</string>
+    <string name="title_activity_home_page">HomePage</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_nav_title">Invenstory</string>
+    <string name="nav_header_welcome">Welcome Sean Lalla</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_view_collection">View Collections</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
 </resources>
