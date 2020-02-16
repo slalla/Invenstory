@@ -14,9 +14,8 @@
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.invenstory.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:label="@string/menu_view_collection"
         tools:layout="@layout/fragment_gallery" />
-
 
     <fragment
         android:id="@+id/nav_share"
