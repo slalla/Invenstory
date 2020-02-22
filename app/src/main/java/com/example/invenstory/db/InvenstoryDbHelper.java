@@ -38,7 +38,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
                     ItemContract.COLUMN_PRICE + " TEXT," +
                     ItemContract.COLUMN_LOCATION + " TEXT," +
                     ItemContract.COLUMN_DATE + " DATE," +
-                    ItemContract.COLUMN_PHOTO + " BLOB," +
+                    ItemContract.COLUMN_PHOTOS + " TEXT," +
                     ItemContract.COLUMN_COLLECTION + " INTEGER NOT NULL," +
                     "FOREIGN KEY(" + ItemContract.COLUMN_COLLECTION + ") " +
                     "REFERENCES " + CollectionContract.TABLE_NAME + "(" + CollectionContract.TABLE_ID + ")" +
@@ -96,7 +96,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         values.put(ItemContract.COLUMN_PRICE, item.getPrice());
         values.put(ItemContract.COLUMN_LOCATION, item.getLocation());
         values.put(ItemContract.COLUMN_DATE, item.getDate().toString());
-        //TODO: Add image column
+        values.put(ItemContract.COLUMN_PHOTOS, String.join(",", item.getPhotoFilePaths()));
         values.put(ItemContract.COLUMN_COLLECTION, item.getCollectionID());
 
         // returns the id of the newly create row or -1 if there was an error

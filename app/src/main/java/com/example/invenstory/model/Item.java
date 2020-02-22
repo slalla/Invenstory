@@ -45,6 +45,11 @@ public class Item {
     private ArrayList<String> attributes;
 
     /**
+     * An array list that contains the file paths to the items photos on the device
+     */
+    private ArrayList<String> photoFilePaths;
+
+    /**
      * Creates Item with no extra attributes.
      * @param name Name of item. Ex: Vans Oldskool
      * @param collectionID ID of Collection that the item is in. Ex: Footwear may correspond to a value of 1
@@ -107,4 +112,8 @@ public class Item {
 
     //TODO Implement this method that will allow a user to enter new attributes for their item
     public void editAttributes(ArrayList<String> newAttributes){}
+
+    public ArrayList<String> getPhotoFilePaths() { return photoFilePaths; }
+    public void setPhotoFilePaths(ArrayList<String> filePaths) { this.photoFilePaths = filePaths; }
+
 }
