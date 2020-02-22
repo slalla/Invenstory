@@ -13,6 +13,11 @@ public class Item {
     private String name;
 
     /**
+     * The ID of the item
+     */
+    private int id;
+
+    /**
      * The item's physical condition.
      */
     private Condition condition;
@@ -88,6 +93,9 @@ public class Item {
 
     public String getName() { return this.name; }
     public void setName(String name) {this.name = name;}
+
+    public int getItemId() { return this.id; }
+    public void setItemId(int id) {this.id = id;}
 
     public int getCollectionID() { return this.collectionID;}
     public void setCollectionID(int collectionID) {this.collectionID = collectionID;}

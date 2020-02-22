@@ -103,7 +103,22 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         return db.insert(ItemContract.TABLE_NAME, null, values);
     }
 
-    public Long addCollection(Collection collection) {
+    public long updateItem(Item item) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(ItemContract.COLUMN_NAME, item.getName());
+        values.put(ItemContract.COLUMN_CONDITION, item.getCondition().ordinal());
+        values.put(ItemContract.COLUMN_PRICE, item.getPrice());
+        values.put(ItemContract.COLUMN_LOCATION, item.getLocation());
+        values.put(ItemContract.COLUMN_DATE, item.getDate().toString());
+        values.put(ItemContract.COLUMN_PHOTOS, String.join(",", item.getPhotoFilePaths()));
+        values.put(ItemContract.COLUMN_COLLECTION, item.getCollectionID());
+
+        return db.update(ItemContract.TABLE_NAME, values, ItemContract.TABLE_ID + "=" + item.getItemId(), null);
+    }
+
+    public long addCollection(Collection collection) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -111,6 +126,17 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         values.put(CollectionContract.COLUMN_NAME, collection.getName());
 
         return db.insert(CollectionContract.TABLE_NAME, null, values);
+
+    }
+
+    public long updateCollection(Collection collection) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(CollectionContract.TABLE_ID, collection.getId());
+        values.put(CollectionContract.COLUMN_NAME, collection.getName());
+
+        return db.update(CollectionContract.TABLE_NAME, values, ItemContract.TABLE_ID + "=" + collection.getId(), null);
 
     }
 
