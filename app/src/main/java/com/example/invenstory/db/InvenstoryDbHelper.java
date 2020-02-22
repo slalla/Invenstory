@@ -24,7 +24,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
     //SQLite Create Table statement for the Collection table
     public static final String SQL_CREATE_COLLECTION =
             "CREATE TABLE " + CollectionContract.TABLE_NAME + " (" +
-                    CollectionContract.TABLE_ID + " INTEGER PRIMARY KEY," +
+                    CollectionContract.TABLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     CollectionContract.COLUMN_NAME + " TEXT" +
                     ");"
             ;
@@ -47,7 +47,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
     //SQLite Create Table statement for the Attributes table
     public static final String SQL_CREATE_ATTRIBUTES =
             "CREATE TABLE " + AttributesContract.TABLE_NAME + " (" +
-                    AttributesContract.TABLE_ID + " INTEGER PRIMARY KEY," +
+                    AttributesContract.TABLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     AttributesContract.COLUMN_NAME + " TEXT," +
                     AttributesContract.COLUMN_VALUE + " TEXT," +
                     AttributesContract.COLUMN_ITEM + " INTEGER NOT NULL," +
@@ -138,5 +138,26 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         }
         db.close();
         return items;
+    }
+
+    public ArrayList<Collection> getCollections() {
+        ArrayList<Collection> collections = new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+
+        String query = "SELECT * FROM " + CollectionContract.TABLE_NAME + ";";
+
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            if (cursor.getString(cursor.getColumnIndex(CollectionContract.COLUMN_NAME)) != null) {
+                Collection collection = new Collection(cursor.getString(cursor.getColumnIndex(CollectionContract.COLUMN_NAME)),
+                        cursor.getColumnIndex(CollectionContract.TABLE_ID));
+
+                collections.add(collection);
+            }
+            cursor.moveToNext();
+        }
+        db.close();
+        return collections;
     }
 }
