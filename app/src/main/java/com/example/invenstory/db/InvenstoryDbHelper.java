@@ -158,6 +158,8 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_LOCATION)),
                         null);
 
+                item.setItemId(cursor.getColumnIndex(ItemContract.TABLE_ID));
+
                 items.add(item);
             }
             cursor.moveToNext();
