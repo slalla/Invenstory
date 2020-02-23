@@ -101,10 +101,10 @@ public class Item {
     public void setCollectionID(int collectionID) {this.collectionID = collectionID;}
 
     public Condition getCondition() { return  this.condition;}
-    private void setCondition(int conditionIn){
+    public void setCondition(int conditionIn){
         condition = Condition.getCondition(conditionIn);
     }
-    private String getConditionText() { return condition.toString();}
+    public String getConditionText() { return condition.toString();}
 
     public String getPrice() { return this.price; }
     public void setPrice(String price) { this.price = price; }

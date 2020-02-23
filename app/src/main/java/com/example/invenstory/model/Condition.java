@@ -50,7 +50,6 @@ public enum Condition {
         switch(this.ordinal()) {
             case 0:
                 result = "Poor";
-                ;
                 break;
             case 1:
                 result = "Fair";
