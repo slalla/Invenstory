@@ -13,6 +13,11 @@ public class Item {
     private String name;
 
     /**
+     * The ID of the item
+     */
+    private int id;
+
+    /**
      * The item's physical condition.
      */
     private Condition condition;
@@ -43,6 +48,11 @@ public class Item {
      * May need an additional array list to keep hold of the attribute's name
      */
     private ArrayList<String> attributes;
+
+    /**
+     * An array list that contains the file paths to the items photos on the device
+     */
+    private ArrayList<String> photoFilePaths;
 
     /**
      * Creates Item with no extra attributes.
@@ -84,6 +94,9 @@ public class Item {
     public String getName() { return this.name; }
     public void setName(String name) {this.name = name;}
 
+    public int getItemId() { return this.id; }
+    public void setItemId(int id) {this.id = id;}
+
     public int getCollectionID() { return this.collectionID;}
     public void setCollectionID(int collectionID) {this.collectionID = collectionID;}
 
@@ -107,4 +120,8 @@ public class Item {
 
     //TODO Implement this method that will allow a user to enter new attributes for their item
     public void editAttributes(ArrayList<String> newAttributes){}
+
+    public ArrayList<String> getPhotoFilePaths() { return photoFilePaths; }
+    public void setPhotoFilePaths(ArrayList<String> filePaths) { this.photoFilePaths = filePaths; }
+
 }
