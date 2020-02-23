@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Item;
 
@@ -34,6 +35,8 @@ public class GalleryFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        Home.setFabOn();
+        Home.setPageID(1);
 
         // connecting files
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
@@ -59,23 +62,28 @@ public class GalleryFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //TODO make this launch an item fragment with the extra detail being set so that a user can select to add a new item to current collection
+                    Toast t = null;
                     if (position == 0) {
-                        Toast.makeText(getActivity(), "First Item", Toast.LENGTH_LONG);
+                        t =Toast.makeText(getActivity(), "First Item", Toast.LENGTH_LONG);
                     }
                     if (position == 1) {
-                        Toast.makeText(getActivity(), "Second Item", Toast.LENGTH_LONG);
+                        t= Toast.makeText(getActivity(), "Second Item", Toast.LENGTH_LONG);
                     }
                     if (position == 2) {
-                        Toast.makeText(getActivity(), "Third Item", Toast.LENGTH_LONG);
+                        t = Toast.makeText(getActivity(), "Third Item", Toast.LENGTH_LONG);
                     }
                     if (position == 3) {
-                        Toast.makeText(getActivity(), "Fourth Item", Toast.LENGTH_LONG);
+                        t= Toast.makeText(getActivity(), "Fourth Item", Toast.LENGTH_LONG);
                     }
                     if (position == 4) {
-                        Toast.makeText(getActivity(), "Fifth Item", Toast.LENGTH_LONG);
+                        t= Toast.makeText(getActivity(), "Fifth Item", Toast.LENGTH_LONG);
                     }
                     if (position == 5) {
-                        Toast.makeText(getActivity(), "Sixth Item", Toast.LENGTH_LONG);
+                        t= Toast.makeText(getActivity(), "Sixth Item", Toast.LENGTH_LONG);
+                    }
+                    if (t!=null){
+                        t.show();
                     }
                 }
             });
