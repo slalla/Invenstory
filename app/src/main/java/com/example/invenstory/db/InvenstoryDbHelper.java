@@ -96,7 +96,11 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         values.put(ItemContract.COLUMN_PRICE, item.getPrice());
         values.put(ItemContract.COLUMN_LOCATION, item.getLocation());
         values.put(ItemContract.COLUMN_DATE, item.getDate().toString());
-        values.put(ItemContract.COLUMN_PHOTOS, String.join(",", item.getPhotoFilePaths()));
+        if (item.getPhotoFilePaths() != null) {
+            values.put(ItemContract.COLUMN_PHOTOS, String.join(",", item.getPhotoFilePaths()));
+        } else {
+            values.put(ItemContract.COLUMN_PHOTOS, "");
+        }
         values.put(ItemContract.COLUMN_COLLECTION, item.getCollectionID());
 
         // returns the id of the newly create row or -1 if there was an error
@@ -112,7 +116,11 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         values.put(ItemContract.COLUMN_PRICE, item.getPrice());
         values.put(ItemContract.COLUMN_LOCATION, item.getLocation());
         values.put(ItemContract.COLUMN_DATE, item.getDate().toString());
-        values.put(ItemContract.COLUMN_PHOTOS, String.join(",", item.getPhotoFilePaths()));
+        if (item.getPhotoFilePaths() != null) {
+            values.put(ItemContract.COLUMN_PHOTOS, String.join(",", item.getPhotoFilePaths()));
+        } else {
+            values.put(ItemContract.COLUMN_PHOTOS, "");
+        }
         values.put(ItemContract.COLUMN_COLLECTION, item.getCollectionID());
 
         return db.update(ItemContract.TABLE_NAME, values, ItemContract.TABLE_ID + "=" + item.getItemId(), null);
@@ -158,7 +166,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_LOCATION)),
                         null);
 
-                item.setItemId(cursor.getColumnIndex(ItemContract.TABLE_ID));
+                item.setItemId(cursor.getInt(cursor.getColumnIndex(ItemContract.TABLE_ID)));
 
                 items.add(item);
             }
