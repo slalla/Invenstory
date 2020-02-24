@@ -1,17 +1,15 @@
 package com.example.invenstory.ui.gallery;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,8 +20,6 @@ import com.example.invenstory.R;
 import com.example.invenstory.model.Item;
 
 import java.util.ArrayList;
-
-import static android.content.ContentValues.TAG;
 
 public class GalleryFragment extends Fragment {
 
@@ -41,43 +37,26 @@ public class GalleryFragment extends Fragment {
 
         galleryViewModel = new ViewModelProvider(this).get(GalleryViewModel.class);
 
-        galleryViewModel.getCollection().observe(getViewLifecycleOwner(), item -> {
+        galleryViewModel.getCollectionList().observe(getViewLifecycleOwner(), collection -> {
 
             // ***** Temp : Paul
-            String[] mCollectionName = new String[item.size()];
-            String[] mCollectionId = new String[item.size()];
-            int[] images = new int[item.size()];
-            for (int i = 0; i < item.size(); i++) {
-                mCollectionName[i] = item.get(i).getName();
-                mCollectionId[i] = item.get(i).getId() + "";
+            String[] mCollectionName = new String[collection.size()];
+            String[] mCollectionId = new String[collection.size()];
+            int[] images = new int[collection.size()];
+            for (int i = 0; i < collection.size(); i++) {
+                mCollectionName[i] = collection.get(i).getName();
+                mCollectionId[i] = collection.get(i).getId() + "";
                 images[i] = R.drawable.ic_menu_gallery;
             }
 
             MyAdapter adapter = new MyAdapter(getActivity(), mCollectionName, mCollectionId, images);
             listView.setAdapter(adapter);
-            // checking if tapping collection work
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (position == 0) {
-                        Toast.makeText(getActivity(), "First Item", Toast.LENGTH_LONG);
-                    }
-                    if (position == 1) {
-                        Toast.makeText(getActivity(), "Second Item", Toast.LENGTH_LONG);
-                    }
-                    if (position == 2) {
-                        Toast.makeText(getActivity(), "Third Item", Toast.LENGTH_LONG);
-                    }
-                    if (position == 3) {
-                        Toast.makeText(getActivity(), "Fourth Item", Toast.LENGTH_LONG);
-                    }
-                    if (position == 4) {
-                        Toast.makeText(getActivity(), "Fifth Item", Toast.LENGTH_LONG);
-                    }
-                    if (position == 5) {
-                        Toast.makeText(getActivity(), "Sixth Item", Toast.LENGTH_LONG);
-                    }
-                }
+
+            // ***** Test: checking if tapping collection work
+            listView.setOnItemClickListener((parent, view, position, id) -> {
+                Intent intent = new Intent(getActivity(), ItemListActivity.class);
+                intent.putExtra("COLLECTION_ID", position);
+                startActivity(intent);
             });
         });
         // ***** Temp : Paul
