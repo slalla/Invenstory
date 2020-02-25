@@ -4,8 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ViewItemActivity extends AppCompatActivity {
 
@@ -24,6 +29,15 @@ public class ViewItemActivity extends AppCompatActivity {
         String tag = "#Watch #Seiko";
         String image;
         int imageId = R.mipmap.ic_watch;
+        FloatingActionButton edit = findViewById(R.id.editButton);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast t = Toast.makeText(getApplicationContext(), "Editing will be available in the next version", Toast.LENGTH_SHORT);
+                t.show();
+                //TODO this button should start a new activity or fragment to update the current item
+            }
+        });
 
         TextView nameText = findViewById(R.id.textName);
         TextView statusText = findViewById(R.id.textStatus);
