@@ -62,6 +62,7 @@ public class Home extends AppCompatActivity {
 
         getApplicationContext().deleteDatabase(InvenstoryDbHelper.DATABASE_NAME);
 
+        //TODO: Remove InsertFromFileTask test code after prototype demonstration.
         InsertFromFileTask insertFromFileTask = new InsertFromFileTask();
         insertFromFileTask.execute(getApplicationContext());
 
