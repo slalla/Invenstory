@@ -1,0 +1,12 @@
+INSERT INTO collections(collection_id, name) VALUES (1, "Shoes");
+INSERT INTO collections(collection_id, name) VALUES (2, "Hats");
+INSERT INTO items(item_id, name, condition, price, location, init_date, picture_file_paths, collection_id) VALUES (1, "basketball shoes", 3, "350" , "Fredericton, NB", "", "", 1);
+INSERT INTO items(item_id, name, condition, price, location, init_date, picture_file_paths, collection_id) VALUES (2, "tennis shoes", 3, "110" , "Fredericton, NB", "", "", 1);
+INSERT INTO items(item_id, name, condition, price, location, init_date, picture_file_paths, collection_id) VALUES (3, "running shoes", 2, "99" , "Fredericton, NB", "", "", 1);
+INSERT INTO items(item_id, name, condition, price, location, init_date, picture_file_paths, collection_id) VALUES (4, "clown shoes", 4, "1" , "Fredericton, NB", "", "", 1);
+INSERT INTO items(item_id, name, condition, price, location, init_date, picture_file_paths, collection_id) VALUES (5, "sneakers", 1, "0" , "Fredericton, NB", "", "", 1);
+INSERT INTO items(item_id, name, condition, price, location, init_date, picture_file_paths, collection_id) VALUES (6, "golf hat", 3, "80" , "Fredericton, NB", "", "", 2);
+INSERT INTO items(item_id, name, condition, price, location, init_date, picture_file_paths, collection_id) VALUES (7, "fire hat", 3, "67" , "Fredericton, NB", "", "", 2);
+INSERT INTO items(item_id, name, condition, price, location, init_date, picture_file_paths, collection_id) VALUES (8, "baseball hat", 3, "45" , "Fredericton, NB", "", "", 2);
+INSERT INTO items(item_id, name, condition, price, location, init_date, picture_file_paths, collection_id) VALUES (9, "toque", 3, "25" , "Fredericton, NB", "", "", 2);
+INSERT INTO items(item_id, name, condition, price, location, init_date, picture_file_paths, collection_id) VALUES (10, "sun hat", 3, "145" , "Fredericton, NB", "", "", 2);

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+
+//TODO: Remove this?
 public class MainActivity extends AppCompatActivity {
 
     @Override

@@ -15,15 +15,23 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.invenstory.db.InsertFromFileTask;
+import com.example.invenstory.db.InvenstoryDbHelper;
+import com.example.invenstory.model.Collection;
+import com.example.invenstory.model.Item;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
 
 public class Home extends AppCompatActivity {
 
     private static FloatingActionButton fab;
     private static int pageID = 0;
     private AppBarConfiguration mAppBarConfiguration;
+
+    private InvenstoryDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +58,6 @@ public class Home extends AppCompatActivity {
                 //TODO make this do different things based on what id is selected
                 //eg if the user clicks this on the collection page it should open an add collection fragment
                 //if the user selects this on the item page it will try to save the item. run checks first
-
             }
         });
         fab.hide();
@@ -68,6 +75,25 @@ public class Home extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        getApplicationContext().deleteDatabase(InvenstoryDbHelper.DATABASE_NAME);
+
+        //TODO: Remove InsertFromFileTask test code after prototype demonstration.
+        InsertFromFileTask insertFromFileTask = new InsertFromFileTask();
+        insertFromFileTask.execute(getApplicationContext());
+
+        dbHelper = new InvenstoryDbHelper(getApplicationContext());
+
+        ArrayList<Collection> collections = new ArrayList<>();
+
+        collections = dbHelper.getCollections();
+
+        ArrayList<Item> items1 = new ArrayList<>();
+        ArrayList<Item> items2 = new ArrayList<>();
+
+        items1 = dbHelper.getItems(collections.get(0).getId());
+        items2 = dbHelper.getItems(collections.get(1).getId());
+
     }
 
     @Override
