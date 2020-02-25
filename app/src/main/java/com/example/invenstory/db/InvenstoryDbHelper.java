@@ -11,6 +11,10 @@ import android.util.Log;
 import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,6 +130,12 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         return db.update(ItemContract.TABLE_NAME, values, ItemContract.TABLE_ID + "=" + item.getItemId(), null);
     }
 
+    public long deleteItem(Item item) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        return db.delete(ItemContract.TABLE_NAME, ItemContract.TABLE_ID + "=" + item.getItemId(), null);
+    }
+
     public long addCollection(Collection collection) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -146,6 +156,12 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
 
         return db.update(CollectionContract.TABLE_NAME, values, ItemContract.TABLE_ID + "=" + collection.getId(), null);
 
+    }
+
+    public long deleteCollection(Collection collection) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        return db.delete(CollectionContract.TABLE_NAME, CollectionContract.TABLE_ID + "=" + collection.getId(), null);
     }
 
     public ArrayList<Item> getItems(int collectionId) {
@@ -189,11 +205,39 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
                 Collection collection = new Collection(cursor.getString(cursor.getColumnIndex(CollectionContract.COLUMN_NAME)),
                         cursor.getColumnIndex(CollectionContract.TABLE_ID));
 
+                collection.setId(cursor.getInt(cursor.getColumnIndex(CollectionContract.TABLE_ID)));
+
                 collections.add(collection);
             }
             cursor.moveToNext();
         }
         db.close();
         return collections;
+    }
+
+    public int insertFromFile(Context context, int resId) {
+
+        //Insert statement count
+        int result = 0;
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        // Open the resource
+        InputStream insertsStream = context.getResources().openRawResource(resId);
+        BufferedReader insertReader = new BufferedReader(new InputStreamReader(insertsStream));
+
+        try {
+            // Iterate through lines (assuming each insert has its own line)
+            while (insertReader.ready()) {
+                String insertStmt = insertReader.readLine();
+                db.execSQL(insertStmt);
+                result++;
+            }
+            insertReader.close();
+        } catch (IOException e) {
+            Log.e(TAG, "Error reading from file", e);
+        }
+
+        return result;
     }
 }

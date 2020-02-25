@@ -12,13 +12,21 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.invenstory.db.InsertFromFileTask;
+import com.example.invenstory.db.InvenstoryDbHelper;
+import com.example.invenstory.model.Collection;
+import com.example.invenstory.model.Item;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+
 public class Home extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+
+    private InvenstoryDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,7 @@ public class Home extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO: make this our own stuff
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -50,6 +59,25 @@ public class Home extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        getApplicationContext().deleteDatabase(InvenstoryDbHelper.DATABASE_NAME);
+
+        //TODO: Remove InsertFromFileTask test code after prototype demonstration.
+        InsertFromFileTask insertFromFileTask = new InsertFromFileTask();
+        insertFromFileTask.execute(getApplicationContext());
+
+        dbHelper = new InvenstoryDbHelper(getApplicationContext());
+
+        ArrayList<Collection> collections = new ArrayList<>();
+
+        collections = dbHelper.getCollections();
+
+        ArrayList<Item> items1 = new ArrayList<>();
+        ArrayList<Item> items2 = new ArrayList<>();
+
+        items1 = dbHelper.getItems(collections.get(0).getId());
+        items2 = dbHelper.getItems(collections.get(1).getId());
+
     }
 
     @Override
