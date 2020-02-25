@@ -17,7 +17,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.invenstory.MainActivity;
 import com.example.invenstory.R;
+import com.example.invenstory.ViewItemActivity;
 import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
 
@@ -68,22 +70,15 @@ public class ItemListActivity extends AppCompatActivity {
 
             // temp toast
             if (position == 0) {
-                Toast.makeText(this, "First Item", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "First Item", Toast.LENGTH_LONG).show();
+                Intent t = new Intent(ItemListActivity.this, ViewItemActivity.class);
+                t.putExtra("itemName", mItemName[position]);
+                t.putExtra("itemPrice", mItemPrice[position]);
+                startActivity(t);
+
             }
-            if (position == 1) {
-                Toast.makeText(this, "Second Item", Toast.LENGTH_LONG).show();
-            }
-            if (position == 2) {
-                Toast.makeText(this, "Third Item", Toast.LENGTH_LONG).show();
-            }
-            if (position == 3) {
-                Toast.makeText(this, "Fourth Item", Toast.LENGTH_LONG).show();
-            }
-            if (position == 4) {
-                Toast.makeText(this, "Fifth Item", Toast.LENGTH_LONG).show();
-            }
-            if (position == 5) {
-                Toast.makeText(this, "Sixth Item", Toast.LENGTH_LONG).show();
+            else {
+                Toast.makeText(this, "I have not been implemented yet", Toast.LENGTH_LONG).show();
             }
         });
     }

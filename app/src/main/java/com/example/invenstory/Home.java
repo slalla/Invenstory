@@ -1,8 +1,11 @@
 package com.example.invenstory;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -24,6 +27,8 @@ import java.util.ArrayList;
 
 public class Home extends AppCompatActivity {
 
+    private static FloatingActionButton fab;
+    private static int pageID = 0;
     private AppBarConfiguration mAppBarConfiguration;
 
     private InvenstoryDbHelper dbHelper;
@@ -36,15 +41,26 @@ public class Home extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: make this our own stuff
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Toast t = Toast.makeText(getApplicationContext(), "This button has been clicked on the " + pageID + " page.", Toast.LENGTH_SHORT);
+                //t.show();
+                if(pageID==1){
+                    Intent testIntent = new Intent(Home.this, NewCollection.class);
+                    startActivity(testIntent);
+                }
+                else{
+                    Log.i("ID:: ", pageID +"");
+                }
+
+                //TODO make this do different things based on what id is selected
+                //eg if the user clicks this on the collection page it should open an add collection fragment
+                //if the user selects this on the item page it will try to save the item. run checks first
             }
         });
+        fab.hide();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
@@ -92,5 +108,15 @@ public class Home extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public static void setFabOn() {
+        fab.show();
+    }
+    public static void setFabOff(){
+        fab.hide();
+    }
+    public static void setPageID(int id){
+        pageID = id;
     }
 }

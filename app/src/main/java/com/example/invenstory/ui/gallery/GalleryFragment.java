@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Item;
 
@@ -23,13 +24,17 @@ import java.util.ArrayList;
 
 public class GalleryFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    //TODO make this non static
+    public static GalleryViewModel galleryViewModel;
 
     private ListView listView;
     private ArrayList<Item> collection;
 
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        Home.setFabOn();
+        Home.setPageID(1);
 
         // connecting files
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);

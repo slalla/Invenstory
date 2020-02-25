@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class GalleryViewModel extends ViewModel {
 
     private MutableLiveData<ArrayList<Collection>> collectionListLive;
+
     private ArrayList<Collection> collectionList = new ArrayList<Collection>();
     private MutableLiveData<ArrayList<Collection>> collectionLive;
 
@@ -93,6 +94,16 @@ public class GalleryViewModel extends ViewModel {
 
     public LiveData<ArrayList<Collection>> getCollectionList() {
         return collectionListLive;
+    }
+
+    //TODO remove this call and allow it to update db instead
+    public void addCollection(Collection collectionIn){
+        collectionList.add(collectionIn);
+        collectionListLive.postValue(collectionList);
+    }
+
+    public int getCollectionLength(){
+        return collectionList.size();
     }
 
     public Collection getCollection(int id) {
