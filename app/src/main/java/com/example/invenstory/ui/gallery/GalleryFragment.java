@@ -24,10 +24,12 @@ import java.util.ArrayList;
 
 public class GalleryFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    //TODO make this non static
+    public static GalleryViewModel galleryViewModel;
 
     private ListView listView;
     private ArrayList<Item> collection;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

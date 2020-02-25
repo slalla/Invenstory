@@ -1,6 +1,8 @@
 package com.example.invenstory;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
@@ -36,7 +38,15 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast t = Toast.makeText(getApplicationContext(), "This button has been clicked on the " + pageID + " page.", Toast.LENGTH_SHORT);
-                t.show();
+                //t.show();
+                if(pageID==1){
+                    Intent testIntent = new Intent(Home.this, NewCollection.class);
+                    startActivity(testIntent);
+                }
+                else{
+                    Log.i("ID:: ", pageID +"");
+                }
+
                 //TODO make this do different things based on what id is selected
                 //eg if the user clicks this on the collection page it should open an add collection fragment
                 //if the user selects this on the item page it will try to save the item. run checks first
