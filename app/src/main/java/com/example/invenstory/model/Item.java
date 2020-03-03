@@ -32,7 +32,6 @@ public class Item {
      */
     private String location;
 
-
     /**
      * The id of the collection that the item is placed in
      */
@@ -102,7 +101,7 @@ public class Item {
 
     public Condition getCondition() { return  this.condition;}
     public void setCondition(int conditionIn){
-        condition = Condition.getCondition(conditionIn);
+        condition = Condition.findCondition(conditionIn);
     }
     public String getConditionText() { return condition.toString();}
 
