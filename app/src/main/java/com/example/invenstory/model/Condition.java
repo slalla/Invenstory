@@ -16,9 +16,9 @@ public enum Condition {
     NA
     ;
 
-    public static Condition getCondition(int condition) {
+    public Condition getCondition() {
         Condition result;
-        switch(condition) {
+        switch(this.ordinal()) {
             case 0:
                 result = Condition.POOR;
                 break;
