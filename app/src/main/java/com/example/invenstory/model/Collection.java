@@ -1,11 +1,13 @@
 package com.example.invenstory.model;
 
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
  * The following class an Collection that may be stored in the database
  */
-public class Collection {
+public class Collection{
 
     /**
      * The name of the collection. EG Video Games
