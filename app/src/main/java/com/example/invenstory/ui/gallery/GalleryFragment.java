@@ -3,6 +3,7 @@ package com.example.invenstory.ui.gallery;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Item;
+import com.example.invenstory.ui.itemlist.ItemListFragment;
 
 import java.util.ArrayList;
 
@@ -62,6 +66,14 @@ public class GalleryFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ItemListActivity.class);
                 intent.putExtra("COLLECTION_ID", position);
                 startActivity(intent);
+
+//                ItemListFragment fragment = ItemListFragment.newInstance("Hello", "Jello");
+//                Log.i("", "HOOOOO + "+ getActivity().toString());
+//                getActivity().getSupportFragmentManager().beginTransaction().remove(GalleryFragment.this).replace(((ViewGroup)getView().getParent()).getId(), fragment, "findThisFragment")
+//                        .addToBackStack(null)
+//                        .commit();
+//                Log.i("", "We did it");
+
             });
         });
         // ***** Temp : Paul
