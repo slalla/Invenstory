@@ -76,24 +76,6 @@ public class Home extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        getApplicationContext().deleteDatabase(InvenstoryDbHelper.DATABASE_NAME);
-
-        //TODO: Remove InsertFromFileTask test code after prototype demonstration.
-        InsertFromFileTask insertFromFileTask = new InsertFromFileTask();
-        insertFromFileTask.execute(getApplicationContext());
-
-        dbHelper = new InvenstoryDbHelper(getApplicationContext());
-
-        ArrayList<Collection> collections = new ArrayList<>();
-
-        collections = dbHelper.getCollections();
-
-        ArrayList<Item> items1 = new ArrayList<>();
-        ArrayList<Item> items2 = new ArrayList<>();
-
-        items1 = dbHelper.getItems(collections.get(0).getId());
-        items2 = dbHelper.getItems(collections.get(1).getId());
-
     }
 
     @Override
