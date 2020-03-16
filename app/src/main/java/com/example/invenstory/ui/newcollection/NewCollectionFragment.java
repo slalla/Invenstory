@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,16 +14,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.invenstory.Home;
-import com.example.invenstory.NewCollection;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Collection;
 import com.example.invenstory.ui.gallery.GalleryFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import static com.example.invenstory.Home.setPageID;
 
@@ -41,7 +37,7 @@ public class NewCollectionFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         setPageID(4);
-        Home.setFabOn();
+        Home.setFabOff();
         View root = inflater.inflate(R.layout.new_collection_fragment, container, false);
         TextInputEditText textEditInputLayout = root.findViewById(R.id.NameInput);
         textEditInputLayout.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);

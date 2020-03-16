@@ -1,40 +1,31 @@
-package com.example.invenstory.ui.itemlist;
+package com.example.invenstory.ui.newItem;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.invenstory.R;
 
-//TODO HI PAUL the Item View model is the new "model" that should be used here
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ItemListFragment#newInstance} factory method to
+ * Use the {@link newItemFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ItemListFragment extends Fragment {
+public class newItemFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    //TODO see if need to edit this call
-    private ViewModel itemListViewModel = new ItemListViewModel();
-
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public ItemListFragment() {
+    public newItemFragment() {
         // Required empty public constructor
     }
 
@@ -44,11 +35,11 @@ public class ItemListFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ItemListFragment.
+     * @return A new instance of fragment newItem.
      */
     // TODO: Rename and change types and number of parameters
-    public static ItemListFragment newInstance(String param1, String param2) {
-        ItemListFragment fragment = new ItemListFragment();
+    public static newItemFragment newInstance(String param1, String param2) {
+        newItemFragment fragment = new newItemFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -68,8 +59,7 @@ public class ItemListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_item_list, container, false);
-        return v;
-
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_new_item, container, false);
     }
 }

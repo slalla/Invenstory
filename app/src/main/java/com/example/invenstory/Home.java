@@ -48,13 +48,13 @@ public class Home extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast t = Toast.makeText(getApplicationContext(), "This button has been clicked on the " + pageID + " page.", Toast.LENGTH_SHORT);
-                //t.show();
+                //For Debugging
+                // Toast.makeText(getApplicationContext(), "This button has been clicked on the " + pageID + " page.", Toast.LENGTH_SHORT).show();
                 if(pageID==1){
 //                    Intent testIntent = new Intent(Home.this, NewCollection.class);
 //                    startActivity(testIntent);
-                    //TODO This is temp code to launch the thing. Should
-                    startItemList();
+                    startNewCollection();
+                    //TODO This is temp code to launch the thing. Show
                 }
                 else{
                     Log.i("ID:: ", pageID +"");
@@ -109,5 +109,9 @@ public class Home extends AppCompatActivity {
     public void startItemList(){
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.navigate(R.id.action_nav_gallery_to_itemListFragment);
+    }
+    public void startNewCollection(){
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController.navigate(R.id.action_nav_gallery_to_newCollectionFragment);
     }
 }
