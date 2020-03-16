@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.invenstory.R;
 
-
+//TODO HI PAUL the Item View model is the new "model" that should be used here
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ItemListFragment#newInstance} factory method to
@@ -70,7 +70,9 @@ public class ItemListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.i("Tag", "We made it here");
-        return inflater.inflate(R.layout.fragment_item_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_item_list, container, false);
+        Log.i("Tag", v.toString());
+        return v;
 
     }
 }

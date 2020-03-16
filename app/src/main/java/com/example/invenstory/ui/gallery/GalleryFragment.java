@@ -26,6 +26,7 @@ import com.example.invenstory.ui.itemlist.ItemListFragment;
 
 import java.util.ArrayList;
 
+//TODO HI PAUL the collection View model is the new "model" that should be used here
 public class GalleryFragment extends Fragment {
 
     //TODO make this non static
@@ -69,9 +70,8 @@ public class GalleryFragment extends Fragment {
 
 //                ItemListFragment fragment = ItemListFragment.newInstance("Hello", "Jello");
 //                Log.i("", "HOOOOO + "+ getActivity().toString());
-//                getActivity().getSupportFragmentManager().beginTransaction().remove(GalleryFragment.this).replace(((ViewGroup)getView().getParent()).getId(), fragment, "findThisFragment")
-//                        .addToBackStack(null)
-//                        .commit();
+//                getActivity().getSupportFragmentManager().beginTransaction().replace(((ViewGroup)getView().getParent()).getId(), fragment, "findThisFragment")
+//                        .commitNow();
 //                Log.i("", "We did it");
 
             });
