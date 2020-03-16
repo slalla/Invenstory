@@ -39,6 +39,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
                     ItemContract.TABLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     ItemContract.COLUMN_NAME + " TEXT," +
                     ItemContract.COLUMN_CONDITION + " INTEGER," +
+                    ItemContract.COLUMN_STATUS + " INTEGER," +
                     ItemContract.COLUMN_PRICE + " TEXT," +
                     ItemContract.COLUMN_LOCATION + " TEXT," +
                     ItemContract.COLUMN_DATE + " DATE," +

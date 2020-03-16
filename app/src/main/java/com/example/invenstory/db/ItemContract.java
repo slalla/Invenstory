@@ -16,6 +16,7 @@ public final class ItemContract {
     public static final String TABLE_ID = "item" + BaseColumns._ID;
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_CONDITION = "condition";
+    public static final String COLUMN_STATUS = "status";
     public static final String COLUMN_PRICE = "price";
     public static final String COLUMN_LOCATION = "location";
     public static final String COLUMN_DATE = "init_date";
