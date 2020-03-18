@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -19,6 +21,7 @@ import com.example.invenstory.db.InsertFromFileTask;
 import com.example.invenstory.db.InvenstoryDbHelper;
 import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
+import com.example.invenstory.ui.itemlist.ItemListFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -45,11 +48,13 @@ public class Home extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast t = Toast.makeText(getApplicationContext(), "This button has been clicked on the " + pageID + " page.", Toast.LENGTH_SHORT);
-                //t.show();
+                //For Debugging
+                // Toast.makeText(getApplicationContext(), "This button has been clicked on the " + pageID + " page.", Toast.LENGTH_SHORT).show();
                 if(pageID==1){
-                    Intent testIntent = new Intent(Home.this, NewCollection.class);
-                    startActivity(testIntent);
+//                    Intent testIntent = new Intent(Home.this, NewCollection.class);
+//                    startActivity(testIntent);
+                    startNewCollection();
+                    //TODO This is temp code to launch the thing. Show
                 }
                 else{
                     Log.i("ID:: ", pageID +"");
@@ -100,5 +105,13 @@ public class Home extends AppCompatActivity {
     }
     public static void setPageID(int id){
         pageID = id;
+    }
+    public void startItemList(){
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController.navigate(R.id.action_nav_gallery_to_itemListFragment);
+    }
+    public void startNewCollection(){
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController.navigate(R.id.action_nav_gallery_to_newCollectionFragment);
     }
 }

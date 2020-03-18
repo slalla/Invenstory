@@ -16,9 +16,10 @@ public enum Condition {
     NA
     ;
 
-    public static Condition getCondition(int condition) {
+
+    public Condition getCondition() {
         Condition result;
-        switch(condition) {
+        switch(this.ordinal()) {
             case 0:
                 result = Condition.POOR;
                 break;
@@ -43,6 +44,32 @@ public enum Condition {
         return result;
     }
 
+    public static Condition findCondition(int conditionIn) {
+        Condition result;
+        switch(conditionIn) {
+            case 0:
+                result = Condition.POOR;
+                break;
+            case 1:
+                result = Condition.FAIR;
+                break;
+            case 2:
+                result = Condition.GOOD;
+                break;
+            case 3:
+                result = Condition.FINE;
+                break;
+            case 4:
+                result = Condition.NEARMINT;
+                break;
+            case 5:
+                result = Condition.MINT;
+                break;
+            default:
+                result = Condition.NA;
+        }
+        return result;
+    }
     @NonNull
     @Override
     public String toString() {

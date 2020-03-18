@@ -33,9 +33,14 @@ public class ViewItemActivity extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast t = Toast.makeText(getApplicationContext(), "Editing will be available in the next version", Toast.LENGTH_SHORT);
+                /*Toast t = Toast.makeText(getApplicationContext(), "Editing will be available in the next version", Toast.LENGTH_SHORT);
                 t.show();
+                 */
                 //TODO this button should start a new activity or fragment to update the current item
+                Intent editItem = new Intent(ViewItemActivity.this, NewItem.class);
+                editItem.putExtra("tag", tag);
+                editItem.putExtra("collectionName", collectionName);
+                startActivity(editItem);
             }
         });
 

@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.invenstory.MainActivity;
 import com.example.invenstory.R;
 import com.example.invenstory.ViewItemActivity;
 import com.example.invenstory.model.Collection;

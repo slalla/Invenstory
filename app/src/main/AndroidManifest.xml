@@ -13,7 +13,6 @@
         <activity
             android:name=".ViewItemActivity"
             android:label="View Item" />
-        <activity android:name=".NewCollection" />
         <activity
             android:name=".ui.gallery.ItemListActivity"
             android:label="Item List" />

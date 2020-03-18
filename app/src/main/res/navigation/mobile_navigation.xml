@@ -15,7 +15,14 @@
         android:id="@+id/nav_gallery"
         android:name="com.example.invenstory.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_gallery" >
+        <action
+            android:id="@+id/action_nav_gallery_to_itemListFragment"
+            app:destination="@id/itemListFragment" />
+        <action
+            android:id="@+id/action_nav_gallery_to_newCollectionFragment"
+            app:destination="@id/newCollectionFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_share"
@@ -28,4 +35,22 @@
         android:name="com.example.invenstory.ui.send.SendFragment"
         android:label="@string/menu_send"
         tools:layout="@layout/fragment_send" />
+    <fragment
+        android:id="@+id/itemListFragment"
+        android:name="com.example.invenstory.ui.itemlist.ItemListFragment"
+        tools:layout="@layout/fragment_item_list"
+        android:label="View Items" >
+        <action
+            android:id="@+id/action_itemListFragment_to_newItemFragment"
+            app:destination="@id/newItemFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newCollectionFragment"
+        android:name="com.example.invenstory.ui.newcollection.NewCollectionFragment"
+        android:label="New Collection"
+        tools:layout="@layout/new_collection_fragment" />
+    <fragment
+        android:id="@+id/newItemFragment"
+        android:name="com.example.invenstory.ui.newItem.newItemFragment"
+        android:label="newItemFragment" />
 </navigation>
