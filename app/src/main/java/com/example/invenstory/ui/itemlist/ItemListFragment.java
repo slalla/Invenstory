@@ -22,18 +22,19 @@ import com.example.invenstory.ui.collectionlist.CollectionListViewModel;
  * create an instance of this fragment.
  */
 public class ItemListFragment extends Fragment {
-    @Override
+
 
     private ListView listView;
     private CollectionListViewModel collectionListViewModel;
 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_item_list, container, false);
 
         listView = root.findViewById(R.id.item_list_view2);
 
-        int collectionId =
+        //int collectionId =
 
 
 
