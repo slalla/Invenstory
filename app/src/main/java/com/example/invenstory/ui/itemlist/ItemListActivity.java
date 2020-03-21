@@ -1,4 +1,4 @@
-package com.example.invenstory.ui.gallery;
+package com.example.invenstory.ui.itemlist;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,13 +21,14 @@ import com.example.invenstory.R;
 import com.example.invenstory.ViewItemActivity;
 import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
+import com.example.invenstory.ui.collectionlist.CollectionListModel;
 
 import java.util.ArrayList;
 
 public class ItemListActivity extends AppCompatActivity {
 
     private ListView listView;
-    private GalleryViewModel galleryViewModel;
+    private CollectionListModel collectionListModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,8 +41,8 @@ public class ItemListActivity extends AppCompatActivity {
         int collectionId = intent.getIntExtra("COLLECTION_ID", 1);
 
         // ***** TEMPORARY USING GALLERY VIEW MODEL, TALK WITH GROUP ABOUT FUTURE WIREFRAME
-        galleryViewModel = new ViewModelProvider(this).get(GalleryViewModel.class);
-        Collection collection = galleryViewModel.getCollection(collectionId);
+        collectionListModel = new ViewModelProvider(this).get(CollectionListModel.class);
+        Collection collection = collectionListModel.getCollection(collectionId);
         ArrayList<Item> item = collection.getCollection();
 
         if (item.size() == 0) {

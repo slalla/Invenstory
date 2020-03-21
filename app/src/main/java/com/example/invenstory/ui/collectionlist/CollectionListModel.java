@@ -1,4 +1,4 @@
-package com.example.invenstory.ui.gallery;
+package com.example.invenstory.ui.collectionlist;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -9,14 +9,15 @@ import com.example.invenstory.model.Item;
 
 import java.util.ArrayList;
 
-public class GalleryViewModel extends ViewModel {
+//TODO This is a temp data file. to see how to implement it with the other please refer to collection list view model which is the correct file that will be used
+public class CollectionListModel extends ViewModel {
 
     private MutableLiveData<ArrayList<Collection>> collectionListLive;
 
     private ArrayList<Collection> collectionList = new ArrayList<Collection>();
     private MutableLiveData<ArrayList<Collection>> collectionLive;
 
-    public GalleryViewModel() {
+    public CollectionListModel() {
 
         // ***** TEMPORARY VARIABLES FOR PROTOTYPE: PAUL
         Item seikoSkx007 = new Item("Seiko SKX007", 0, 10, "500.00 CAD", "Fredericton", null);

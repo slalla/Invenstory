@@ -1,18 +1,39 @@
 package com.example.invenstory.ui.itemlist;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
 
-public class ItemListViewModel extends ViewModel {
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 
-    private MutableLiveData<String> mText;
+import com.example.invenstory.db.InvenstoryDbHelper;
+import com.example.invenstory.model.Item;
 
-    public ItemListViewModel(){
-        mText = new MutableLiveData<>();
-        mText.setValue("This is the Item List Fragment");
+import java.util.List;
+
+public class ItemListViewModel extends AndroidViewModel {
+    private InvenstoryDbHelper dbHelper;
+    private List<Item> items;
+
+    public ItemListViewModel (@NonNull Application application, int collectionId) {
+        super(application);
+        dbHelper = new InvenstoryDbHelper(application.getApplicationContext());
+        items = updateItemsList(collectionId);
     }
 
-    public LiveData<String> getText() {return mText;}
+    public List<Item> updateItemsList(int collectionId) {
+        return dbHelper.getItems(collectionId);
+    }
 
+
+    public void insertItem(Item item) {
+        dbHelper.addItem(item);
+    }
+
+    public void deleteItem(Item item) {
+        dbHelper.deleteItem(item);
+    }
+
+    public void updateItem(Item item) {
+        dbHelper.updateItem(item);
+    }
 }

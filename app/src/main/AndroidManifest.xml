@@ -14,7 +14,7 @@
             android:name=".ViewItemActivity"
             android:label="View Item" />
         <activity
-            android:name=".ui.gallery.ItemListActivity"
+            android:name=".ui.itemlist.ItemListActivity"
             android:label="Item List" />
         <activity
             android:name=".Home"

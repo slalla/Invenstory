@@ -1,9 +1,7 @@
-package com.example.invenstory.ui.gallery;
+package com.example.invenstory.ui.collectionlist;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,22 +13,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Item;
-import com.example.invenstory.ui.itemlist.ItemListFragment;
 
 import java.util.ArrayList;
 
+import static androidx.navigation.fragment.NavHostFragment.findNavController;
+
 //TODO HI PAUL the collection View model is the new "model" that should be used here
-public class GalleryFragment extends Fragment {
+public class CollectionListFragment extends Fragment {
 
     //TODO make this non static
-    public static GalleryViewModel galleryViewModel;
+    public static CollectionListModel collectionListModel;
+
+    //TODO fix the other class before using this variable
+    private static CollectionListViewModel collectionListViewModel;
 
     private ListView listView;
     private ArrayList<Item> collection;
@@ -42,12 +43,12 @@ public class GalleryFragment extends Fragment {
         Home.setPageID(1);
 
         // connecting files
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
+        View root = inflater.inflate(R.layout.fragment_collection_list, container, false);
         listView = root.findViewById(R.id.collection_list_view);
 
-        galleryViewModel = new ViewModelProvider(this).get(GalleryViewModel.class);
+        collectionListModel = new ViewModelProvider(this).get(CollectionListModel.class);
 
-        galleryViewModel.getCollectionList().observe(getViewLifecycleOwner(), collection -> {
+        collectionListModel.getCollectionList().observe(getViewLifecycleOwner(), collection -> {
 
             // ***** Temp : Paul
             String[] mCollectionName = new String[collection.size()];
@@ -64,19 +65,13 @@ public class GalleryFragment extends Fragment {
 
             // ***** Test: checking if tapping collection work
             listView.setOnItemClickListener((parent, view, position, id) -> {
-                Intent intent = new Intent(getActivity(), ItemListActivity.class);
-                intent.putExtra("COLLECTION_ID", position);
-                startActivity(intent);
-
-//                ItemListFragment fragment = ItemListFragment.newInstance("Hello", "Jello");
-//                Log.i("", "HOOOOO + "+ getActivity().toString());
-//                getActivity().getSupportFragmentManager().beginTransaction().replace(((ViewGroup)getView().getParent()).getId(), fragment, "findThisFragment")
-//                        .commitNow();
-//                Log.i("", "We did it");
-
+//                Intent intent = new Intent(getActivity(), ItemListActivity.class);
+//                intent.putExtra("COLLECTION_ID", position);
+//                startActivity(intent);
+                NavController navController = findNavController(this);
+                navController.navigate(R.id.action_nav_gallery_to_itemListFragment);
             });
         });
-        // ***** Temp : Paul
         return root;
     }
 

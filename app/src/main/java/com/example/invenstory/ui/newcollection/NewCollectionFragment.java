@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Collection;
-import com.example.invenstory.ui.gallery.GalleryFragment;
+import com.example.invenstory.ui.collectionlist.CollectionListFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -56,8 +56,8 @@ public class NewCollectionFragment extends Fragment {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Log.i("Name: ", "You clicked good button");
                                 //TODO Add the item to the list
-                                GalleryFragment.galleryViewModel.addCollection(new Collection(name, GalleryFragment.galleryViewModel.getCollectionLength()));
-                                Log.i("ID: " , ""+GalleryFragment.galleryViewModel.getCollectionLength());
+                                CollectionListFragment.collectionListModel.addCollection(new Collection(name, CollectionListFragment.collectionListModel.getCollectionLength()));
+                                Log.i("ID: " , ""+ CollectionListFragment.collectionListModel.getCollectionLength());
                                 getActivity().onBackPressed();
 
                             }
