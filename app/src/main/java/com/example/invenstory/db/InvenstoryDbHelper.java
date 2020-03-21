@@ -98,6 +98,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(ItemContract.COLUMN_NAME, item.getName());
         values.put(ItemContract.COLUMN_CONDITION, item.getCondition().ordinal());
+        values.put(ItemContract.COLUMN_STATUS, item.getStatus().ordinal());
         values.put(ItemContract.COLUMN_PRICE, item.getPrice());
         values.put(ItemContract.COLUMN_LOCATION, item.getLocation());
         values.put(ItemContract.COLUMN_DATE, item.getDate().toString());
@@ -118,6 +119,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(ItemContract.COLUMN_NAME, item.getName());
         values.put(ItemContract.COLUMN_CONDITION, item.getCondition().ordinal());
+        values.put(ItemContract.COLUMN_STATUS, item.getStatus().ordinal());
         values.put(ItemContract.COLUMN_PRICE, item.getPrice());
         values.put(ItemContract.COLUMN_LOCATION, item.getLocation());
         values.put(ItemContract.COLUMN_DATE, item.getDate().toString());

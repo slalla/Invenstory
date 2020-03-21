@@ -23,6 +23,11 @@ public class Item {
     private Condition condition;
 
     /**
+     * The item's status (ie lost, loaned, etc)
+     */
+    private Status status;
+
+    /**
      * The cost of the item.
      */
     private String price;
@@ -104,6 +109,11 @@ public class Item {
         condition = Condition.findCondition(conditionIn);
     }
     public String getConditionText() { return condition.toString();}
+
+    public Status getStatus() { return this.status; }
+    public void setStatus(int statusId) { this.status = Status.findStatus(statusId); }
+
+    public String getStatusText() { return this.status.toString(); }
 
     public String getPrice() { return this.price; }
     public void setPrice(String price) { this.price = price; }

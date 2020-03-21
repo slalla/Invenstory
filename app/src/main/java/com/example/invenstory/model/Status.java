@@ -26,6 +26,24 @@ public enum Status {
         return result;
     }
 
+    public static Status findStatus(int statusId) {
+        Status result;
+        switch(statusId) {
+            case 0:
+                result = Status.ACTIVE;
+                break;
+            case 1:
+                result = Status.LOST;
+                break;
+            case 2:
+                result = Status.LOANED;
+                break;
+            default:
+                result = Status.NA;
+        }
+        return result;
+    }
+
     @NonNull
     @Override
     public String toString() {
