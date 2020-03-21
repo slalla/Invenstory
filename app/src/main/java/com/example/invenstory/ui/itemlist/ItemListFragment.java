@@ -1,16 +1,14 @@
 package com.example.invenstory.ui.itemlist;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +18,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.invenstory.Home;
 import com.example.invenstory.R;
-import com.example.invenstory.ViewItemActivity;
 import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
 import com.example.invenstory.ui.collectionlist.CollectionListModel;
 import com.example.invenstory.ui.collectionlist.CollectionListViewModel;
+import com.example.invenstory.ui.itemlist.ItemListFragmentDirections.ActionItemListFragmentToViewItemFragment;
+
 
 import java.util.ArrayList;
+
+import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 //TODO HI PAUL the ItemListView model is the new "model" that should be used here
 /**
@@ -35,7 +37,6 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class ItemListFragment extends Fragment {
-
 
     private ListView listView;
     private CollectionListViewModel collectionListViewModel;
@@ -46,6 +47,11 @@ public class ItemListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Home.setFabOn();
+        //TODO this is a temp value please fix it in the next update
+        Home.setPageID(88);
+
         View root = inflater.inflate(R.layout.fragment_item_list, container, false);
 
         listView = root.findViewById(R.id.item_list_view2);
@@ -86,7 +92,10 @@ public class ItemListFragment extends Fragment {
 //                t.putExtra("itemName", mItemName[position]);
 //                t.putExtra("itemPrice", mItemPrice[position]);
 //                startActivity(t);
-
+                ActionItemListFragmentToViewItemFragment actionItemListFragmentToViewItemFragment =
+                        ItemListFragmentDirections.actionItemListFragmentToViewItemFragment(position, collectionId);
+                NavController navController = findNavController(this);
+                navController.navigate(actionItemListFragmentToViewItemFragment);
             }
             else {
                 Toast.makeText(getActivity(), "I have not been implemented yet", Toast.LENGTH_LONG).show();

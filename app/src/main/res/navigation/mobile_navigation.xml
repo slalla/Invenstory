@@ -44,9 +44,6 @@
             android:id="@+id/action_itemListFragment_to_newItemFragment"
             app:destination="@id/newItemFragment" />
         <action
-            android:id="@+id/action_itemListFragment_to_newItemFragment2"
-            app:destination="@id/newItemFragment" />
-        <action
             android:id="@+id/action_itemListFragment_to_viewItemFragment"
             app:destination="@id/viewItemFragment" />
         <argument
@@ -70,5 +67,11 @@
         <action
             android:id="@+id/action_viewItemFragment_to_newItemFragment"
             app:destination="@id/newItemFragment" />
+        <argument
+            android:name="item_id"
+            app:argType="integer" />
+        <argument
+            android:name="collection_id"
+            app:argType="integer" />
     </fragment>
 </navigation>

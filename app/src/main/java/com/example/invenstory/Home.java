@@ -51,10 +51,11 @@ public class Home extends AppCompatActivity {
                 //For Debugging
                 // Toast.makeText(getApplicationContext(), "This button has been clicked on the " + pageID + " page.", Toast.LENGTH_SHORT).show();
                 if(pageID==1){
-//                    Intent testIntent = new Intent(Home.this, NewCollection.class);
-//                    startActivity(testIntent);
                     startNewCollection();
                     //TODO This is temp code to launch the thing. Show
+                }
+                else if(pageID == 88){
+                    startNewItem();
                 }
                 else{
                     Log.i("ID:: ", pageID +"");
@@ -105,13 +106,23 @@ public class Home extends AppCompatActivity {
     }
     public static void setPageID(int id){
         pageID = id;
+        if(pageID==1||pageID == 88){
+            fab.setImageResource(R.drawable.ic_add_black_24dp);
+        }
+        else if (pageID == 99){
+            fab.setImageResource(R.drawable.ic_edit_black_24dp);
+        }
     }
-    public void startItemList(){
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        navController.navigate(R.id.action_nav_gallery_to_itemListFragment);
-    }
+//    public void startItemList(){
+//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+//        navController.navigate(R.id.action_nav_gallery_to_itemListFragment);
+//    }
     public void startNewCollection(){
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.navigate(R.id.action_nav_gallery_to_newCollectionFragment);
+    }
+    public void startNewItem(){
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController.navigate(R.id.action_itemListFragment_to_newItemFragment);
     }
 }
