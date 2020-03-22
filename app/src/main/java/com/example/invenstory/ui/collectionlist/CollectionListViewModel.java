@@ -1,4 +1,4 @@
-package com.example.invenstory.ui.collection;
+package com.example.invenstory.ui.collectionlist;
 
 import android.app.Application;
 import android.content.Context;
@@ -11,12 +11,12 @@ import com.example.invenstory.model.Collection;
 
 import java.util.List;
 
-public class CollectionViewModel extends AndroidViewModel {
+public class CollectionListViewModel extends AndroidViewModel {
     private InvenstoryDbHelper dbHelper;
     private List<Collection> collections;
 
 
-    public CollectionViewModel (@NonNull Application application) {
+    public CollectionListViewModel(@NonNull Application application) {
         super(application);
         dbHelper = new InvenstoryDbHelper(application.getApplicationContext());
         collections = updateCollectionsList();
