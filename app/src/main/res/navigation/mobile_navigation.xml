@@ -37,7 +37,7 @@
         tools:layout="@layout/fragment_send" />
     <fragment
         android:id="@+id/itemListFragment"
-        android:name="com.example.invenstory.ui.itemlist.ItemListFragment"
+        android:name="com.example.invenstory.ui.itemList.ItemListFragment"
         tools:layout="@layout/fragment_item_list"
         android:label="View Items" >
         <action

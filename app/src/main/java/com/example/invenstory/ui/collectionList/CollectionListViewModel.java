@@ -4,29 +4,30 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.invenstory.db.InvenstoryDbHelper;
 import com.example.invenstory.model.Collection;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CollectionListViewModel extends AndroidViewModel {
     private InvenstoryDbHelper dbHelper;
-    private List<Collection> collections;
-
+    private ArrayList<Collection> collections;
+    private MutableLiveData<ArrayList<Collection>> collectionListLive;
 
     public CollectionListViewModel(@NonNull Application application) {
         super(application);
         dbHelper = new InvenstoryDbHelper(application.getApplicationContext());
-        collections = updateCollectionsList();
+        collectionListLive = new MutableLiveData<>();
+        updateCollectionList();
     }
 
-    public List<Collection> updateCollectionsList() {
-        return dbHelper.getCollections();
-    }
-
-    public void insertCollection(Collection collection) {
-        dbHelper.addCollection(collection);
+    public void updateCollectionList() {
+        collections = dbHelper.getCollections();
+        collectionListLive.setValue(collections);
     }
 
     public void deleteCollection(Collection collection) {
@@ -35,6 +36,10 @@ public class CollectionListViewModel extends AndroidViewModel {
 
     public void updateCollection(Collection collection) {
         dbHelper.updateCollection(collection);
+    }
+
+    public LiveData<ArrayList<Collection>> getCollectionList() {
+        return collectionListLive;
     }
 
 }

@@ -143,7 +143,6 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(CollectionContract.TABLE_ID, collection.getId());
         values.put(CollectionContract.COLUMN_NAME, collection.getName());
 
         return db.insert(CollectionContract.TABLE_NAME, null, values);

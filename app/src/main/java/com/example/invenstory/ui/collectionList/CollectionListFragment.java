@@ -29,18 +29,17 @@ import static androidx.navigation.fragment.NavHostFragment.findNavController;
 //You should be able to merge the two, I was just not sure how you wanted to do that
 public class CollectionListFragment extends Fragment {
 
-    //TODO figure out whether this needs to be static
-    //It may be possible to access and change this variable another way but will it require
-    //storing the fragment as an object in multiple files.
-    //Note that this variable is the old collection model so you may want to migrate to the other one
-    public static CollectionListModel collectionListModel;
-
     //TODO merge the Collection List model into the collectionListViewModel before using this variable
-    private static CollectionListViewModel collectionListViewModel;
+    private CollectionListViewModel collectionListViewModel;
 
     private ListView listView;
     private ArrayList<Item> collection;
 
+    // refreshing list data
+    public void onStart() {
+        super.onStart();
+        collectionListViewModel.updateCollectionList();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -51,11 +50,10 @@ public class CollectionListFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_collection_list, container, false);
         listView = root.findViewById(R.id.collection_list_view);
 
-        collectionListModel = new ViewModelProvider(this).get(CollectionListModel.class);
+        collectionListViewModel = new ViewModelProvider(this).get(CollectionListViewModel.class);
 
-        collectionListModel.getCollectionList().observe(getViewLifecycleOwner(), collection -> {
+        collectionListViewModel.getCollectionList().observe(getViewLifecycleOwner(), collection -> {
 
-            // ***** Temp : Paul
             String[] mCollectionName = new String[collection.size()];
             String[] mCollectionId = new String[collection.size()];
             int[] images = new int[collection.size()];
@@ -87,11 +85,11 @@ public class CollectionListFragment extends Fragment {
 
     class MyAdapter extends ArrayAdapter<String> {
         Context context;
-        String rCollectionName[];
-        String rCollectionId[];
-        int rImgs[];
+        String[] rCollectionName;
+        String[] rCollectionId;
+        int[] rImgs;
 
-        MyAdapter (Context c, String collectionName[], String collectionId[], int imgs[]) {
+        MyAdapter (Context c, String[] collectionName, String[] collectionId, int[] imgs) {
             super(c, R.layout.collection_row, collectionName);
             this.context = c;
             this.rCollectionName = collectionName;
