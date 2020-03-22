@@ -1,4 +1,4 @@
-package com.example.invenstory.ui.collectionlist;
+package com.example.invenstory.ui.collectionList;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

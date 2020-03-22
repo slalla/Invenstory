@@ -1,4 +1,4 @@
-package com.example.invenstory.ui.itemlist;
+package com.example.invenstory.ui.itemList;
 
 import android.app.Application;
 

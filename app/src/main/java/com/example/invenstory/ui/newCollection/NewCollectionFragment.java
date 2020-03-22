@@ -1,5 +1,6 @@
-package com.example.invenstory.ui.newcollection;
+package com.example.invenstory.ui.newCollection;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.AlertDialog;
@@ -14,11 +15,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Collection;
-import com.example.invenstory.ui.collectionlist.CollectionListFragment;
+import com.example.invenstory.ui.collectionList.CollectionListFragment;
+import com.example.invenstory.ui.collectionList.CollectionListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -26,7 +29,7 @@ import static com.example.invenstory.Home.setPageID;
 
 public class NewCollectionFragment extends Fragment {
 
-    private NewCollectionViewModel mViewModel;
+    private NewCollectionViewModel newCollectionViewModel;
 
     public static NewCollectionFragment newInstance() {
         return new NewCollectionFragment();
@@ -55,13 +58,11 @@ public class NewCollectionFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Log.i("Name: ", "You clicked good button");
-                                //TODO fix fragment of code so that the collection is added to the database
-                                // and the list on the CollectionListFragment gets updated.
-                                CollectionListFragment.collectionListModel.addCollection(new Collection(name, CollectionListFragment.collectionListModel.getCollectionLength()));
 
-                                Log.i("ID: " , ""+ CollectionListFragment.collectionListModel.getCollectionLength());
+                                // id input in the parameter here is irrelevant
+                                newCollectionViewModel.insertCollection(new Collection(name, 0));
+                                Toast.makeText(getActivity(), name + " added to your list.", Toast.LENGTH_SHORT).show();
                                 getActivity().onBackPressed();
-
                             }
                         });
                         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -82,7 +83,7 @@ public class NewCollectionFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(NewCollectionViewModel.class);
+        newCollectionViewModel = new ViewModelProvider (this).get(NewCollectionViewModel.class);
         // TODO: Use the ViewModel (I don't think I made this TODO so I'm not sure what it means)
     }
 

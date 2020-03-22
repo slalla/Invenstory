@@ -1,4 +1,4 @@
-package com.example.invenstory.ui.itemlist;
+package com.example.invenstory.ui.itemList;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -22,9 +22,9 @@ import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
-import com.example.invenstory.ui.collectionlist.CollectionListModel;
-import com.example.invenstory.ui.collectionlist.CollectionListViewModel;
-import com.example.invenstory.ui.itemlist.ItemListFragmentDirections.ActionItemListFragmentToViewItemFragment;
+import com.example.invenstory.ui.collectionList.CollectionListModel;
+import com.example.invenstory.ui.collectionList.CollectionListViewModel;
+import com.example.invenstory.ui.itemList.ItemListFragmentDirections.ActionItemListFragmentToViewItemFragment;
 
 
 import java.util.ArrayList;

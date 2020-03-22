@@ -5,7 +5,7 @@
     android:id="@+id/newcollection"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.newcollection.NewCollectionFragment">
+    tools:context=".ui.newCollection.NewCollectionFragment">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/descriptionInput"
