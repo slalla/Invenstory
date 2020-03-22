@@ -1,4 +1,4 @@
-package com.example.invenstory.ui.newcollection;
+package com.example.invenstory.ui.newCollection;
 
 import androidx.lifecycle.ViewModel;
 

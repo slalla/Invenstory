@@ -1,4 +1,4 @@
-package com.example.invenstory.ui.collectionlist;
+package com.example.invenstory.ui.collectionList;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import androidx.navigation.NavController;
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Item;
-import com.example.invenstory.ui.collectionlist.CollectionListFragmentDirections.ActionNavGalleryToItemListFragment;
+import com.example.invenstory.ui.collectionList.CollectionListFragmentDirections.ActionNavGalleryToItemListFragment;
 
 import java.util.ArrayList;
 

@@ -22,8 +22,8 @@ import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
-import com.example.invenstory.ui.collectionlist.CollectionListModel;
-import com.example.invenstory.ui.collectionlist.CollectionListViewModel;
+import com.example.invenstory.ui.collectionList.CollectionListModel;
+import com.example.invenstory.ui.collectionList.CollectionListViewModel;
 import com.example.invenstory.ui.itemlist.ItemListFragmentDirections.ActionItemListFragmentToViewItemFragment;
 
 

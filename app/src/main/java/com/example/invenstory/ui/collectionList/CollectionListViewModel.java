@@ -1,7 +1,6 @@
-package com.example.invenstory.ui.collectionlist;
+package com.example.invenstory.ui.collectionList;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;

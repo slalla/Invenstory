@@ -1,4 +1,4 @@
-package com.example.invenstory.ui.viewitem;
+package com.example.invenstory.ui.viewItem;
 
 import androidx.lifecycle.ViewModel;
 

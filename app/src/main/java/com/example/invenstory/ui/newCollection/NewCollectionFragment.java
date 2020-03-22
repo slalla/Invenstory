@@ -1,4 +1,4 @@
-package com.example.invenstory.ui.newcollection;
+package com.example.invenstory.ui.newCollection;
 
 import androidx.lifecycle.ViewModelProviders;
 
@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Collection;
-import com.example.invenstory.ui.collectionlist.CollectionListFragment;
+import com.example.invenstory.ui.collectionList.CollectionListFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
