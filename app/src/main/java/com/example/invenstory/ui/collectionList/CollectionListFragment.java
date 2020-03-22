@@ -25,11 +25,8 @@ import java.util.ArrayList;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
-//TODO HI PAUL the collection View model is the new "model" that should be used here
-//You should be able to merge the two, I was just not sure how you wanted to do that
 public class CollectionListFragment extends Fragment {
 
-    //TODO merge the Collection List model into the collectionListViewModel before using this variable
     private CollectionListViewModel collectionListViewModel;
 
     private ListView listView;
