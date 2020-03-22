@@ -32,11 +32,10 @@ import java.util.ArrayList;
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 //TODO HI PAUL the ItemListView model is the new "model" that should be used here
-/**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
- */
 public class ItemListFragment extends Fragment {
+
+    //TODO set up this variable to be used in this class.
+    private ItemListViewModel itemListViewModel;
 
     private ListView listView;
     private CollectionListViewModel collectionListViewModel;
@@ -53,9 +52,9 @@ public class ItemListFragment extends Fragment {
         Home.setPageID(88);
 
         View root = inflater.inflate(R.layout.fragment_item_list, container, false);
-
         listView = root.findViewById(R.id.item_list_view2);
 
+        //TODO use this collectionId data to query the database to populate listView
         int collectionId = ItemListFragmentArgs.fromBundle(getArguments()).getCollectionId();
 
         collectionListModel = new ViewModelProvider(this).get(CollectionListModel.class);
@@ -80,20 +79,15 @@ public class ItemListFragment extends Fragment {
         ItemListFragment.MyAdapter adapter = new ItemListFragment.MyAdapter(getActivity(), mItemName, mItemPrice, images);
         listView.setAdapter(adapter);
 
-        // ***** Test: checking if tapping collection work
+
         listView.setOnItemClickListener((parent, view, position, id) -> {
-
-            // Should open item page for that item selected
-
-            // temp toast
+            //TODO fix this so that each item will open up correctly. Currently the only one that opens is the first item
             if (position == 0) {
-                //Toast.makeText(this, "First Item", Toast.LENGTH_LONG).show();
-//                Intent t = new Intent(ItemListActivity.this, ViewItemActivity.class);
-//                t.putExtra("itemName", mItemName[position]);
-//                t.putExtra("itemPrice", mItemPrice[position]);
-//                startActivity(t);
+                //TODO make sure that the values passed in as parameters are the correct values to query the database
+                //Note that the first parameter should be the itemID and the second the collectionID
                 ActionItemListFragmentToViewItemFragment actionItemListFragmentToViewItemFragment =
                         ItemListFragmentDirections.actionItemListFragmentToViewItemFragment(position, collectionId);
+
                 NavController navController = findNavController(this);
                 navController.navigate(actionItemListFragmentToViewItemFragment);
             }

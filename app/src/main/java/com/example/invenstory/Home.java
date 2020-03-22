@@ -48,22 +48,16 @@ public class Home extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //For Debugging
-                // Toast.makeText(getApplicationContext(), "This button has been clicked on the " + pageID + " page.", Toast.LENGTH_SHORT).show();
                 if(pageID==1){
                     startNewCollection();
-                    //TODO This is temp code to launch the thing. Show
                 }
+                //TODO edit the temporary pageID
                 else if(pageID == 88){
                     startNewItem();
                 }
                 else{
                     Log.i("ID:: ", pageID +"");
                 }
-
-                //TODO make this do different things based on what id is selected
-                //eg if the user clicks this on the collection page it should open an add collection fragment
-                //if the user selects this on the item page it will try to save the item. run checks first
             }
         });
         fab.hide();
@@ -106,6 +100,7 @@ public class Home extends AppCompatActivity {
     }
     public static void setPageID(int id){
         pageID = id;
+        //TODO edit these temporary pageID values
         if(pageID==1||pageID == 88){
             fab.setImageResource(R.drawable.ic_add_black_24dp);
         }
@@ -113,10 +108,6 @@ public class Home extends AppCompatActivity {
             fab.setImageResource(R.drawable.ic_edit_black_24dp);
         }
     }
-//    public void startItemList(){
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        navController.navigate(R.id.action_nav_gallery_to_itemListFragment);
-//    }
     public void startNewCollection(){
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.navigate(R.id.action_nav_gallery_to_newCollectionFragment);

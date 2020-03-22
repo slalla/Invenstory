@@ -9,7 +9,9 @@ import com.example.invenstory.model.Item;
 
 import java.util.ArrayList;
 
-//TODO This is a temp data file. to see how to implement it with the other please refer to collection list view model which is the correct file that will be used
+//TODO This is a temp data file. to see how to implement it with the other please refer to CollectionListViewModel
+// which is the correct file that will be used in the final project
+// you may want to keep some of the methods from this file however as they are not implemented in the other ViewModel
 public class CollectionListModel extends ViewModel {
 
     private MutableLiveData<ArrayList<Collection>> collectionListLive;

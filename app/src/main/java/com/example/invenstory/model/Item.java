@@ -128,6 +128,7 @@ public class Item {
     public void setAttributes(ArrayList<String> attributes) {this.attributes = attributes;}
 
     //TODO Implement this method that will allow a user to enter new attributes for their item
+    //User should be able to add in multiple attributes for their item that will be stored in the database.
     public void editAttributes(ArrayList<String> newAttributes){}
 
     public ArrayList<String> getPhotoFilePaths() { return photoFilePaths; }

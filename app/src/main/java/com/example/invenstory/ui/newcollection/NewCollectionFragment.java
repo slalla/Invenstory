@@ -46,8 +46,8 @@ public class NewCollectionFragment extends Fragment {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    //TODO save the item in the collection page
                     String name = textEditInputLayout.getText().toString();
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
                         builder.setCancelable(true);
                         builder.setMessage("You are adding a collection");
@@ -55,8 +55,10 @@ public class NewCollectionFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Log.i("Name: ", "You clicked good button");
-                                //TODO Add the item to the list
+                                //TODO fix fragment of code so that the collection is added to the database
+                                // and the list on the CollectionListFragment gets updated.
                                 CollectionListFragment.collectionListModel.addCollection(new Collection(name, CollectionListFragment.collectionListModel.getCollectionLength()));
+
                                 Log.i("ID: " , ""+ CollectionListFragment.collectionListModel.getCollectionLength());
                                 getActivity().onBackPressed();
 
@@ -81,7 +83,7 @@ public class NewCollectionFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(NewCollectionViewModel.class);
-        // TODO: Use the ViewModel
+        // TODO: Use the ViewModel (I don't think I made this TODO so I'm not sure what it means)
     }
 
     @Override
