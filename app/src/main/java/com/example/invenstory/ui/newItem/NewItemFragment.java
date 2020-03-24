@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 
-public class newItemFragment extends Fragment {
+public class NewItemFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
