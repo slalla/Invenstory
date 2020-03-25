@@ -153,7 +153,6 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(CollectionContract.TABLE_ID, collection.getId());
         values.put(CollectionContract.COLUMN_NAME, collection.getName());
 
         return db.update(CollectionContract.TABLE_NAME, values, ItemContract.TABLE_ID + "=" + collection.getId(), null);
@@ -161,9 +160,17 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
     }
 
     public long deleteCollection(Collection collection) {
+        int collectionId = collection.getId();
+
+        ArrayList<Item> collectionItems = getItems(collectionId);
+
+        for (Item item: collectionItems) {
+            deleteItem(item);
+        }
+
         SQLiteDatabase db = getWritableDatabase();
 
-        return db.delete(CollectionContract.TABLE_NAME, CollectionContract.TABLE_ID + "=" + collection.getId(), null);
+        return db.delete(CollectionContract.TABLE_NAME, CollectionContract.TABLE_ID + "=" + collectionId, null);
     }
 
     public ArrayList<Item> getItems(int collectionId) {
