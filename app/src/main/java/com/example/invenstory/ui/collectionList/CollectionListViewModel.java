@@ -8,15 +8,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.invenstory.db.InvenstoryDbHelper;
 import com.example.invenstory.db.asyncTasks.DeleteCollectionTask;
 import com.example.invenstory.db.asyncTasks.RetrieveCollectionsTask;
 import com.example.invenstory.db.asyncTasks.UpdateCollectionTask;
-import com.example.invenstory.db.asyncTasks.UpdateItemTask;
 import com.example.invenstory.model.Collection;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class CollectionListViewModel extends AndroidViewModel {

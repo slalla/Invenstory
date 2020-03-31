@@ -15,11 +15,6 @@ public class AddCollectionTask extends AsyncTask<Collection, Void, Long> {
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
     protected Long doInBackground(Collection... collections) {
         Collection collection = collections[0];
 
@@ -30,10 +25,5 @@ public class AddCollectionTask extends AsyncTask<Collection, Void, Long> {
         }
 
         return null;
-    }
-
-    @Override
-    protected void onPostExecute(Long id) {
-        super.onPostExecute(id);
     }
 }

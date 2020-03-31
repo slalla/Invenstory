@@ -14,11 +14,6 @@ public class AddItemTask extends AsyncTask<Item, Void, Long> {
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
     protected Long doInBackground(Item... items) {
         Item item = items[0];
 
@@ -29,10 +24,5 @@ public class AddItemTask extends AsyncTask<Item, Void, Long> {
         }
 
         return null;
-    }
-
-    @Override
-    protected void onPostExecute(Long id) {
-        super.onPostExecute(id);
     }
 }

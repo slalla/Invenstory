@@ -6,8 +6,6 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.example.invenstory.db.InvenstoryDbHelper;
-import com.example.invenstory.db.asyncTasks.AddItemTask;
 import com.example.invenstory.db.asyncTasks.DeleteItemTask;
 import com.example.invenstory.db.asyncTasks.RetrieveItemsTask;
 import com.example.invenstory.db.asyncTasks.UpdateItemTask;
@@ -38,12 +36,6 @@ public class ItemListViewModel extends AndroidViewModel {
         }
 
         return items;
-    }
-
-
-    public void insertItem(Item item) {
-        AddItemTask addItemTask = new AddItemTask(context);
-        addItemTask.execute(item);
     }
 
     public void deleteItem(Item item) {
