@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -16,18 +17,23 @@ import android.view.ViewGroup;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class NewItemFragment extends Fragment {
 
     //These variables are needed by the camera
-    private static final int REQUEST_CAPTURE_IMAGE = 100;
-    public static final String TIME_STAMP_FORMAT = "yyyyMMdd_HHmmss";
+    private final int REQUEST_CAPTURE_IMAGE = 100;
+    private final String TIME_STAMP_FORMAT = "yyyyMMdd_HHmmss";
     private String currentPhotoPath;
+
+    private final int REQUEST_GALLERY = 1;
+    private List<String> filePaths;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +41,19 @@ public class NewItemFragment extends Fragment {
         Home.setFabOff();
         //TODO change Temp page id
         Home.setPageID(-1);
-        return inflater.inflate(R.layout.fragment_new_item, container, false);
+        View root = inflater.inflate(R.layout.fragment_new_item, container, false);
+
+        FloatingActionButton saveButton = (FloatingActionButton) root.findViewById(R.id.saveItem);
+
+        //TODO This is temp code to test a possible solution for selecting gallery images
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage2();
+            }
+        });
+
+        return root;
     }
 
     /**
@@ -85,5 +103,40 @@ public class NewItemFragment extends Fragment {
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+
+    /**
+     * This method only lets you select one image, but you can use any photos like app
+     */
+    public void selectImage() {
+        Intent pickPictureIntent = new Intent(Intent.ACTION_PICK);
+        pickPictureIntent.setType("image/*");
+        String[] mimeTypes = {"image/jpeg", "image/png"};
+        pickPictureIntent.putExtra(Intent.EXTRA_MIME_TYPES,mimeTypes);
+        startActivityForResult(pickPictureIntent, REQUEST_GALLERY);
+    }
+
+    /**
+     * This method only lets you select many images from their
+     * gallery to be used when creating a new item.
+     */
+    private void selectImage2(){
+        Intent pickPictureIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        pickPictureIntent.setType("image/*");
+
+        //limits the image types the user can select
+        String[] mimeTypes = {"image/jpeg", "image/png"};
+        pickPictureIntent.putExtra(Intent.EXTRA_MIME_TYPES,mimeTypes);
+
+        //lets user select multiple images
+        pickPictureIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+
+        startActivityForResult(pickPictureIntent, REQUEST_GALLERY);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
