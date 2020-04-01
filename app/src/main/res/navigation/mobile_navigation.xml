@@ -57,7 +57,7 @@
         tools:layout="@layout/new_collection_fragment" />
     <fragment
         android:id="@+id/newItemFragment"
-        android:name="com.example.invenstory.ui.newItem.newItemFragment"
+        android:name="com.example.invenstory.ui.newItem.NewItemFragment"
         android:label="newItemFragment" />
     <fragment
         android:id="@+id/viewItemFragment"
