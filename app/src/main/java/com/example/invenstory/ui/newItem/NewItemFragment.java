@@ -31,15 +31,30 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * This class represents the Fragment that will be used to create
+ * new Items to be added to collections
+ */
 public class NewItemFragment extends Fragment {
 
-    //These variables are needed by the camera
+    /**
+     * This integer represents the code that is used to process a picture taking intent
+     * This value is currently temporary and may be updated in the future
+     */
     private final int REQUEST_CAPTURE_IMAGE = 100;
+    /**
+     * This string represents unique date format that will be used for creating file names
+     */
     private final String TIME_STAMP_FORMAT = "yyyyMMdd_HHmmss";
+    /**
+     * This string represents the filepath of the most current picture taken using the picture
+     * taking intent.
+     */
     private String currentPhotoPath;
 
     /**
      * This integer represents the code that is used to process a gallery intent
+     * This value is currently temporary and may be updated in the future
      */
     private final int REQUEST_GALLERY = 123;
 
@@ -56,10 +71,10 @@ public class NewItemFragment extends Fragment {
         Home.setFabOff();
         //TODO change Temp page id
         Home.setPageID(-1);
+
         View root = inflater.inflate(R.layout.fragment_new_item, container, false);
 
         FloatingActionButton saveButton = (FloatingActionButton) root.findViewById(R.id.saveItem);
-
         //TODO save Item
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
