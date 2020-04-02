@@ -2,6 +2,8 @@ package com.example.invenstory.ui.newItem;
 
 import android.content.ClipData;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -20,16 +22,15 @@ import android.widget.Toast;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
+import com.example.invenstory.model.FileUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -64,7 +65,6 @@ public class NewItemFragment extends Fragment {
      * in the Item object.
      */
     private Set<String> filePaths;
-    //private List<String> filePaths;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,17 +76,17 @@ public class NewItemFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_new_item, container, false);
 
         FloatingActionButton saveButton = (FloatingActionButton) root.findViewById(R.id.saveItem);
+
         //TODO save Item
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //selectImage2();
+                //selectImages();
                 //startCameraIntent();
             }
         });
 
         filePaths = new HashSet<String>();
-        //filePaths = new ArrayList<String>();
         return root;
     }
 
@@ -157,12 +157,12 @@ public class NewItemFragment extends Fragment {
      * This method only lets you select many images from their
      * gallery to be used when creating a new item.
      */
-    private void selectImage2(){
+    private void selectImages(){
         Intent pickPictureIntent = new Intent(Intent.ACTION_GET_CONTENT);
         pickPictureIntent.setType("image/*");
 
         //limits the image types the user can select
-        String[] mimeTypes = {"image/jpeg", "image/png"};
+        String[] mimeTypes = {"image/jpeg", "image/png", "image/jpg"};
         pickPictureIntent.putExtra(Intent.EXTRA_MIME_TYPES,mimeTypes);
 
         //lets user select multiple images
@@ -171,35 +171,82 @@ public class NewItemFragment extends Fragment {
         startActivityForResult(pickPictureIntent, REQUEST_GALLERY);
     }
 
+
+    /**
+     * This method is called after the startActvityForResult method is called.
+     * This method currently acts on REQEUST_GALLERY and REQUEST_IMAGE_CAPTURE
+     * It finds filepaths for images and saves them into the filePaths Set
+     * @param requestCode the request being processed
+     * @param resultCode the result of the process
+     * @param data the intent this process is related to
+     */
     @Override
-    //TODO figure out how to change the resultCode, to see if the action worked.
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == REQUEST_GALLERY) {
+            //multiple images are selected
             if(data.getClipData()!=null) {
                 ClipData imagesInfo = data.getClipData();
                 int numPics = imagesInfo.getItemCount();
                 for (int i = 0; i < numPics; i++) {
+                    //Gets the uri of the current image
                     Uri imageLoc = imagesInfo.getItemAt(i).getUri();
-                    filePaths.add(imageLoc.toString());
+                    Log.i("", "Here is a path " + pathFinder(imageLoc));
+
+                    //changes the uri to a filepath
+                    String path = pathFinder(imageLoc);
+                    File imgFile = new File(path);
+                    //makes sure the file exists
+                    if(imgFile.exists()){
+                        filePaths.add(imgFile.getAbsolutePath());
+                    }
+                    //shows an error if the file doesn't exist
+                    else{
+                        Toast.makeText(getActivity(), "Sorry that image couldn't be found", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
+            //Single image is selected
             else if(data.getData()!=null){
                 Uri imageLoc = data.getData();
                 filePaths.add(imageLoc.toString());
+                Log.i("", "Here is a path " + pathFinder(imageLoc));
+                //changes the uri to a filepath
+                String path = pathFinder(imageLoc);
+                File imgFile = new File(path);
+                //makes sure the file exists
+                if(imgFile.exists()){
+                    filePaths.add(imgFile.getAbsolutePath());
+                }
+                //shows an error if the file doesn't exist
+                else{
+                    Toast.makeText(getActivity(), "Sorry that image couldn't be found", Toast.LENGTH_SHORT).show();
+                }
             }
-            Log.i("Tag", "These are the Uris \n" +filePaths.toString());
         }
         //This will add the current photo path if its valid
         else if(requestCode == REQUEST_CAPTURE_IMAGE){
             Uri imageLoc = Uri.fromFile(new File(currentPhotoPath));
-            filePaths.add(imageLoc.toString());
+            Log.i("", "Here is a path " + pathFinder(imageLoc));
+            //changes the uri to a filepath
+            String path = pathFinder(imageLoc);
+            File imgFile = new File(path);
+            //makes sure the file exists
+            if(imgFile.exists()){
+                filePaths.add(imgFile.getAbsolutePath());
+            }
+            //shows an error if the file doesn't exist
+            else{
+                Toast.makeText(getActivity(), "Sorry that image couldn't be found", Toast.LENGTH_SHORT).show();
+            }
         }
+
+        Log.i("Tag", "These are the filePaths \n" +filePaths.toString());
         super.onActivityResult(requestCode, resultCode, data);
     }
 
     /**
-     * This method sets the image in an imageView to be the image provided by a Uri
-     * @param img The imageView you wish to change the picture of
+     * This method sets the image in an ImageView to be the image provided by a Uri
+     * @param img The ImageView you wish to change the picture of
      * @param imageLoc the uri of the image wanted
      */
     private void setPhoto(ImageView img, Uri imageLoc){
@@ -213,5 +260,31 @@ public class NewItemFragment extends Fragment {
         catch(IOException e){
             Log.i("TAG", e.getMessage());
         }
+    }
+
+    //TODO make this boolean so if the resource exists it will return true or false.
+    /**
+     * This method sets the image in an imageView to be the image provided at the location given
+     * @param img the ImageView where the picture will be loaded
+     * @param location the absolute file of the image resource
+     */
+    private void setPhoto(ImageView img, String location){
+        File imgFile = new  File(location);
+
+        if(imgFile.exists()){
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            img.setImageBitmap(myBitmap);
+        }
+    }
+
+    /**
+     * This method finds the absolute file path of an image on and android device given a uri
+     * This method makes use of the FileUtils class
+     * @param uri the uri resource where the image is located
+     * @return the file path of the requested image
+     */
+    private String pathFinder(Uri uri){
+        FileUtils fileUtils = new FileUtils(getActivity());
+        return fileUtils.getPath(uri);
     }
 }
