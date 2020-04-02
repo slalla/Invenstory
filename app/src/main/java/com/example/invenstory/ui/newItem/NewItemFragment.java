@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
@@ -207,6 +208,7 @@ public class NewItemFragment extends Fragment {
         }
         catch(FileNotFoundException e){
             Log.i("TAG", "Sorry that file was not found");
+            Toast.makeText(getContext(), "That picture could not be found", Toast.LENGTH_SHORT).show();
         }
         catch(IOException e){
             Log.i("TAG", e.getMessage());
