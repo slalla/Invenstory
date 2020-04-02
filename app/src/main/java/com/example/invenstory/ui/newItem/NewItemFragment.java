@@ -1,5 +1,6 @@
 package com.example.invenstory.ui.newItem;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,16 +15,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class NewItemFragment extends Fragment {
 
@@ -32,8 +38,17 @@ public class NewItemFragment extends Fragment {
     private final String TIME_STAMP_FORMAT = "yyyyMMdd_HHmmss";
     private String currentPhotoPath;
 
-    private final int REQUEST_GALLERY = 1;
-    private List<String> filePaths;
+    /**
+     * This integer represents the code that is used to process a gallery intent
+     */
+    private final int REQUEST_GALLERY = 123;
+
+    /**
+     * This is a Set of filePaths that currently contain the images to be stored
+     * in the Item object.
+     */
+    private Set<String> filePaths;
+    //private List<String> filePaths;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,23 +60,28 @@ public class NewItemFragment extends Fragment {
 
         FloatingActionButton saveButton = (FloatingActionButton) root.findViewById(R.id.saveItem);
 
-        //TODO This is temp code to test a possible solution for selecting gallery images
+        //TODO save Item
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectImage2();
+                //selectImage2();
+                //startCameraIntent();
             }
         });
 
+        filePaths = new HashSet<String>();
+        //filePaths = new ArrayList<String>();
         return root;
     }
 
     /**
-     * These three functions represent the launching of the camera to take a photo.
+     * This method launches the camera so that the user can take a photo.
      */
     public void startCameraIntent(){
         dispatchTakePictureIntent();
     }
+
+    //The two methods below create the photo and take the photo
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -77,7 +97,7 @@ public class NewItemFragment extends Fragment {
             }
 
             // Take the picture if the File object was created successfully
-            if (null != photoFile) {
+            if (photoFile!=null) {
                 Uri photoURI = FileProvider.getUriForFile(getActivity(),
                         "com.example.invenstory.provider",
                         photoFile);
@@ -136,7 +156,45 @@ public class NewItemFragment extends Fragment {
     }
 
     @Override
+    //TODO figure out how to change the resultCode, to see if the action worked.
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(requestCode == REQUEST_GALLERY) {
+            if(data.getClipData()!=null) {
+                ClipData imagesInfo = data.getClipData();
+                int numPics = imagesInfo.getItemCount();
+                for (int i = 0; i < numPics; i++) {
+                    Uri imageLoc = imagesInfo.getItemAt(i).getUri();
+                    filePaths.add(imageLoc.toString());
+                }
+            }
+            else if(data.getData()!=null){
+                Uri imageLoc = data.getData();
+                filePaths.add(imageLoc.toString());
+            }
+            Log.i("Tag", "These are the Uris \n" +filePaths.toString());
+        }
+        //This will add the current photo path if its valid
+        else if(requestCode == REQUEST_CAPTURE_IMAGE){
+            Uri imageLoc = Uri.fromFile(new File(currentPhotoPath));
+            filePaths.add(imageLoc.toString());
+        }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * This method sets the image in an imageView to be the image provided by a Uri
+     * @param img The imageView you wish to change the picture of
+     * @param imageLoc the uri of the image wanted
+     */
+    private void setPhoto(ImageView img, Uri imageLoc){
+        try{
+            img.setImageBitmap(MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageLoc));
+        }
+        catch(FileNotFoundException e){
+            Log.i("TAG", "Sorry that file was not found");
+        }
+        catch(IOException e){
+            Log.i("TAG", e.getMessage());
+        }
     }
 }
