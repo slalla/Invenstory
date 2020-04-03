@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -17,13 +18,32 @@ import com.example.invenstory.db.InvenstoryDbHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+/**
+ * This class represents the Home Activity from which Invenstiry is launched.
+ * All fragments are loaded into this activity.
+ */
 public class Home extends AppCompatActivity {
 
+    /**
+     * This floating action button serves multiple purposes, and can be disabled or enabled
+     */
     private static FloatingActionButton fab;
+
+    /**
+     * This integer represents the fragment that has been launched.
+     * A value of 0 indicates the home fragment is open.
+     */
     private static int pageID = 0;
+
     private AppBarConfiguration mAppBarConfiguration;
 
     private InvenstoryDbHelper dbHelper;
+
+    /**
+     * This variable represents the DrawerLayout used for navigation.
+     * It can be disabled and enabled using methods below.
+     */
+    private static DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +71,7 @@ public class Home extends AppCompatActivity {
         });
         fab.hide();
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -64,7 +84,6 @@ public class Home extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
     }
 
     @Override
@@ -81,12 +100,20 @@ public class Home extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public static void setFabOn() {
-        fab.show();
-    }
-    public static void setFabOff(){
-        fab.hide();
-    }
+    /**
+     * This method disables the floating action button
+     */
+    public static void setFabOn() {fab.show();}
+
+    /**
+     * This method enables the floating action button
+     */
+    public static void setFabOff(){ fab.hide();}
+
+    /**
+     * This method sets the pageID which can be used to change the behaviour of the fab
+     * @param id the page idNumber
+     */
     public static void setPageID(int id){
         pageID = id;
         //TODO edit these temporary pageID values
@@ -97,10 +124,29 @@ public class Home extends AppCompatActivity {
             fab.setImageResource(R.drawable.ic_edit_black_24dp);
         }
     }
+
+    /**
+     * This method disables the drawer from being opened by sliding from the left
+     * However the bar still opens if being opened via title bar
+     */
+    public static void setDrawerOff(){drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);}
+
+    /**
+     * This method re-enables the drawer from being opened by sliding from the left
+     */
+    public static void setDrawerOn(){drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);}
+
+    /**
+     * Starts the newCollectionFragment with no information populated.
+     */
     public void startNewCollection(){
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.navigate(R.id.action_nav_gallery_to_newCollectionFragment);
     }
+
+    /**
+     * Starts the newItemFragment with no information populated
+     */
     public void startNewItem(){
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.navigate(R.id.action_itemListFragment_to_newItemFragment);
