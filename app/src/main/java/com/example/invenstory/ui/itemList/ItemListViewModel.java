@@ -5,26 +5,35 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.invenstory.db.asyncTasks.DeleteItemTask;
 import com.example.invenstory.db.asyncTasks.RetrieveItemsTask;
 import com.example.invenstory.db.asyncTasks.UpdateItemTask;
 import com.example.invenstory.model.Item;
+import com.example.invenstory.ui.collectionList.CollectionListViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class ItemListViewModel extends AndroidViewModel {
     private Context context;
-    private List<Item> items;
+    private MutableLiveData<ArrayList<Item>> itemListLive;
+    private ArrayList<Item> items;
+    private CollectionListViewModel collectionListViewModel;
 
-    public ItemListViewModel (@NonNull Application application, int collectionId) {
+    public ItemListViewModel(@NonNull Application application, int collectionId) {
         super(application);
         this.context = application.getApplicationContext();
-        items = updateItemsList(collectionId);
+        itemListLive = new MutableLiveData<>();
+        updateItemsList(collectionId);
     }
 
-    public List<Item> updateItemsList(int collectionId) {
+    public void updateItemsList(int collectionId) {
         RetrieveItemsTask retrieveItemsTask = new RetrieveItemsTask(context);
         retrieveItemsTask.execute(collectionId);
         try {
@@ -34,8 +43,7 @@ public class ItemListViewModel extends AndroidViewModel {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        return items;
+        itemListLive.setValue(items);
     }
 
     public void deleteItem(Item item) {
@@ -46,5 +54,9 @@ public class ItemListViewModel extends AndroidViewModel {
     public void updateItem(Item item) {
         UpdateItemTask updateItemTask = new UpdateItemTask(context);
         updateItemTask.execute(item);
+    }
+
+    public LiveData<ArrayList<Item>> getItemList() {
+        return itemListLive;
     }
 }

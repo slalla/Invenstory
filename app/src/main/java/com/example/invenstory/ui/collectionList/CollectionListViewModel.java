@@ -30,7 +30,6 @@ public class CollectionListViewModel extends AndroidViewModel {
     }
 
     public void updateCollectionList() {
-
         RetrieveCollectionsTask retrieveCollectionsTask = new RetrieveCollectionsTask(context);
         retrieveCollectionsTask.execute();
         try {
