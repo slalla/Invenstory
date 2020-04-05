@@ -54,11 +54,11 @@ public class CollectionListFragment extends Fragment {
         collectionListViewModel.getCollectionList().observe(getViewLifecycleOwner(), collection -> {
 
             String[] mCollectionName = new String[collection.size()];
-            String[] mCollectionId = new String[collection.size()];
+            int[] mCollectionId = new int[collection.size()];
             int[] images = new int[collection.size()];
             for (int i = 0; i < collection.size(); i++) {
                 mCollectionName[i] = collection.get(i).getName();
-                mCollectionId[i] = collection.get(i).getId() + "";
+                mCollectionId[i] = collection.get(i).getId();
                 images[i] = R.drawable.ic_menu_gallery;
             }
 
@@ -66,7 +66,7 @@ public class CollectionListFragment extends Fragment {
             listView.setAdapter(adapter);
 
             listView.setOnItemClickListener((parent, view, position, id) -> {
-                int collectionId = Integer.parseInt(mCollectionId[position]);
+                int collectionId = mCollectionId[position];
 
                 ActionNavGalleryToItemListFragment actionNavGalleryToItemListFragment =
                         CollectionListFragmentDirections.actionNavGalleryToItemListFragment(collectionId);
@@ -81,10 +81,10 @@ public class CollectionListFragment extends Fragment {
     class MyAdapter extends ArrayAdapter<String> {
         Context context;
         String[] rCollectionName;
-        String[] rCollectionId;
+        int[] rCollectionId;
         int[] rImgs;
 
-        MyAdapter (Context c, String[] collectionName, String[] collectionId, int[] imgs) {
+        MyAdapter (Context c, String[] collectionName, int[] collectionId, int[] imgs) {
             super(c, R.layout.collection_row, collectionName);
             this.context = c;
             this.rCollectionName = collectionName;
@@ -103,7 +103,7 @@ public class CollectionListFragment extends Fragment {
 
             images.setImageResource(rImgs[position]);
             name.setText(rCollectionName[position]);
-            Id.setText(rCollectionId[position]);
+            Id.setText(rCollectionId[position]+"");
 
             return row;
         }
