@@ -1,6 +1,8 @@
 package com.example.invenstory.ui.newItem;
 
+import android.app.Activity;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -32,6 +35,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import static com.example.invenstory.Home.setPageID;
 
 /**
  * This class represents the Fragment that will be used to create
@@ -286,5 +291,22 @@ public class NewItemFragment extends Fragment {
     private String pathFinder(Uri uri){
         FileUtils fileUtils = new FileUtils(getActivity());
         return fileUtils.getPath(uri);
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager inputManager = (InputMethodManager) activity
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // check if no view has focus:
+        View currentFocusedView = activity.getCurrentFocus();
+        if (currentFocusedView != null) {
+            inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        hideKeyboard(getActivity());
     }
 }
