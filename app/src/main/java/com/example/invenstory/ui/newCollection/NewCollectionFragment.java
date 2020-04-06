@@ -1,7 +1,6 @@
 package com.example.invenstory.ui.newCollection;
 
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,8 +22,6 @@ import android.widget.Toast;
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Collection;
-import com.example.invenstory.ui.collectionList.CollectionListFragment;
-import com.example.invenstory.ui.collectionList.CollectionListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -44,38 +41,42 @@ public class NewCollectionFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         setPageID(4);
         Home.setFabOff();
-        View root = inflater.inflate(R.layout.new_collection_fragment, container, false);
+
+        View root = inflater.inflate(R.layout.fragment_new_collection, container, false);
         TextInputEditText textEditInputLayout = root.findViewById(R.id.NameInput);
+
         textEditInputLayout.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+
         FloatingActionButton fab2  = root.findViewById((R.id.floatingActionButton));
 
+        // TODO written by Paul: User should not be able to save when required field isn't filled
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    String name = textEditInputLayout.getText().toString();
+                String name = textEditInputLayout.getText().toString();
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
-                        builder.setCancelable(true);
-                        builder.setMessage("You are adding a collection");
-                        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Log.i("Name: ", "You clicked good button");
+                AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
+                    builder.setCancelable(true);
+                    builder.setMessage("You are adding a collection");
+                    builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Log.i("Name: ", "You clicked good button");
 
-                                // id input in the parameter here is irrelevant
-                                newCollectionViewModel.insertCollection(new Collection(name, 0));
-                                Toast.makeText(getActivity(), name + " added to your list.", Toast.LENGTH_SHORT).show();
-                                getActivity().onBackPressed();
-                            }
-                        });
-                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Log.i("Name: ", "You clicked bad button");
-                            }
-                        });
-                        AlertDialog alertDialog = builder.create();
-                        alertDialog.show();
+                            // id input in the parameter here is irrelevant
+                            newCollectionViewModel.insertCollection(new Collection(name, 0));
+                            Toast.makeText(getActivity(), name + " added to your list.", Toast.LENGTH_SHORT).show();
+                            getActivity().onBackPressed();
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Log.i("Name: ", "You clicked bad button");
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
                 }
 
         });

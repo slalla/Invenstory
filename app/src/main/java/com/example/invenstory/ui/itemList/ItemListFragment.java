@@ -36,10 +36,8 @@ import java.util.ArrayList;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
-//TODO HI PAUL the ItemListView model is the new "model" that should be used here
 public class ItemListFragment extends Fragment {
 
-    //TODO set up this variable to be used in this class.
     private ItemListViewModel itemListViewModel;
 
     private ListView listView;
@@ -73,9 +71,11 @@ public class ItemListFragment extends Fragment {
             String[] mItemName = new String[item.size()];
             String[] mItemPrice = new String[item.size()];
             int[] images = new int[item.size()];
+            int[] mItemId = new int[item.size()];
 
             for (int i = 0; i < item.size(); i++) {
                 mItemName[i] = item.get(i).getName();
+                mItemId[i] = item.get(i).getItemId();
                 mItemPrice[i] = item.get(i).getPrice() + "";
                 images[i] = R.drawable.ic_menu_camera;
             }
@@ -84,19 +84,13 @@ public class ItemListFragment extends Fragment {
             listView.setAdapter(adapter);
 
             listView.setOnItemClickListener((parent, view, position, id) -> {
-                //TODO fix this so that each item will open up correctly. Currently the only one that opens is the first item
-                if (position == 0) {
-                    //TODO make sure that the values passed in as parameters are the correct values to query the database
-                    //Note that the first parameter should be the itemID and the second the collectionID
-                    ActionItemListFragmentToViewItemFragment actionItemListFragmentToViewItemFragment =
-                            ItemListFragmentDirections.actionItemListFragmentToViewItemFragment(position, collectionId);
+                //Note that the first parameter should be the itemID and the second the collectionID
+                int itemId = mItemId[position];
+                ActionItemListFragmentToViewItemFragment actionItemListFragmentToViewItemFragment =
+                        ItemListFragmentDirections.actionItemListFragmentToViewItemFragment(itemId, collectionId);
 
-                    NavController navController = findNavController(this);
-                    navController.navigate(actionItemListFragmentToViewItemFragment);
-                }
-                else {
-                    Toast.makeText(getActivity(), "I have not been implemented yet", Toast.LENGTH_LONG).show();
-                }
+                NavController navController = findNavController(this);
+                navController.navigate(actionItemListFragmentToViewItemFragment);
             });
         });
         return root;

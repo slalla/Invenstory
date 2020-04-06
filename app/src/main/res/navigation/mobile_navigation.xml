@@ -59,7 +59,7 @@
         android:id="@+id/newCollectionFragment"
         android:name="com.example.invenstory.ui.newCollection.NewCollectionFragment"
         android:label="@string/new_collection_header"
-        tools:layout="@layout/new_collection_fragment" />
+        tools:layout="@layout/fragment_new_collection" />
 
     <fragment
         android:id="@+id/newItemFragment"

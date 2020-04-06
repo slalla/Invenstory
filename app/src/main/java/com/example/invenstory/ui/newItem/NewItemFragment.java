@@ -1,39 +1,50 @@
 package com.example.invenstory.ui.newItem;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.FileUtils;
+import com.example.invenstory.ui.collectionList.CollectionListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.example.invenstory.Home.setPageID;
@@ -66,11 +77,11 @@ public class NewItemFragment extends Fragment {
     private final int REQUEST_GALLERY = 123;
 
     /**
-     * This is a Set of filePaths that currently contain the images to be stored
-     * in the Item object.
+     * Image gallery of user input image
      */
-    private Set<String> filePaths;
+    private LinearLayout itemImageInputGallery;
 
+    private NewItemViewModel newItemViewModel;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,20 +90,108 @@ public class NewItemFragment extends Fragment {
         Home.setPageID(-1);
 
         View root = inflater.inflate(R.layout.fragment_new_item, container, false);
+        newItemViewModel = new ViewModelProvider(this).get(NewItemViewModel.class);
 
-        FloatingActionButton saveButton = (FloatingActionButton) root.findViewById(R.id.saveItem);
+        // image input gallery
+        itemImageInputGallery = root.findViewById(R.id.imageInputGallery);
+
+        // when new image gets added
+        // TODO written by Paul: images should be able to get removed
+        newItemViewModel.getFilePaths().observe(getViewLifecycleOwner(), filePaths -> {
+            itemImageInputGallery.removeAllViews();
+
+            // inputting images that user input
+            List<String> paths = new ArrayList<>(filePaths);
+            for (int i = filePaths.size()-1; i >= 0; i--) {
+                View view = inflater.inflate(R.layout.item_image_input, itemImageInputGallery, false);
+
+                ImageView imageView = view.findViewById(R.id.imageInputView);
+                imageView.setImageResource(R.mipmap.ic_launcher);
+                setPhoto(imageView,paths.get(i));
+
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i("view***",  v + "user input image");
+                    }
+                });
+
+                itemImageInputGallery.addView(view);
+            }
+
+            // adding plus sign at the end
+            if (filePaths.size() < 10) {
+                View view = inflater.inflate(R.layout.item_image_input, itemImageInputGallery, false);
+
+                ImageView imageView = view.findViewById(R.id.imageInputView);
+                imageView.setImageResource(R.drawable.ic_add_black_24dp);
+
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openDialog();
+                    }
+
+                });
+
+                itemImageInputGallery.addView(view);
+            }
+        });
+
+        // TODO written by Paul: Decide wether we want to use FAB for save button
+        FloatingActionButton saveButton = root.findViewById(R.id.saveItem);
+
+        // TODO written by Paul: Decide input types for each input such as drop menu
+        // TODO written by Paul: Specific input type such as Location and Price
+        // TODO written by Paul: Decide which input can be optional / which other input is needed
+        TextInputEditText nameInput = root.findViewById(R.id.itemNameInput);
+        TextInputEditText conditionInput = root.findViewById(R.id.itemConditionInput);
+        TextInputEditText priceInput = root.findViewById(R.id.itemPriceInput);
+        TextInputEditText locationInput = root.findViewById(R.id.itemConditionInput);
+        TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
 
         //TODO save Item
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //selectImages();
-                //startCameraIntent();
+
             }
         });
 
-        filePaths = new HashSet<String>();
         return root;
+    }
+
+    public void openDialog() {
+        // TODO written by Paul: should implement separate option view later
+
+        TextView title = new TextView(getContext());
+        // You Can Customise your Title here
+        title.setText("Choose an option");
+        title.setBackgroundColor(Color.WHITE);
+        title.setPadding(10, 15, 15, 10);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.BLACK);
+        title.setTextSize(22);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setCustomTitle(title);
+        builder.setCancelable(true);
+        builder.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.i("Name: ", "You clicked camera button");
+                startCameraIntent();
+            }
+        });
+        builder.setNeutralButton("Gallery", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.i("Name: ", "You clicked gallery button");
+                selectImage();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     /**
@@ -177,6 +276,7 @@ public class NewItemFragment extends Fragment {
     }
 
 
+    // TODO written by Paul: There are many bugs such as filepaths saving when it's not suppose to
     /**
      * This method is called after the startActvityForResult method is called.
      * This method currently acts on REQEUST_GALLERY and REQUEST_IMAGE_CAPTURE
@@ -202,7 +302,7 @@ public class NewItemFragment extends Fragment {
                     File imgFile = new File(path);
                     //makes sure the file exists
                     if(imgFile.exists()){
-                        filePaths.add(imgFile.getAbsolutePath());
+                        newItemViewModel.updateFilePaths(imgFile.getAbsolutePath());
                     }
                     //shows an error if the file doesn't exist
                     else{
@@ -213,14 +313,13 @@ public class NewItemFragment extends Fragment {
             //Single image is selected
             else if(data.getData()!=null){
                 Uri imageLoc = data.getData();
-                filePaths.add(imageLoc.toString());
                 Log.i("", "Here is a path " + pathFinder(imageLoc));
                 //changes the uri to a filepath
                 String path = pathFinder(imageLoc);
                 File imgFile = new File(path);
                 //makes sure the file exists
                 if(imgFile.exists()){
-                    filePaths.add(imgFile.getAbsolutePath());
+                    newItemViewModel.updateFilePaths(imgFile.getAbsolutePath());
                 }
                 //shows an error if the file doesn't exist
                 else{
@@ -237,7 +336,7 @@ public class NewItemFragment extends Fragment {
             File imgFile = new File(path);
             //makes sure the file exists
             if(imgFile.exists()){
-                filePaths.add(imgFile.getAbsolutePath());
+                newItemViewModel.updateFilePaths(imgFile.getAbsolutePath());
             }
             //shows an error if the file doesn't exist
             else{
@@ -245,7 +344,7 @@ public class NewItemFragment extends Fragment {
             }
         }
 
-        Log.i("Tag", "These are the filePaths \n" +filePaths.toString());
+        Log.i("Tag", "These are the filePaths \n" + newItemViewModel.getFilePaths().getValue().toString());
         super.onActivityResult(requestCode, resultCode, data);
     }
 
