@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.invenstory.db.asyncTasks.AddItemTask;
 import com.example.invenstory.model.Item;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +34,7 @@ public class NewItemViewModel extends AndroidViewModel {
     }
 
     public void insertItem(Item item) {
+        item.setPhotoFilePaths(new ArrayList<>(filePaths));
         AddItemTask addItemTask = new AddItemTask(context);
         addItemTask.execute(item);
     }

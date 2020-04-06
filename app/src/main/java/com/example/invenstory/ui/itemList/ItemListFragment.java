@@ -41,9 +41,14 @@ public class ItemListFragment extends Fragment {
     private ItemListViewModel itemListViewModel;
 
     private ListView listView;
-    private CollectionListViewModel collectionListViewModel;
 
     private int collectionId;
+
+    // refreshing list data
+    public void onStart() {
+        super.onStart();
+        itemListViewModel.updateItemsList();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,6 +63,7 @@ public class ItemListFragment extends Fragment {
 
         // getting collectionId from prev fragment
         collectionId = ItemListFragmentArgs.fromBundle(getArguments()).getCollectionId();
+        Home.setCollectionId(collectionId);
 
         // view model
         itemListViewModel = new ViewModelProvider(this, new ItemListViewModelFactory(getActivity().getApplication(), collectionId)).get(ItemListViewModel.class);

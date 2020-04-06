@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.FileUtils;
+import com.example.invenstory.model.Item;
 import com.example.invenstory.ui.collectionList.CollectionListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -82,12 +83,17 @@ public class NewItemFragment extends Fragment {
     private LinearLayout itemImageInputGallery;
 
     private NewItemViewModel newItemViewModel;
+
+    // check Home activity comment for TODO
+    private int collectionId;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Home.setFabOff();
         //TODO change Temp page id
         Home.setPageID(-1);
+        collectionId = Home.getCollectionId();
 
         View root = inflater.inflate(R.layout.fragment_new_item, container, false);
         newItemViewModel = new ViewModelProvider(this).get(NewItemViewModel.class);
@@ -129,7 +135,7 @@ public class NewItemFragment extends Fragment {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        openDialog();
+                        openImageDialog();
                     }
 
                 });
@@ -148,20 +154,25 @@ public class NewItemFragment extends Fragment {
         TextInputEditText conditionInput = root.findViewById(R.id.itemConditionInput);
         TextInputEditText priceInput = root.findViewById(R.id.itemPriceInput);
         TextInputEditText locationInput = root.findViewById(R.id.itemConditionInput);
-        TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
+        // TODO writteb by Paul: Item object doesn't have description yet
+//        TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
 
         //TODO save Item
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String name = nameInput.getText().toString();
+                int condition = Integer.parseInt(conditionInput.getText().toString());
+                String price = priceInput.getText().toString();
+                String location = locationInput.getText().toString();
+                openSaveDialog(name, condition, price, location);
             }
         });
 
         return root;
     }
 
-    public void openDialog() {
+    public void openImageDialog() {
         // TODO written by Paul: should implement separate option view later
 
         TextView title = new TextView(getContext());
@@ -188,6 +199,30 @@ public class NewItemFragment extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.i("Name: ", "You clicked gallery button");
                 selectImage();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    public void openSaveDialog(String name, int condition, String price, String location) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setCancelable(true);
+        builder.setMessage("You are adding a collection");
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.i("Name: ", "You clicked good button");
+                // id input in the parameter here is irrelevant
+                newItemViewModel.insertItem(new Item(name, collectionId, condition, price, location, null));
+                Toast.makeText(getActivity(), name + " added to your list.", Toast.LENGTH_SHORT).show();
+                getActivity().onBackPressed();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.i("Name: ", "You clicked bad button");
             }
         });
         AlertDialog alertDialog = builder.create();

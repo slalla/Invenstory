@@ -2,6 +2,7 @@ package com.example.invenstory.ui.itemList;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -22,18 +23,19 @@ import java.util.concurrent.ExecutionException;
 
 public class ItemListViewModel extends AndroidViewModel {
     private Context context;
+    private int collectionId;
     private MutableLiveData<ArrayList<Item>> itemListLive;
     private ArrayList<Item> items;
-    private CollectionListViewModel collectionListViewModel;
 
     public ItemListViewModel(@NonNull Application application, int collectionId) {
         super(application);
         this.context = application.getApplicationContext();
         itemListLive = new MutableLiveData<>();
-        updateItemsList(collectionId);
+        this.collectionId = collectionId;
+        updateItemsList();
     }
 
-    public void updateItemsList(int collectionId) {
+    public void updateItemsList() {
         RetrieveItemsTask retrieveItemsTask = new RetrieveItemsTask(context);
         retrieveItemsTask.execute(collectionId);
         try {
@@ -43,6 +45,7 @@ public class ItemListViewModel extends AndroidViewModel {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Log.i("Test***", items+"");
         itemListLive.setValue(items);
     }
 
