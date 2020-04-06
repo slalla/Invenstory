@@ -1,5 +1,6 @@
 package com.example.invenstory.ui.viewItem;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +19,14 @@ import android.widget.TextView;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
+import com.example.invenstory.model.Item;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 public class ViewItemFragment extends Fragment {
 
-    private ViewItemViewModel mViewModel;
+    private ViewItemViewModel viewItemViewModel;
 
     public static ViewItemFragment newInstance() {
         return new ViewItemFragment();
@@ -35,9 +38,10 @@ public class ViewItemFragment extends Fragment {
 
         Home.setFabOff();
         View root=  inflater.inflate(R.layout.view_item_fragment, container, false);
+        viewItemViewModel = new ViewModelProvider(this).get(ViewItemViewModel.class);
 
         int collectionId = ViewItemFragmentArgs.fromBundle(getArguments()).getCollectionId();
-        int itemId = ViewItemFragmentArgs.fromBundle(getArguments()).getItemId();
+        int itemId = ViewItemFragmentArgs.fromBundle(getArguments()).getItem();
 
 
         //TODO make all these be information grabbed from the database
@@ -83,7 +87,7 @@ public class ViewItemFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(ViewItemViewModel.class);
+        viewItemViewModel = ViewModelProviders.of(this).get(ViewItemViewModel.class);
         // TODO: Use the ViewModel
     }
 
