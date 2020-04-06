@@ -2,6 +2,7 @@ package com.example.invenstory.ui.newItem;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -13,6 +14,7 @@ import com.example.invenstory.model.Item;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class NewItemViewModel extends AndroidViewModel {
@@ -34,7 +36,8 @@ public class NewItemViewModel extends AndroidViewModel {
     }
 
     public void insertItem(Item item) {
-        item.setPhotoFilePaths(new ArrayList<>(filePaths));
+        ArrayList<String> paths = new ArrayList<>(filePaths);
+        item.setPhotoFilePaths(paths);
         AddItemTask addItemTask = new AddItemTask(context);
         addItemTask.execute(item);
     }

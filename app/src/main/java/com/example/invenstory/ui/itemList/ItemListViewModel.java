@@ -45,7 +45,6 @@ public class ItemListViewModel extends AndroidViewModel {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.i("Test***", items+"");
         itemListLive.setValue(items);
     }
 

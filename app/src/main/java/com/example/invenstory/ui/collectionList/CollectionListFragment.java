@@ -40,6 +40,7 @@ public class CollectionListFragment extends Fragment {
         collectionListViewModel.updateCollectionList();
     }
 
+    // TODO written by Paul: Insert Thumbnail photo for each collection
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         Home.setFabOn();

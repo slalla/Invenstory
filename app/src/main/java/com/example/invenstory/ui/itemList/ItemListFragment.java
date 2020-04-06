@@ -2,6 +2,8 @@ package com.example.invenstory.ui.itemList;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -32,7 +34,9 @@ import com.example.invenstory.ui.itemList.ItemListFragmentArgs;
 import com.example.invenstory.ui.itemList.ItemListFragmentDirections;
 
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
@@ -68,22 +72,27 @@ public class ItemListFragment extends Fragment {
         // view model
         itemListViewModel = new ViewModelProvider(this, new ItemListViewModelFactory(getActivity().getApplication(), collectionId)).get(ItemListViewModel.class);
 
-        itemListViewModel.getItemList().observe(getViewLifecycleOwner(), item -> {
+        itemListViewModel.getItemList().observe(getViewLifecycleOwner(), items -> {
 
-            if (item.size() == 0) {
+            if (items.size() == 0) {
                 Toast.makeText(getActivity(), "PROTOTYPE: This collection does not have any items.", Toast.LENGTH_SHORT).show();
             }
 
-            String[] mItemName = new String[item.size()];
-            String[] mItemPrice = new String[item.size()];
-            int[] images = new int[item.size()];
-            int[] mItemId = new int[item.size()];
+            String[] mItemName = new String[items.size()];
+            String[] mItemPrice = new String[items.size()];
+            String[] images = new String[items.size()];
+            int[] mItemId = new int[items.size()];
 
-            for (int i = 0; i < item.size(); i++) {
-                mItemName[i] = item.get(i).getName();
-                mItemId[i] = item.get(i).getItemId();
-                mItemPrice[i] = item.get(i).getPrice() + "";
-                images[i] = R.drawable.ic_menu_camera;
+            for (int i = 0; i < items.size(); i++) {
+                mItemName[i] = items.get(i).getName();
+                mItemId[i] = items.get(i).getItemId();
+                mItemPrice[i] = items.get(i).getPrice() + "";
+                if (items.get(i).getPhotoFilePaths() != null) {
+                    images[i] = items.get(i).getPhotoFilePaths().get(0);
+                } else {
+                    images[i] = "";
+                }
+                Log.i("debugging1", items.get(i).getPhotoFilePaths() +"");
             }
 
             ItemListFragment.MyAdapter adapter = new ItemListFragment.MyAdapter(getActivity(), mItemName, mItemPrice, images);
@@ -106,9 +115,9 @@ public class ItemListFragment extends Fragment {
         Context context;
         String rItemName[];
         String rItemPrice[];
-        int rImgs[];
+        String rImgs[];
 
-        MyAdapter (Context c, String itemName[], String priceName[], int imgs[]) {
+        MyAdapter (Context c, String itemName[], String priceName[], String imgs[]) {
             super(c, R.layout.collection_row, itemName);
             this.context = c;
             this.rItemName = itemName;
@@ -123,7 +132,11 @@ public class ItemListFragment extends Fragment {
             TextView name = row.findViewById(R.id.item_name_view);
             TextView price = row.findViewById(R.id.item_price_view);
 
-            images.setImageResource(rImgs[position]);
+            File imgFile = new  File(rImgs[position]);
+            if(imgFile.exists()){
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                images.setImageBitmap(myBitmap);
+            }
             name.setText(rItemName[position]);
             price.setText(rItemPrice[position]);
 
