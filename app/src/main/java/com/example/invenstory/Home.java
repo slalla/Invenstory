@@ -35,6 +35,9 @@ public class Home extends AppCompatActivity {
      */
     private static int pageID = 0;
 
+    // TODO written by Paul: Discuss what the best practice for FAB is when data communication is required
+    private static int collectionId;
+
     private AppBarConfiguration mAppBarConfiguration;
 
     private InvenstoryDbHelper dbHelper;
@@ -123,6 +126,14 @@ public class Home extends AppCompatActivity {
         else if (pageID == 99){
             fab.setImageResource(R.drawable.ic_edit_black_24dp);
         }
+    }
+
+    // see collectionId variable above for TODO comment
+    public static void setCollectionId(int id) {
+        collectionId = id;
+    }
+    public static int getCollectionId() {
+        return collectionId;
     }
 
     /**

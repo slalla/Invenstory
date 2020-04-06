@@ -58,6 +58,7 @@ public class Item {
      */
     private ArrayList<String> photoFilePaths;
 
+    // TODO written by Paul: discuss item attribute details with team
     /**
      * Creates Item with no extra attributes.
      * @param name Name of item. Ex: Vans Oldskool
@@ -72,6 +73,7 @@ public class Item {
         this.price = price;
         this.location = location;
         setCondition(condition);
+        setStatus(0);
         if(initDate == null) {
             this.initDate = new Date();
         }

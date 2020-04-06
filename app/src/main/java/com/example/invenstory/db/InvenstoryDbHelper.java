@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class InvenstoryDbHelper extends SQLiteOpenHelper {
@@ -193,6 +194,9 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
 
                 item.setItemId(cursor.getInt(cursor.getColumnIndex(ItemContract.TABLE_ID)));
 
+                String joinedPaths = cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_PHOTOS));
+                ArrayList<String> paths = new ArrayList(Arrays.asList(joinedPaths.split(",")));
+                item.setPhotoFilePaths(paths);
                 items.add(item);
             }
             cursor.moveToNext();

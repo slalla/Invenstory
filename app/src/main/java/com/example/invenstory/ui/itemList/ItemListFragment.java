@@ -1,14 +1,19 @@
 package com.example.invenstory.ui.itemList;
 
+import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,21 +34,25 @@ import com.example.invenstory.ui.itemList.ItemListFragmentArgs;
 import com.example.invenstory.ui.itemList.ItemListFragmentDirections;
 
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
-//TODO HI PAUL the ItemListView model is the new "model" that should be used here
 public class ItemListFragment extends Fragment {
 
-    //TODO set up this variable to be used in this class.
     private ItemListViewModel itemListViewModel;
 
     private ListView listView;
-    private CollectionListViewModel collectionListViewModel;
 
-    //TODO remove this temp data class
-    private CollectionListModel collectionListModel;
+    private int collectionId;
+
+    // refreshing list data
+    public void onStart() {
+        super.onStart();
+        itemListViewModel.updateItemsList();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,46 +65,47 @@ public class ItemListFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_item_list, container, false);
         listView = root.findViewById(R.id.item_list_view2);
 
-        //TODO use this collectionId data to query the database to populate listView
-        int collectionId = ItemListFragmentArgs.fromBundle(getArguments()).getCollectionId();
+        // getting collectionId from prev fragment
+        collectionId = ItemListFragmentArgs.fromBundle(getArguments()).getCollectionId();
+        Home.setCollectionId(collectionId);
 
-        collectionListModel = new ViewModelProvider(this).get(CollectionListModel.class);
-        Collection collection = collectionListModel.getCollection(collectionId);
-        ArrayList<Item> item = collection.getCollection();
+        // view model
+        itemListViewModel = new ViewModelProvider(this, new ItemListViewModelFactory(getActivity().getApplication(), collectionId)).get(ItemListViewModel.class);
 
-        if (item.size() == 0) {
-            Toast.makeText(getActivity(), "PROTOTYPE: This collection does not have any items.", Toast.LENGTH_SHORT).show();
-        }
+        itemListViewModel.getItemList().observe(getViewLifecycleOwner(), items -> {
 
-        // ***** Temp : Paul
-        String[] mItemName = new String[item.size()];
-        String[] mItemPrice = new String[item.size()];
-        int[] images = new int[item.size()];
+            if (items.size() == 0) {
+                Toast.makeText(getActivity(), "PROTOTYPE: This collection does not have any items.", Toast.LENGTH_SHORT).show();
+            }
 
-        for (int i = 0; i < item.size(); i++) {
-            mItemName[i] = item.get(i).getName();
-            mItemPrice[i] = item.get(i).getPrice() + "";
-            images[i] = R.drawable.ic_menu_camera;
-        }
+            String[] mItemName = new String[items.size()];
+            String[] mItemPrice = new String[items.size()];
+            String[] images = new String[items.size()];
+            int[] mItemId = new int[items.size()];
 
-        ItemListFragment.MyAdapter adapter = new ItemListFragment.MyAdapter(getActivity(), mItemName, mItemPrice, images);
-        listView.setAdapter(adapter);
+            for (int i = 0; i < items.size(); i++) {
+                mItemName[i] = items.get(i).getName();
+                mItemId[i] = items.get(i).getItemId();
+                mItemPrice[i] = items.get(i).getPrice() + "";
+                if (items.get(i).getPhotoFilePaths() != null) {
+                    images[i] = items.get(i).getPhotoFilePaths().get(0);
+                } else {
+                    images[i] = "";
+                }
+            }
 
+            ItemListFragment.MyAdapter adapter = new ItemListFragment.MyAdapter(getActivity(), mItemName, mItemPrice, images);
+            listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            //TODO fix this so that each item will open up correctly. Currently the only one that opens is the first item
-            if (position == 0) {
-                //TODO make sure that the values passed in as parameters are the correct values to query the database
+            listView.setOnItemClickListener((parent, view, position, id) -> {
                 //Note that the first parameter should be the itemID and the second the collectionID
+                int itemId = mItemId[position];
                 ActionItemListFragmentToViewItemFragment actionItemListFragmentToViewItemFragment =
-                        ItemListFragmentDirections.actionItemListFragmentToViewItemFragment(position, collectionId);
+                        ItemListFragmentDirections.actionItemListFragmentToViewItemFragment(itemId, collectionId);
 
                 NavController navController = findNavController(this);
                 navController.navigate(actionItemListFragmentToViewItemFragment);
-            }
-            else {
-                Toast.makeText(getActivity(), "I have not been implemented yet", Toast.LENGTH_LONG).show();
-            }
+            });
         });
         return root;
     }
@@ -104,9 +114,9 @@ public class ItemListFragment extends Fragment {
         Context context;
         String rItemName[];
         String rItemPrice[];
-        int rImgs[];
+        String rImgs[];
 
-        MyAdapter (Context c, String itemName[], String priceName[], int imgs[]) {
+        MyAdapter (Context c, String itemName[], String priceName[], String imgs[]) {
             super(c, R.layout.collection_row, itemName);
             this.context = c;
             this.rItemName = itemName;
@@ -121,11 +131,31 @@ public class ItemListFragment extends Fragment {
             TextView name = row.findViewById(R.id.item_name_view);
             TextView price = row.findViewById(R.id.item_price_view);
 
-            images.setImageResource(rImgs[position]);
+            File imgFile = new  File(rImgs[position]);
+            if(imgFile.exists()){
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                images.setImageBitmap(myBitmap);
+            }
             name.setText(rItemName[position]);
             price.setText(rItemPrice[position]);
 
             return row;
+        }
+    }
+
+    // factory is used to pass extra arguments when view model is initiated
+    public class ItemListViewModelFactory implements ViewModelProvider.Factory {
+        private Application mApplication;
+        private int collectionId;
+
+        public ItemListViewModelFactory(Application application, int id) {
+            mApplication = application;
+            collectionId = id;
+        }
+
+        @Override
+        public <T extends ViewModel> T create(Class<T> modelClass) {
+            return (T) new ItemListViewModel(mApplication, collectionId);
         }
     }
 }

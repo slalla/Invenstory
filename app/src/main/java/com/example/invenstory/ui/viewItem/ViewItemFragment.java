@@ -1,7 +1,10 @@
 package com.example.invenstory.ui.viewItem;
 
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Application;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +21,14 @@ import android.widget.TextView;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
+import com.example.invenstory.model.Item;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 public class ViewItemFragment extends Fragment {
 
-    private ViewItemViewModel mViewModel;
+    private ViewItemViewModel viewItemViewModel;
 
     public static ViewItemFragment newInstance() {
         return new ViewItemFragment();
@@ -38,6 +43,8 @@ public class ViewItemFragment extends Fragment {
 
         int collectionId = ViewItemFragmentArgs.fromBundle(getArguments()).getCollectionId();
         int itemId = ViewItemFragmentArgs.fromBundle(getArguments()).getItemId();
+
+        viewItemViewModel = new ViewModelProvider(this, new ViewItemViewModelFactory(getActivity().getApplication(), itemId, collectionId)).get(ViewItemViewModel.class);
 
 
         //TODO make all these be information grabbed from the database
@@ -83,8 +90,25 @@ public class ViewItemFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(ViewItemViewModel.class);
+        viewItemViewModel = ViewModelProviders.of(this).get(ViewItemViewModel.class);
         // TODO: Use the ViewModel
+    }
+
+    public class ViewItemViewModelFactory implements ViewModelProvider.Factory {
+        private Application mApplication;
+        private int itemId;
+        private int collectionId;
+
+        public ViewItemViewModelFactory(Application application, int itemId, int collectionId) {
+            mApplication = application;
+            this.itemId = itemId;
+            this.collectionId = collectionId;
+        }
+
+        @Override
+        public <T extends ViewModel> T create(Class<T> modelClass) {
+            return (T) new ViewItemViewModel(mApplication, itemId, collectionId);
+        }
     }
 
 }

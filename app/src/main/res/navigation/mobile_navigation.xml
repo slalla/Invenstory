@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_nav_gallery_to_newCollectionFragment"
             app:destination="@id/newCollectionFragment" />
+        <argument
+            android:name="collectionId"
+            app:argType="integer" />
     </fragment>
 
     <fragment
@@ -48,7 +51,7 @@
             android:id="@+id/action_itemListFragment_to_viewItemFragment"
             app:destination="@id/viewItemFragment" />
         <argument
-            android:name="collection_id"
+            android:name="collectionId"
             app:argType="integer" />
     </fragment>
 
@@ -56,7 +59,7 @@
         android:id="@+id/newCollectionFragment"
         android:name="com.example.invenstory.ui.newCollection.NewCollectionFragment"
         android:label="@string/new_collection_header"
-        tools:layout="@layout/new_collection_fragment" />
+        tools:layout="@layout/fragment_new_collection" />
 
     <fragment
         android:id="@+id/newItemFragment"
