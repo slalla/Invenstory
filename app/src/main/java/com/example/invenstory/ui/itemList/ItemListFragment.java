@@ -92,7 +92,6 @@ public class ItemListFragment extends Fragment {
                 } else {
                     images[i] = "";
                 }
-                Log.i("debugging1", items.get(i).getPhotoFilePaths() +"");
             }
 
             ItemListFragment.MyAdapter adapter = new ItemListFragment.MyAdapter(getActivity(), mItemName, mItemPrice, images);
@@ -144,6 +143,7 @@ public class ItemListFragment extends Fragment {
         }
     }
 
+    // factory is used to pass extra arguments when view model is initiated
     public class ItemListViewModelFactory implements ViewModelProvider.Factory {
         private Application mApplication;
         private int collectionId;

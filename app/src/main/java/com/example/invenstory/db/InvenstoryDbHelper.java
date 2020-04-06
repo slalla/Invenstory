@@ -104,7 +104,6 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         values.put(ItemContract.COLUMN_LOCATION, item.getLocation());
         values.put(ItemContract.COLUMN_DATE, item.getDate().toString());
         if (item.getPhotoFilePaths() != null) {
-            Log.i("yeet", "yeeeeet");
             values.put(ItemContract.COLUMN_PHOTOS, String.join(",", item.getPhotoFilePaths()));
         } else {
             values.put(ItemContract.COLUMN_PHOTOS, "");

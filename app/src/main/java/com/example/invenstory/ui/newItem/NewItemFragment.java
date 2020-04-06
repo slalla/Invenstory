@@ -125,7 +125,7 @@ public class NewItemFragment extends Fragment {
                 itemImageInputGallery.addView(view);
             }
 
-            // adding plus sign at the end
+            // adding plus sign at the end: 10 is the max number of photo of user input
             if (filePaths.size() < 10) {
                 View view = inflater.inflate(R.layout.item_image_input, itemImageInputGallery, false);
 
@@ -208,7 +208,7 @@ public class NewItemFragment extends Fragment {
     public void openSaveDialog(String name, int condition, String price, String location) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);
-        builder.setMessage("You are adding a collection");
+        builder.setMessage("You are adding an item");
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
