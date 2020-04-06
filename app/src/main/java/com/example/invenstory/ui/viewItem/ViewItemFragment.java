@@ -1,8 +1,10 @@
 package com.example.invenstory.ui.viewItem;
 
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Application;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -38,10 +40,11 @@ public class ViewItemFragment extends Fragment {
 
         Home.setFabOff();
         View root=  inflater.inflate(R.layout.view_item_fragment, container, false);
-        viewItemViewModel = new ViewModelProvider(this).get(ViewItemViewModel.class);
 
         int collectionId = ViewItemFragmentArgs.fromBundle(getArguments()).getCollectionId();
-        int itemId = ViewItemFragmentArgs.fromBundle(getArguments()).getItem();
+        int itemId = ViewItemFragmentArgs.fromBundle(getArguments()).getItemId();
+
+        viewItemViewModel = new ViewModelProvider(this, new ViewItemViewModelFactory(getActivity().getApplication(), itemId, collectionId)).get(ViewItemViewModel.class);
 
 
         //TODO make all these be information grabbed from the database
@@ -89,6 +92,23 @@ public class ViewItemFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         viewItemViewModel = ViewModelProviders.of(this).get(ViewItemViewModel.class);
         // TODO: Use the ViewModel
+    }
+
+    public class ViewItemViewModelFactory implements ViewModelProvider.Factory {
+        private Application mApplication;
+        private int itemId;
+        private int collectionId;
+
+        public ViewItemViewModelFactory(Application application, int itemId, int collectionId) {
+            mApplication = application;
+            this.itemId = itemId;
+            this.collectionId = collectionId;
+        }
+
+        @Override
+        public <T extends ViewModel> T create(Class<T> modelClass) {
+            return (T) new ViewItemViewModel(mApplication, itemId, collectionId);
+        }
     }
 
 }
