@@ -67,7 +67,6 @@ public class ViewItemFragment extends Fragment {
         Log.i("This is a collection: ", collection.getName());
 
 
-
         String name = item.getName();
         String price = item.getPrice();
         String collectionName = collection.getName();
@@ -77,8 +76,8 @@ public class ViewItemFragment extends Fragment {
         String purchase_info = "January 23rd 2020";
         String tag = "N/A";
 
-        FloatingActionButton edit = root.findViewById(R.id.editButton);
-        edit.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton editButton = root.findViewById(R.id.editButton);
+        editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ViewItemFragmentDirections.ActionViewItemFragmentToNewItemFragment actionViewItemFragmentToNewItemFragment =

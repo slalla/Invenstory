@@ -23,7 +23,6 @@ public class SendFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         Home.setFabOff();
-        Home.setPageID(2);
 
         sendViewModel =
                 ViewModelProviders.of(this).get(SendViewModel.class);

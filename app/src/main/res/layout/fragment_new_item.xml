@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/newItem"
@@ -9,151 +10,75 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/itemNameInput"
-        android:layout_width="287dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="292dp"
-        android:layout_marginEnd="48dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/itemNameLabel2"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="308dp"
-        android:layout_marginEnd="316dp"
-        android:text="Name:"
+        android:layout_marginTop="12dp"
+        android:hint="Name"
+        android:textSize="20sp"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/itemPriceInput"
-        android:layout_width="287dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="400dp"
-        android:layout_marginEnd="48dp"
-        android:textSize="14sp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="Price"
+        android:layout_marginTop="15dp"
+        android:textSize="20sp"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemConditionInput" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/descriptionInput"
-        android:layout_width="267dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="91dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginBottom="152dp"
-        android:fadeScrollbars="true"
-        android:textAlignment="textStart"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NameInput" />
-
-    <TextView
-        android:id="@+id/itemDescriptionLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="540dp"
-        android:layout_marginEnd="316dp"
-        android:text="Description"
+        android:fadeScrollbars="true"
+        android:hint="Description"
+        android:textAlignment="textStart"
+        android:layout_marginTop="15dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.933"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/itemLocationInput"
+        />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/itemLocationInput"
-        android:layout_width="274dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="468dp"
-        android:layout_marginEnd="44dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/itemPriceLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="412dp"
-        android:layout_marginEnd="316dp"
-        android:text="Price:"
+        android:hint="Location"
+        android:layout_marginTop="15dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.043"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/itemPriceInput" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/itemConditionInput"
-        android:layout_width="277dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="348dp"
-        android:layout_marginEnd="44dp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/itemConditionLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="356dp"
-        android:layout_marginEnd="316dp"
-        android:text="Condition:"
+        android:layout_marginTop="15dp"
+        android:hint="Condition: 1 to 5"
+        android:textSize="20sp"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/itemLocationLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="480dp"
-        android:layout_marginEnd="316dp"
-        android:text="Location:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/saveItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="330dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:src="@android:drawable/ic_menu_save"
-        android:tint="#FFFFFF"
-        app:backgroundTint="#009688"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/itemNameInput" />
 
     <HorizontalScrollView
-        android:layout_width="405dp"
-        android:layout_height="187dp"
-        android:layout_marginTop="84dp"
-        android:scrollbars="none"
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
         <LinearLayout
             android:id="@+id/imageInputGallery"
             android:layout_width="wrap_content"

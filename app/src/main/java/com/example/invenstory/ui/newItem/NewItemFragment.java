@@ -21,10 +21,13 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -49,7 +52,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.example.invenstory.Home.setPageID;
 
 /**
  * This class represents the Fragment that will be used to create
@@ -81,14 +83,13 @@ public class NewItemFragment extends Fragment {
     /**
      * Image gallery of user input image
      */
-    private LinearLayout itemImageInputGallery;
 
     private NewItemViewModel newItemViewModel;
 
-    // check Home activity comment for TODO
-    private int collectionId;
+    private LinearLayout itemImageInputGallery;
+    private HorizontalScrollView horizontalScrollView;
 
-    //
+    private int collectionId;
     private int itemId;
 
     private Item tempItem;
@@ -96,23 +97,21 @@ public class NewItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Home.setFabOff();
-        //TODO change Temp page id
-        Home.setPageID(-1);
+
+        Home.getFAB().setImageResource(R.drawable.ic_save_black_24dp);
+        Home.setFabOn();
 
         collectionId = NewItemFragmentArgs.fromBundle(getArguments()).getCollectionID();
         itemId = NewItemFragmentArgs.fromBundle(getArguments()).getItemID();
 
         Log.i("This is a item ID", ""+itemId);
 
-        //TODO remove this
-        //collectionId = Home.getCollectionId();
-
         View root = inflater.inflate(R.layout.fragment_new_item, container, false);
         newItemViewModel = new ViewModelProvider(this).get(NewItemViewModel.class);
 
         // image input gallery
         itemImageInputGallery = root.findViewById(R.id.imageInputGallery);
+        horizontalScrollView = root.findViewById(R.id.horizontalScrollView);
 
         // TODO written by Paul: Decide input types for each input such as drop menu
         // TODO written by Paul: Specific input type such as Location and Price
@@ -121,9 +120,11 @@ public class NewItemFragment extends Fragment {
         TextInputEditText conditionInput = root.findViewById(R.id.itemConditionInput);
         TextInputEditText priceInput = root.findViewById(R.id.itemPriceInput);
         TextInputEditText locationInput = root.findViewById(R.id.itemLocationInput);
-        // TODO written by Paul: Item object doesn't have description yet
-//        TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
-
+        TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
+        enterKeyListener(nameInput, conditionInput);
+        enterKeyListener(conditionInput, priceInput);
+        enterKeyListener(priceInput, locationInput);
+        enterKeyListener(locationInput, descInput);
 
         // when new image gets added
         // TODO written by Paul: images should be able to get removed
@@ -140,6 +141,7 @@ public class NewItemFragment extends Fragment {
                 setPhoto(imageView,paths.get(i));
 
                 view.setOnClickListener(new View.OnClickListener() {
+                    // TODO written by Paul: Image should be able to be clickable to see in full screen
                     @Override
                     public void onClick(View v) {
                         Log.i("view***",  v + "user input image");
@@ -161,15 +163,16 @@ public class NewItemFragment extends Fragment {
                     public void onClick(View v) {
                         openImageDialog();
                     }
-
                 });
 
                 itemImageInputGallery.addView(view);
             }
+            horizontalScrollView.post(new Runnable() {
+                public void run() {
+                    horizontalScrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+                }
+            });
         });
-
-        // TODO written by Paul: Decide wether we want to use FAB for save button
-        FloatingActionButton saveButton = root.findViewById(R.id.saveItem);
 
         if(itemId!=-1){
             tempItem = newItemViewModel.getItem(collectionId,itemId);
@@ -183,9 +186,7 @@ public class NewItemFragment extends Fragment {
             }
         }
 
-
-        //TODO save Item
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        Home.getFAB().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = nameInput.getText().toString();
@@ -461,7 +462,7 @@ public class NewItemFragment extends Fragment {
         return fileUtils.getPath(uri);
     }
 
-    public static void hideKeyboard(Activity activity) {
+    public void hideKeyboard(Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -470,6 +471,29 @@ public class NewItemFragment extends Fragment {
         if (currentFocusedView != null) {
             inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    /**
+     * This method listens for key press of Enter key which moves the field focus to another input
+     * field that is given as second parameter
+     * @param currentField the current input field
+     * @param nextField the target input field to move focus to
+     */
+    public void enterKeyListener(TextInputEditText currentField, TextInputEditText nextField) {
+        currentField.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on Enter key press
+                    currentField.clearFocus();
+                    nextField.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override

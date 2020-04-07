@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,6 @@ import com.example.invenstory.R;
 import com.example.invenstory.model.Collection;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-
-import static com.example.invenstory.Home.setPageID;
 
 public class NewCollectionFragment extends Fragment {
 
@@ -39,21 +38,22 @@ public class NewCollectionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        setPageID(4);
-        Home.setFabOff();
+
+        Home.getFAB().setImageResource(R.drawable.ic_save_black_24dp);
+        Home.setFabOn();
 
         View root = inflater.inflate(R.layout.fragment_new_collection, container, false);
-        TextInputEditText textEditInputLayout = root.findViewById(R.id.NameInput);
+        TextInputEditText nameInput = root.findViewById(R.id.NameInput);
+        TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
+        enterKeyListener(nameInput, descInput);
 
-        textEditInputLayout.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-
-        FloatingActionButton fab2  = root.findViewById((R.id.floatingActionButton));
+        nameInput.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
 
         // TODO written by Paul: User should not be able to save when required field isn't filled
-        fab2.setOnClickListener(new View.OnClickListener() {
+        Home.getFAB().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = textEditInputLayout.getText().toString();
+                String name = nameInput.getText().toString();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
                     builder.setCancelable(true);
@@ -95,6 +95,29 @@ public class NewCollectionFragment extends Fragment {
         }
     }
 
+    /**
+     * This method listens for key press of Enter key which moves the field focus to another input
+     * field that is given as second parameter
+     * @param currentField the current input field
+     * @param nextField the target input field to move focus to
+     */
+    public void enterKeyListener(TextInputEditText currentField, TextInputEditText nextField) {
+        currentField.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on Enter key press
+                    currentField.clearFocus();
+                    nextField.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -106,6 +129,5 @@ public class NewCollectionFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         hideKeyboard(getActivity());
-        setPageID(1);
     }
 }
