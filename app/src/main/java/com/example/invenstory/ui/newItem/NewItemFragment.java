@@ -21,10 +21,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -118,9 +120,11 @@ public class NewItemFragment extends Fragment {
         TextInputEditText conditionInput = root.findViewById(R.id.itemConditionInput);
         TextInputEditText priceInput = root.findViewById(R.id.itemPriceInput);
         TextInputEditText locationInput = root.findViewById(R.id.itemLocationInput);
-        // TODO written by Paul: Item object doesn't have description yet
-//        TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
-
+        TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
+        enterKeyListener(nameInput, conditionInput);
+        enterKeyListener(conditionInput, priceInput);
+        enterKeyListener(priceInput, locationInput);
+        enterKeyListener(locationInput, descInput);
 
         // when new image gets added
         // TODO written by Paul: images should be able to get removed
@@ -458,7 +462,7 @@ public class NewItemFragment extends Fragment {
         return fileUtils.getPath(uri);
     }
 
-    public static void hideKeyboard(Activity activity) {
+    public void hideKeyboard(Activity activity) {
         InputMethodManager inputManager = (InputMethodManager) activity
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -467,6 +471,29 @@ public class NewItemFragment extends Fragment {
         if (currentFocusedView != null) {
             inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    /**
+     * This method listens for key press of Enter key which moves the field focus to another input
+     * field that is given as second parameter
+     * @param currentField the current input field
+     * @param nextField the target input field to move focus to
+     */
+    public void enterKeyListener(TextInputEditText currentField, TextInputEditText nextField) {
+        currentField.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN)
+                        && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on Enter key press
+                    currentField.clearFocus();
+                    nextField.requestFocus();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override

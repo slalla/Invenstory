@@ -15,6 +15,7 @@
         android:layout_marginTop="12dp"
         android:hint="Name"
         android:textSize="20sp"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,6 +28,7 @@
         android:hint="Price"
         android:layout_marginTop="15dp"
         android:textSize="20sp"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemConditionInput" />
@@ -63,6 +65,7 @@
         android:layout_marginTop="15dp"
         android:hint="Condition: 1 to 5"
         android:textSize="20sp"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/itemNameInput" />
