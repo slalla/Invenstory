@@ -124,15 +124,6 @@ public class NewItemFragment extends Fragment {
         // TODO written by Paul: Item object doesn't have description yet
 //        TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
 
-        if(itemId!=-1){
-            tempItem = newItemViewModel.getItem(collectionId,itemId);
-
-            nameInput.setText(tempItem.getName());
-            conditionInput.setText(tempItem.getCondition().ordinal()+"");
-            priceInput.setText(tempItem.getPrice());
-            locationInput.setText(tempItem.getLocation());
-            newItemViewModel.setFilePaths(tempItem.getPhotoFilePaths());
-        }
 
         // when new image gets added
         // TODO written by Paul: images should be able to get removed
@@ -180,6 +171,17 @@ public class NewItemFragment extends Fragment {
         // TODO written by Paul: Decide wether we want to use FAB for save button
         FloatingActionButton saveButton = root.findViewById(R.id.saveItem);
 
+        if(itemId!=-1){
+            tempItem = newItemViewModel.getItem(collectionId,itemId);
+
+            nameInput.setText(tempItem.getName());
+            conditionInput.setText(tempItem.getCondition().ordinal()+"");
+            priceInput.setText(tempItem.getPrice());
+            locationInput.setText(tempItem.getLocation());
+            for(String path:tempItem.getPhotoFilePaths()){
+                newItemViewModel.updateFilePaths(path);
+            }
+        }
 
 
         //TODO save Item
