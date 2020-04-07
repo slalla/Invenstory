@@ -1,7 +1,9 @@
 package com.example.invenstory.ui.itemList;
 
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -15,6 +17,9 @@ import androidx.navigation.NavController;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -25,6 +30,7 @@ import android.widget.Toast;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
+import com.example.invenstory.model.Collection;
 import com.example.invenstory.ui.itemList.ItemListFragmentDirections.ActionItemListFragmentToViewItemFragment;
 
 
@@ -40,11 +46,14 @@ public class ItemListFragment extends Fragment {
 
     private int collectionId;
 
+    private Menu itemListMenu;
+
+
     // refreshing list data
+    @Override
     public void onStart() {
-        super.onStart();
-        Log.i("Blank text", "This is not working ");
         itemListViewModel.updateItemsList();
+        super.onStart();
     }
 
     @Override
@@ -66,10 +75,6 @@ public class ItemListFragment extends Fragment {
         itemListViewModel = new ViewModelProvider(this, new ItemListViewModelFactory(getActivity().getApplication(), collectionId)).get(ItemListViewModel.class);
 
         itemListViewModel.getItemList().observe(getViewLifecycleOwner(), items -> {
-
-            if (items.size() == 0) {
-                Toast.makeText(getActivity(), "PROTOTYPE: This collection does not have any items.", Toast.LENGTH_SHORT).show();
-            }
 
             String[] mItemName = new String[items.size()];
             String[] mItemPrice = new String[items.size()];
@@ -100,7 +105,48 @@ public class ItemListFragment extends Fragment {
                 navController.navigate(actionItemListFragmentToViewItemFragment);
             });
         });
+
+        setHasOptionsMenu(true);
+
         return root;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        itemListMenu = menu;
+        inflater.inflate(R.menu.item_list_menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        Log.i("This deletes", "deleted "+id);
+        if(id ==2131230781){
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setCancelable(true);
+            builder.setMessage("Do you want to delete this collection?");
+            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Log.i("Name: ", "You clicked good button");
+                    String name = itemListViewModel.getCollection().getName();
+                    itemListViewModel.deleteCollection();
+                    Toast.makeText(getActivity(), name + " was deleted.", Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Log.i("Name: ", "You clicked cancel button");
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     class MyAdapter extends ArrayAdapter<String> {

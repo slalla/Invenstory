@@ -2,7 +2,6 @@ package com.example.invenstory.ui.itemList;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -10,9 +9,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 
+import com.example.invenstory.db.asyncTasks.DeleteCollectionTask;
 import com.example.invenstory.db.asyncTasks.DeleteItemTask;
+import com.example.invenstory.db.asyncTasks.RetrieveCollectionTask;
 import com.example.invenstory.db.asyncTasks.RetrieveItemsTask;
 import com.example.invenstory.db.asyncTasks.UpdateItemTask;
+import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
 
 import java.util.ArrayList;
@@ -42,7 +44,6 @@ public class ItemListViewModel extends AndroidViewModel {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.i("This ", "Still not working " + items.size());
         itemListLive.setValue(items);
     }
 
@@ -54,6 +55,35 @@ public class ItemListViewModel extends AndroidViewModel {
     public void updateItem(Item item) {
         UpdateItemTask updateItemTask = new UpdateItemTask(context);
         updateItemTask.execute(item);
+    }
+
+    public long deleteCollection(){
+        long result = 0;
+        Collection deleting = getCollection();
+        try{
+            DeleteCollectionTask deleteCollectionTask = new DeleteCollectionTask(context);
+            deleteCollectionTask.execute(deleting);
+            result = deleteCollectionTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    return result;
+    }
+
+    public Collection getCollection(){
+        Collection result = null;
+        try{
+            RetrieveCollectionTask retrieveCollectionTask = new RetrieveCollectionTask(context);
+            retrieveCollectionTask.execute(collectionId);
+            result = retrieveCollectionTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public LiveData<ArrayList<Item>> getItemList() {

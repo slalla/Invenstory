@@ -21,5 +21,7 @@
     <string name ="new_collection_header">New Collection</string>
     <string name="view_item_header">View Item</string>
     <string name="navTitle_communicate">Communicate</string>
+    <string name="delete_item">Delete Item</string>
+    <string name="delete_collection">Delete Collection</string>
 
 </resources>

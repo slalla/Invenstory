@@ -136,4 +136,5 @@ public class Item {
     public ArrayList<String> getPhotoFilePaths() { return photoFilePaths; }
     public void setPhotoFilePaths(ArrayList<String> filePaths) { this.photoFilePaths = filePaths; }
 
+
 }
