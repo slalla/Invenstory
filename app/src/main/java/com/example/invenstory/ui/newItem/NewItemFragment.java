@@ -242,8 +242,15 @@ public class NewItemFragment extends Fragment {
                 Log.i("Name: ", "You clicked good button");
                 // id input in the parameter here is irrelevant
                 //TODO check if item already exists
-                newItemViewModel.insertItem(new Item(name, collectionId, condition, price, location, null));
-                Toast.makeText(getActivity(), name + " added to your list.", Toast.LENGTH_SHORT).show();
+                if(itemId ==-1) {
+                    newItemViewModel.insertItem(new Item(name, collectionId, condition, price, location, null));
+                    Toast.makeText(getActivity(), name + " added to your list.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Item tempItem = new Item(name, collectionId, condition, price, location, null);
+                    tempItem.setItemId(itemId);
+                    newItemViewModel.updateItem(tempItem);
+                }
                 getActivity().onBackPressed();
             }
         });
@@ -339,7 +346,6 @@ public class NewItemFragment extends Fragment {
     }
 
 
-    // TODO written by Paul: There are many bugs such as filepaths saving when it's not suppose to
     /**
      * This method is called after the startActvityForResult method is called.
      * This method currently acts on REQEUST_GALLERY and REQUEST_IMAGE_CAPTURE

@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.invenstory.db.asyncTasks.AddItemTask;
 import com.example.invenstory.db.asyncTasks.RetrieveItemTask;
+import com.example.invenstory.db.asyncTasks.UpdateItemTask;
 import com.example.invenstory.model.Item;
 
 import java.util.ArrayList;
@@ -52,10 +53,14 @@ public class NewItemViewModel extends AndroidViewModel {
         filePaths.add(path);
         filePathsLive.setValue(filePaths);
     }
-    public void setFilePaths(ArrayList<String> itemFilePaths){
-        HashSet<String> hash = new HashSet<String>(itemFilePaths);
-        filePaths = hash;
+
+    public void updateItem(Item item){
+        ArrayList<String> paths = new ArrayList<>(filePaths);
+        item.setPhotoFilePaths(paths);
+        UpdateItemTask updateItemTask = new UpdateItemTask(context);
+        updateItemTask.execute(item);
     }
+
 
     public LiveData<Set<String>> getFilePaths() {
         return filePathsLive;
