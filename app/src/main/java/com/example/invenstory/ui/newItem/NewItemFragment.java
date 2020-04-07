@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -81,9 +82,11 @@ public class NewItemFragment extends Fragment {
     /**
      * Image gallery of user input image
      */
-    private LinearLayout itemImageInputGallery;
 
     private NewItemViewModel newItemViewModel;
+
+    private LinearLayout itemImageInputGallery;
+    private HorizontalScrollView horizontalScrollView;
 
     private int collectionId;
     private int itemId;
@@ -107,6 +110,7 @@ public class NewItemFragment extends Fragment {
 
         // image input gallery
         itemImageInputGallery = root.findViewById(R.id.imageInputGallery);
+        horizontalScrollView = root.findViewById(R.id.horizontalScrollView);
 
         // TODO written by Paul: Decide input types for each input such as drop menu
         // TODO written by Paul: Specific input type such as Location and Price
@@ -134,6 +138,7 @@ public class NewItemFragment extends Fragment {
                 setPhoto(imageView,paths.get(i));
 
                 view.setOnClickListener(new View.OnClickListener() {
+                    // TODO written by Paul: Image should be able to be clickable to see in full screen
                     @Override
                     public void onClick(View v) {
                         Log.i("view***",  v + "user input image");
@@ -155,11 +160,15 @@ public class NewItemFragment extends Fragment {
                     public void onClick(View v) {
                         openImageDialog();
                     }
-
                 });
 
                 itemImageInputGallery.addView(view);
             }
+            horizontalScrollView.post(new Runnable() {
+                public void run() {
+                    horizontalScrollView.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
+                }
+            });
         });
 
         if(itemId!=-1){
