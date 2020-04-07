@@ -236,6 +236,7 @@ public class NewItemFragment extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.i("Name: ", "You clicked good button");
                 // id input in the parameter here is irrelevant
+                //TODO check if item already exists
                 newItemViewModel.insertItem(new Item(name, collectionId, condition, price, location, null));
                 Toast.makeText(getActivity(), name + " added to your list.", Toast.LENGTH_SHORT).show();
                 getActivity().onBackPressed();
@@ -344,7 +345,7 @@ public class NewItemFragment extends Fragment {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == REQUEST_GALLERY) {
+        if(requestCode == REQUEST_GALLERY && resultCode == Activity.RESULT_OK) {
             //multiple images are selected
             if(data.getClipData()!=null) {
                 ClipData imagesInfo = data.getClipData();
@@ -385,7 +386,7 @@ public class NewItemFragment extends Fragment {
             }
         }
         //This will add the current photo path if its valid
-        else if(requestCode == REQUEST_CAPTURE_IMAGE){
+        else if(requestCode == REQUEST_CAPTURE_IMAGE && resultCode == Activity.RESULT_OK){
             Uri imageLoc = Uri.fromFile(new File(currentPhotoPath));
             Log.i("", "Here is a path " + pathFinder(imageLoc));
             //changes the uri to a filepath
