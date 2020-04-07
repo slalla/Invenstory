@@ -22,7 +22,6 @@ public class ShareFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         Home.setFabOff();
-        Home.setPageID(3);
 
         shareViewModel =
                 ViewModelProviders.of(this).get(ShareViewModel.class);

@@ -50,7 +50,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.example.invenstory.Home.setPageID;
 
 /**
  * This class represents the Fragment that will be used to create
@@ -96,9 +95,9 @@ public class NewItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Home.setFabOff();
-        //TODO change Temp page id
-        Home.setPageID(-1);
+
+        Home.getFAB().setImageResource(R.drawable.ic_save_black_24dp);
+        Home.setFabOn();
 
         collectionId = NewItemFragmentArgs.fromBundle(getArguments()).getCollectionID();
         itemId = NewItemFragmentArgs.fromBundle(getArguments()).getItemID();
@@ -183,8 +182,7 @@ public class NewItemFragment extends Fragment {
             }
         }
 
-        FloatingActionButton saveButton = root.findViewById(R.id.saveItem);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        Home.getFAB().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = nameInput.getText().toString();

@@ -36,12 +36,6 @@ public class Home extends AppCompatActivity {
      */
     private static FloatingActionButton fab;
 
-    /**
-     * This integer represents the fragment that has been launched.
-     * A value of 0 indicates the home fragment is open.
-     */
-    private static int pageID = 0;
-
     // TODO written by Paul: Discuss what the best practice for FAB is when data communication is required
     private static int collectionId;
 
@@ -64,22 +58,6 @@ public class Home extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         fab = findViewById(R.id.fab);
-        setFabImage();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(pageID==1){
-                    startNewCollection();
-                }
-                //TODO edit the temporary pageID
-                else if(pageID == 88){
-                    startNewItem();
-                }
-                else{
-                    Log.i("ID:: ", pageID +"");
-                }
-            }
-        });
         fab.hide();
 
         drawer = findViewById(R.id.drawer_layout);
@@ -122,21 +100,10 @@ public class Home extends AppCompatActivity {
     public static void setFabOff(){ fab.hide();}
 
     /**
-     * This method sets the pageID which can be used to change the behaviour of the fab
-     * @param id the page idNumber
+     * Getter method of floating action button
      */
-    public static void setPageID(int id){
-        pageID = id;
-    }
-
-    private void setFabImage(){
-        //TODO edit these temporary pageID values
-        if(pageID==1||pageID == 88){
-            fab.setImageResource(R.drawable.ic_add_black_24dp);
-        }
-        else if (pageID == 99){
-            fab.setImageResource(R.drawable.ic_edit_black_24dp);
-        }
+    public static FloatingActionButton getFAB() {
+        return fab;
     }
 
     // see collectionId variable above for TODO comment
@@ -158,23 +125,4 @@ public class Home extends AppCompatActivity {
      */
     public static void setDrawerOn(){drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);}
 
-    /**
-     * Starts the newCollectionFragment with no information populated.
-     */
-    public void startNewCollection(){
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        navController.navigate(R.id.action_nav_gallery_to_newCollectionFragment);
-    }
-
-    /**
-     * Starts the newItemFragment with no information populated
-     */
-    public void startNewItem(){
-        ItemListFragmentDirections.ActionItemListFragmentToNewItemFragment actionItemListFragmentToNewItemFragment =
-                ItemListFragmentDirections.actionItemListFragmentToNewItemFragment();
-        actionItemListFragmentToNewItemFragment.setCollectionID(collectionId);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        navController.navigate(actionItemListFragmentToNewItemFragment);
-    }
 }

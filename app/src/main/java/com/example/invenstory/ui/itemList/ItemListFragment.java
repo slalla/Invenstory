@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.ui.itemList.ItemListFragmentDirections.ActionItemListFragmentToViewItemFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 import java.io.File;
@@ -51,9 +53,8 @@ public class ItemListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        setAddItemFAB(Home.getFAB());
         Home.setFabOn();
-        //TODO this is a temp value please fix it in the next update
-        Home.setPageID(88);
 
         View root = inflater.inflate(R.layout.fragment_item_list, container, false);
         listView = root.findViewById(R.id.item_list_view2);
@@ -150,5 +151,27 @@ public class ItemListFragment extends Fragment {
         public <T extends ViewModel> T create(Class<T> modelClass) {
             return (T) new ItemListViewModel(mApplication, collectionId);
         }
+    }
+
+    public void setAddItemFAB(FloatingActionButton fab) {
+        fab.setImageResource(R.drawable.ic_add_black_24dp);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startNewItem();
+            }
+        });
+    }
+
+    /**
+     * Starts the newItemFragment with no information populated
+     */
+    public void startNewItem(){
+        ItemListFragmentDirections.ActionItemListFragmentToNewItemFragment actionItemListFragmentToNewItemFragment =
+                ItemListFragmentDirections.actionItemListFragmentToNewItemFragment();
+        actionItemListFragmentToNewItemFragment.setCollectionID(collectionId);
+
+        NavController navController = findNavController(this);
+        navController.navigate(actionItemListFragmentToNewItemFragment);
     }
 }

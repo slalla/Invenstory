@@ -16,12 +16,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Item;
 import com.example.invenstory.ui.collectionList.CollectionListFragmentDirections.ActionNavGalleryToItemListFragment;
 import com.example.invenstory.ui.collectionList.CollectionListFragmentDirections;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -43,8 +45,9 @@ public class CollectionListFragment extends Fragment {
     // TODO written by Paul: Insert Thumbnail photo for each collection
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        setAddCollectionFAB(Home.getFAB());
         Home.setFabOn();
-        Home.setPageID(1);
 
         // connecting files
         View root = inflater.inflate(R.layout.fragment_collection_list, container, false);
@@ -108,5 +111,23 @@ public class CollectionListFragment extends Fragment {
 
             return row;
         }
+    }
+
+    public void setAddCollectionFAB(FloatingActionButton fab) {
+        fab.setImageResource(R.drawable.ic_add_black_24dp);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startNewCollection();
+            }
+        });
+    }
+
+    /**
+     * Starts the newCollectionFragment with no information populated.
+     */
+    public void startNewCollection(){
+        NavController navController = findNavController(this);
+        navController.navigate(R.id.action_nav_gallery_to_newCollectionFragment);
     }
 }

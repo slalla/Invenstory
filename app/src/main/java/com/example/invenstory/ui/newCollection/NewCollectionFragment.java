@@ -25,8 +25,6 @@ import com.example.invenstory.model.Collection;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import static com.example.invenstory.Home.setPageID;
-
 public class NewCollectionFragment extends Fragment {
 
     private NewCollectionViewModel newCollectionViewModel;
@@ -39,17 +37,17 @@ public class NewCollectionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        setPageID(4);
-        Home.setFabOff();
+
+        Home.getFAB().setImageResource(R.drawable.ic_save_black_24dp);
+        Home.setFabOn();
 
         View root = inflater.inflate(R.layout.fragment_new_collection, container, false);
         TextInputEditText textEditInputLayout = root.findViewById(R.id.NameInput);
 
         textEditInputLayout.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
 
-        FloatingActionButton saveButton  = root.findViewById((R.id.floatingActionButton));
         // TODO written by Paul: User should not be able to save when required field isn't filled
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        Home.getFAB().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String name = textEditInputLayout.getText().toString();
@@ -105,6 +103,5 @@ public class NewCollectionFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         hideKeyboard(getActivity());
-        setPageID(1);
     }
 }
