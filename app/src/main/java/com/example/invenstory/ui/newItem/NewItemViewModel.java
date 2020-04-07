@@ -52,6 +52,10 @@ public class NewItemViewModel extends AndroidViewModel {
         filePaths.add(path);
         filePathsLive.setValue(filePaths);
     }
+    public void setFilePaths(ArrayList<String> itemFilePaths){
+        HashSet<String> hash = new HashSet<String>(itemFilePaths);
+        filePaths = hash;
+    }
 
     public LiveData<Set<String>> getFilePaths() {
         return filePathsLive;

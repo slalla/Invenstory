@@ -114,6 +114,26 @@ public class NewItemFragment extends Fragment {
         // image input gallery
         itemImageInputGallery = root.findViewById(R.id.imageInputGallery);
 
+        // TODO written by Paul: Decide input types for each input such as drop menu
+        // TODO written by Paul: Specific input type such as Location and Price
+        // TODO written by Paul: Decide which input can be optional / which other input is needed
+        TextInputEditText nameInput = root.findViewById(R.id.itemNameInput);
+        TextInputEditText conditionInput = root.findViewById(R.id.itemConditionInput);
+        TextInputEditText priceInput = root.findViewById(R.id.itemPriceInput);
+        TextInputEditText locationInput = root.findViewById(R.id.itemLocationInput);
+        // TODO written by Paul: Item object doesn't have description yet
+//        TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
+
+        if(itemId!=-1){
+            tempItem = newItemViewModel.getItem(collectionId,itemId);
+
+            nameInput.setText(tempItem.getName());
+            conditionInput.setText(tempItem.getCondition().ordinal()+"");
+            priceInput.setText(tempItem.getPrice());
+            locationInput.setText(tempItem.getLocation());
+            newItemViewModel.setFilePaths(tempItem.getPhotoFilePaths());
+        }
+
         // when new image gets added
         // TODO written by Paul: images should be able to get removed
         newItemViewModel.getFilePaths().observe(getViewLifecycleOwner(), filePaths -> {
@@ -160,24 +180,7 @@ public class NewItemFragment extends Fragment {
         // TODO written by Paul: Decide wether we want to use FAB for save button
         FloatingActionButton saveButton = root.findViewById(R.id.saveItem);
 
-        // TODO written by Paul: Decide input types for each input such as drop menu
-        // TODO written by Paul: Specific input type such as Location and Price
-        // TODO written by Paul: Decide which input can be optional / which other input is needed
-        TextInputEditText nameInput = root.findViewById(R.id.itemNameInput);
-        TextInputEditText conditionInput = root.findViewById(R.id.itemConditionInput);
-        TextInputEditText priceInput = root.findViewById(R.id.itemPriceInput);
-        TextInputEditText locationInput = root.findViewById(R.id.itemLocationInput);
-        // TODO writteb by Paul: Item object doesn't have description yet
-//        TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
 
-        if(itemId!=-1){
-            tempItem = newItemViewModel.getItem(collectionId,itemId);
-
-            nameInput.setText(tempItem.getName());
-            conditionInput.setText(tempItem.getCondition().ordinal()+"");
-            priceInput.setText(tempItem.getPrice());
-            locationInput.setText(tempItem.getLocation());
-        }
 
         //TODO save Item
         saveButton.setOnClickListener(new View.OnClickListener() {
