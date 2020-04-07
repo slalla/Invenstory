@@ -13,10 +13,13 @@
     <string name="menu_gallery">View Collection</string>
 
     <string name="home_header">Home</string>
-    <string name="share_header">Share</string>
-    <string name="send_header">Send</string>
+    <string name="share_collection_header">Share Collection</string>
+    <string name="import_item_header">Import Item</string>
+    <string name="import_collection_header">Import Collection</string>
+    <string name="share_item_header">Share Item</string>
     <string name="new_item_header">New Item</string>
     <string name ="new_collection_header">New Collection</string>
     <string name="view_item_header">View Item</string>
+    <string name="navTitle_communicate">Communicate</string>
 
 </resources>
