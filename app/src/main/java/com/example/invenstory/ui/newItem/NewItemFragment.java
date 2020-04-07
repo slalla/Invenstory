@@ -35,6 +35,7 @@ import com.example.invenstory.R;
 import com.example.invenstory.model.FileUtils;
 import com.example.invenstory.model.Item;
 import com.example.invenstory.ui.collectionList.CollectionListViewModel;
+import com.example.invenstory.ui.viewItem.ViewItemFragmentArgs;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -87,13 +88,25 @@ public class NewItemFragment extends Fragment {
     // check Home activity comment for TODO
     private int collectionId;
 
+    //
+    private int itemId;
+
+    private Item tempItem;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Home.setFabOff();
         //TODO change Temp page id
         Home.setPageID(-1);
-        collectionId = Home.getCollectionId();
+
+        collectionId = NewItemFragmentArgs.fromBundle(getArguments()).getCollectionID();
+        itemId = NewItemFragmentArgs.fromBundle(getArguments()).getItemID();
+
+        Log.i("This is a item ID", ""+itemId);
+
+        //TODO remove this
+        //collectionId = Home.getCollectionId();
 
         View root = inflater.inflate(R.layout.fragment_new_item, container, false);
         newItemViewModel = new ViewModelProvider(this).get(NewItemViewModel.class);
@@ -153,9 +166,18 @@ public class NewItemFragment extends Fragment {
         TextInputEditText nameInput = root.findViewById(R.id.itemNameInput);
         TextInputEditText conditionInput = root.findViewById(R.id.itemConditionInput);
         TextInputEditText priceInput = root.findViewById(R.id.itemPriceInput);
-        TextInputEditText locationInput = root.findViewById(R.id.itemConditionInput);
+        TextInputEditText locationInput = root.findViewById(R.id.itemLocationInput);
         // TODO writteb by Paul: Item object doesn't have description yet
 //        TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
+
+        if(itemId!=-1){
+            tempItem = newItemViewModel.getItem(collectionId,itemId);
+
+            nameInput.setText(tempItem.getName());
+            conditionInput.setText(tempItem.getCondition().ordinal()+"");
+            priceInput.setText(tempItem.getPrice());
+            locationInput.setText(tempItem.getLocation());
+        }
 
         //TODO save Item
         saveButton.setOnClickListener(new View.OnClickListener() {

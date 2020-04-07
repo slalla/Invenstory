@@ -10,12 +10,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.invenstory.db.asyncTasks.AddItemTask;
+import com.example.invenstory.db.asyncTasks.RetrieveItemTask;
 import com.example.invenstory.model.Item;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 public class NewItemViewModel extends AndroidViewModel {
 
@@ -54,4 +56,19 @@ public class NewItemViewModel extends AndroidViewModel {
     public LiveData<Set<String>> getFilePaths() {
         return filePathsLive;
     };
+
+    public Item getItem(int collectionId, int itemId){
+        Item item = null;
+        try {
+            RetrieveItemTask retrieveItemTask = new RetrieveItemTask(context);
+            retrieveItemTask.execute(collectionId, itemId);
+            item = retrieveItemTask.get();
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return item;
+    }
 }

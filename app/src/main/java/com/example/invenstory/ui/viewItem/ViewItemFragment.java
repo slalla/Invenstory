@@ -25,6 +25,7 @@ import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
+import com.example.invenstory.ui.collectionList.CollectionListFragmentDirections;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -74,9 +75,13 @@ public class ViewItemFragment extends Fragment {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO this button should start a new activity or fragment to update the current item, data should be passed through
+                ViewItemFragmentDirections.ActionViewItemFragmentToNewItemFragment actionViewItemFragmentToNewItemFragment =
+                        ViewItemFragmentDirections.actionViewItemFragmentToNewItemFragment();
+                actionViewItemFragmentToNewItemFragment.setCollectionID(collectionId);
+                actionViewItemFragmentToNewItemFragment.setItemID(itemId);
+
                 NavController navController = findNavController(ViewItemFragment.this);
-                navController.navigate(R.id.action_viewItemFragment_to_newItemFragment);
+                navController.navigate(actionViewItemFragmentToNewItemFragment);
             }
         });
 

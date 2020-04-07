@@ -64,7 +64,16 @@
     <fragment
         android:id="@+id/newItemFragment"
         android:name="com.example.invenstory.ui.newItem.NewItemFragment"
-        android:label="@string/new_item_header" />
+        android:label="@string/new_item_header" >
+        <argument
+            android:name="collectionID"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="itemID"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 
     <fragment
         android:id="@+id/viewItemFragment"

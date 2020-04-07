@@ -15,8 +15,15 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.invenstory.db.InvenstoryDbHelper;
+import com.example.invenstory.ui.itemList.ItemListFragmentArgs;
+import com.example.invenstory.ui.itemList.ItemListFragmentDirections;
+import com.example.invenstory.ui.newItem.NewItemFragment;
+import com.example.invenstory.ui.viewItem.ViewItemFragment;
+import com.example.invenstory.ui.viewItem.ViewItemFragmentDirections;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+
+import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
 /**
  * This class represents the Home Activity from which Invenstiry is launched.
@@ -163,7 +170,11 @@ public class Home extends AppCompatActivity {
      * Starts the newItemFragment with no information populated
      */
     public void startNewItem(){
+        ItemListFragmentDirections.ActionItemListFragmentToNewItemFragment actionItemListFragmentToNewItemFragment =
+                ItemListFragmentDirections.actionItemListFragmentToNewItemFragment();
+        actionItemListFragmentToNewItemFragment.setCollectionID(collectionId);
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        navController.navigate(R.id.action_itemListFragment_to_newItemFragment);
+        navController.navigate(actionItemListFragmentToNewItemFragment);
     }
 }
