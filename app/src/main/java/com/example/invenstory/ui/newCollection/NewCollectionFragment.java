@@ -39,7 +39,7 @@ public class NewCollectionFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        Home.getFAB().setImageResource(R.drawable.ic_save_black_24dp);
+        setSaveCollectionFAB(Home.getFAB());
         Home.setFabOn();
 
         View root = inflater.inflate(R.layout.fragment_new_collection, container, false);
@@ -123,6 +123,10 @@ public class NewCollectionFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         newCollectionViewModel = new ViewModelProvider (this).get(NewCollectionViewModel.class);
         // TODO: Use the ViewModel (I don't think I made this TODO so I'm not sure what it means)
+    }
+
+    public void setSaveCollectionFAB(FloatingActionButton fab) {
+        fab.setImageResource(R.drawable.ic_save_black_24dp);
     }
 
     @Override
