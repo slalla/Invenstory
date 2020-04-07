@@ -57,6 +57,7 @@ public class Home extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         fab = findViewById(R.id.fab);
+        setFabImage();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,6 +120,9 @@ public class Home extends AppCompatActivity {
      */
     public static void setPageID(int id){
         pageID = id;
+    }
+
+    private void setFabImage(){
         //TODO edit these temporary pageID values
         if(pageID==1||pageID == 88){
             fab.setImageResource(R.drawable.ic_add_black_24dp);

@@ -60,12 +60,13 @@ public class ViewItemFragment extends Fragment {
         Log.i("This is a collection: ", collection.getName());
 
 
-        //TODO make all these be information grabbed from the database
+
         String name = item.getName();
         String price = item.getPrice();
         String collectionName = collection.getName();
         String status = item.getStatusText();
         ArrayList<String> filePaths = item.getPhotoFilePaths();
+
         String purchase_info = "January 23rd 2020";
         String tag = "N/A";
 
