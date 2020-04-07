@@ -5,15 +5,12 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.invenstory.db.asyncTasks.RetrieveCollectionTask;
 import com.example.invenstory.db.asyncTasks.RetrieveItemTask;
 import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
 
-import java.util.HashSet;
 import java.util.concurrent.ExecutionException;
 
 public class ViewItemViewModel extends AndroidViewModel {

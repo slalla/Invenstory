@@ -1,7 +1,5 @@
 package com.example.invenstory.model;
 
-import android.os.Parcelable;
-
 import java.util.ArrayList;
 
 /**

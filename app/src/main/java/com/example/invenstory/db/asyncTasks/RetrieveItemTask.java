@@ -2,9 +2,7 @@ package com.example.invenstory.db.asyncTasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.example.invenstory.R;
 import com.example.invenstory.db.InvenstoryDbHelper;
 import com.example.invenstory.model.Item;
 

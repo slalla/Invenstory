@@ -25,18 +25,10 @@ import android.widget.Toast;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
-import com.example.invenstory.model.Collection;
-import com.example.invenstory.model.Item;
-import com.example.invenstory.ui.collectionList.CollectionListModel;
-import com.example.invenstory.ui.collectionList.CollectionListViewModel;
 import com.example.invenstory.ui.itemList.ItemListFragmentDirections.ActionItemListFragmentToViewItemFragment;
-import com.example.invenstory.ui.itemList.ItemListFragmentArgs;
-import com.example.invenstory.ui.itemList.ItemListFragmentDirections;
 
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
