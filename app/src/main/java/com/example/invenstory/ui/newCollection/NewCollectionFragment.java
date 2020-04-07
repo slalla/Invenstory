@@ -54,8 +54,14 @@ public class NewCollectionFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String name = nameInput.getText().toString();
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
+                boolean nameEnt = name != null && !name.equals("") && !name.isEmpty();
+                if (!nameEnt) {
+                    Toast.makeText(getContext(),
+                            "Sorry no value has been entered for name",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
                     builder.setCancelable(true);
                     builder.setMessage("You are adding a collection");
                     builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
@@ -78,6 +84,7 @@ public class NewCollectionFragment extends Fragment {
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 }
+            }
 
         });
         return root;
