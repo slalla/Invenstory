@@ -8,55 +8,33 @@
     tools:context=".ui.newCollection.NewCollectionFragment">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/descriptionInput"
-        android:layout_width="251dp"
-        android:layout_height="249dp"
-        android:layout_marginTop="91dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="270dp"
-        android:fadeScrollbars="true"
-        android:textAlignment="textStart"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/NameInput" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+        android:id="@+id/NameInput"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="212dp"
-        android:layout_marginEnd="316dp"
-        android:text="Description"
+        android:layout_marginTop="160dp"
+        android:hint="Name"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="88dp"
-        android:layout_marginEnd="316dp"
-        android:text="Name:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/NameInput"
-        android:layout_width="287dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="78dp"
-        android:layout_marginEnd="37dp"
-        android:textSize="14sp"
+        android:id="@+id/descriptionInput"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="true"
+        android:hint="Description"
+        android:inputType="textMultiLine"
+        android:lines="5"
+        android:overScrollMode="always"
+        android:scrollbars="vertical"
+        android:textAlignment="textStart"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NameInput"
+        app:layout_constraintVertical_bias="0.118" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
