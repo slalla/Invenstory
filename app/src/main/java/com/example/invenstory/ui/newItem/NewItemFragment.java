@@ -85,10 +85,7 @@ public class NewItemFragment extends Fragment {
 
     private NewItemViewModel newItemViewModel;
 
-    // check Home activity comment for TODO
     private int collectionId;
-
-    //
     private int itemId;
 
     private Item tempItem;
@@ -104,9 +101,6 @@ public class NewItemFragment extends Fragment {
         itemId = NewItemFragmentArgs.fromBundle(getArguments()).getItemID();
 
         Log.i("This is a item ID", ""+itemId);
-
-        //TODO remove this
-        //collectionId = Home.getCollectionId();
 
         View root = inflater.inflate(R.layout.fragment_new_item, container, false);
         newItemViewModel = new ViewModelProvider(this).get(NewItemViewModel.class);
@@ -168,9 +162,6 @@ public class NewItemFragment extends Fragment {
             }
         });
 
-        // TODO written by Paul: Decide wether we want to use FAB for save button
-        FloatingActionButton saveButton = root.findViewById(R.id.saveItem);
-
         if(itemId!=-1){
             tempItem = newItemViewModel.getItem(collectionId,itemId);
 
@@ -183,8 +174,7 @@ public class NewItemFragment extends Fragment {
             }
         }
 
-
-        //TODO save Item
+        FloatingActionButton saveButton = root.findViewById(R.id.saveItem);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

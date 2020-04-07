@@ -47,10 +47,9 @@ public class NewCollectionFragment extends Fragment {
 
         textEditInputLayout.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
 
-        FloatingActionButton fab2  = root.findViewById((R.id.floatingActionButton));
-
+        FloatingActionButton saveButton  = root.findViewById((R.id.floatingActionButton));
         // TODO written by Paul: User should not be able to save when required field isn't filled
-        fab2.setOnClickListener(new View.OnClickListener() {
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String name = textEditInputLayout.getText().toString();
