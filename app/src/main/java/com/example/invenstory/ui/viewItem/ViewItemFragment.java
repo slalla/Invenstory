@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Application;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,6 +27,10 @@ import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
+
+import java.io.File;
+import java.util.ArrayList;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
@@ -59,11 +65,10 @@ public class ViewItemFragment extends Fragment {
         String price = item.getPrice();
         String collectionName = collection.getName();
         String status = item.getStatusText();
+        ArrayList<String> filePaths = item.getPhotoFilePaths();
         String purchase_info = "January 23rd 2020";
         String tag = "N/A";
 
-        String image;
-        int imageId = R.mipmap.ic_watch;
         FloatingActionButton edit = root.findViewById(R.id.editButton);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +93,22 @@ public class ViewItemFragment extends Fragment {
         purchasePriceText.setText("Purchase Price: "+ price);
         purchaseDateText.setText("Purchase Date: " + purchase_info);
         tagsText.setText(tagsText.getText() + " " + tag);
+
+
+        ImageListener imageListener = new ImageListener() {
+            @Override
+            public void setImageForPosition(int position, ImageView imageView) {
+                File imgFile = new File(filePaths.get(position));
+
+                if(imgFile.exists()){
+                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                    imageView.setImageBitmap(myBitmap);
+                }
+            }
+        };
+
+        carouselView.setPageCount(filePaths.size());
+        carouselView.setImageListener(imageListener);
 
         return root;
 
