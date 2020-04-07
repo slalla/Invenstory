@@ -25,7 +25,6 @@ import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
-import com.example.invenstory.ui.collectionList.CollectionListFragmentDirections;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -48,7 +47,7 @@ public class ViewItemFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         Home.setFabOff();
-        View root=  inflater.inflate(R.layout.view_item_fragment, container, false);
+        View root=  inflater.inflate(R.layout.fragment_view_item, container, false);
 
         int collectionId = ViewItemFragmentArgs.fromBundle(getArguments()).getCollectionId();
         int itemId = ViewItemFragmentArgs.fromBundle(getArguments()).getItemId();

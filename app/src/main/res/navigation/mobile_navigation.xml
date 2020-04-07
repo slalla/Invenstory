@@ -79,7 +79,7 @@
         android:id="@+id/viewItemFragment"
         android:name="com.example.invenstory.ui.viewItem.ViewItemFragment"
         android:label="@string/view_item_header"
-        tools:layout="@layout/view_item_fragment" >
+        tools:layout="@layout/fragment_view_item" >
         <action
             android:id="@+id/action_viewItemFragment_to_newItemFragment"
             app:destination="@id/newItemFragment" />
