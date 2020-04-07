@@ -190,10 +190,51 @@ public class NewItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String name = nameInput.getText().toString();
-                int condition = Integer.parseInt(conditionInput.getText().toString());
                 String price = priceInput.getText().toString();
                 String location = locationInput.getText().toString();
-                openSaveDialog(name, condition, price, location);
+                int condition = -1;
+                String error = "";
+
+                boolean nameEnt = name!= null && !name.equals("") &&!name.isEmpty();
+                boolean priceEnt = price !=null && !price.equals("") &&!price.isEmpty();
+                boolean locationEnt = location !=null && !location.equals("") &&!location.isEmpty();
+                boolean conditionEnt = false;
+                try{
+                    condition = Integer.parseInt(conditionInput.getText().toString());
+                    if(condition >5 || condition<1){
+                        conditionEnt =false;
+                    }
+                    else{
+                        conditionEnt = true;
+                    }
+                } catch (NumberFormatException e) {
+                    conditionEnt = false;
+                }
+                finally{
+                    if(!nameEnt){
+                        Toast.makeText(getContext(),
+                                "Sorry no value has been entered for name",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else if(!priceEnt){
+                        Toast.makeText(getContext(),
+                                "Sorry no value has been entered for price",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else if(!locationEnt){
+                        Toast.makeText(getContext(),
+                                "Sorry no value has been entered for location",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else if(!conditionEnt){
+                        Toast.makeText(getContext(),
+                                "Sorry an invalid value has been entered for condition",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        openSaveDialog(name, condition, price, location);
+                    }
+                }
             }
         });
 
@@ -251,6 +292,7 @@ public class NewItemFragment extends Fragment {
                     Item tempItem = new Item(name, collectionId, condition, price, location, null);
                     tempItem.setItemId(itemId);
                     newItemViewModel.updateItem(tempItem);
+                    Toast.makeText(getActivity(), name + " was updated.", Toast.LENGTH_SHORT).show();
                 }
                 getActivity().onBackPressed();
             }
