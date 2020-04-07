@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
+import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -45,15 +46,21 @@ public class ViewItemFragment extends Fragment {
         int itemId = ViewItemFragmentArgs.fromBundle(getArguments()).getItemId();
 
         viewItemViewModel = new ViewModelProvider(this, new ViewItemViewModelFactory(getActivity().getApplication(), itemId, collectionId)).get(ViewItemViewModel.class);
+        Item item = viewItemViewModel.getItem();
+        Collection collection = viewItemViewModel.getCollection();
+
+        Log.i("This is an item: ", item.getName());
+        Log.i("This is a collection: ", collection.getName());
 
 
         //TODO make all these be information grabbed from the database
-        String name = "Seiko";
-        String price = "$999.99";
-        String collectionName = "Watches";
-        String status = "LOST";
+        String name = item.getName();
+        String price = item.getPrice();
+        String collectionName = collection.getName();
+        String status = item.getStatusText();
         String purchase_info = "January 23rd 2020";
-        String tag = "#Watch #Seiko";
+        String tag = "N/A";
+
         String image;
         int imageId = R.mipmap.ic_watch;
         FloatingActionButton edit = root.findViewById(R.id.editButton);

@@ -51,6 +51,7 @@ public class ItemListFragment extends Fragment {
     // refreshing list data
     public void onStart() {
         super.onStart();
+        Log.i("Blank text", "This is not working ");
         itemListViewModel.updateItemsList();
     }
 

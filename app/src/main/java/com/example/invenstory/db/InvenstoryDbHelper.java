@@ -193,16 +193,79 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
                         null);
 
                 item.setItemId(cursor.getInt(cursor.getColumnIndex(ItemContract.TABLE_ID)));
-
-                String joinedPaths = cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_PHOTOS));
-                ArrayList<String> paths = new ArrayList(Arrays.asList(joinedPaths.split(",")));
-                item.setPhotoFilePaths(paths);
+                try {
+                    String joinedPaths = cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_PHOTOS));
+                    ArrayList<String> paths = new ArrayList(Arrays.asList(joinedPaths.split(",")));
+                    item.setPhotoFilePaths(paths);
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                    item.setPhotoFilePaths(null);
+                }
                 items.add(item);
             }
             cursor.moveToNext();
         }
         db.close();
         return items;
+    }
+
+    public Item getItem(int collectionId, int itemId){
+        Item item = null;
+        SQLiteDatabase db = getWritableDatabase();
+
+        String query = "SELECT * FROM " + ItemContract.TABLE_NAME +
+                " WHERE " + ItemContract.COLUMN_COLLECTION + " = " + collectionId + " and " + ItemContract.TABLE_ID + "=" +itemId;
+
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            if (cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_NAME)) != null) {
+                item = new Item(cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_NAME)),
+                        cursor.getInt(cursor.getColumnIndex(ItemContract.COLUMN_COLLECTION)),
+                        cursor.getInt(cursor.getColumnIndex(ItemContract.COLUMN_CONDITION)),
+                        cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_PRICE)),
+                        cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_LOCATION)),
+                        null);
+
+                item.setItemId(cursor.getInt(cursor.getColumnIndex(ItemContract.TABLE_ID)));
+                try {
+                    String joinedPaths = cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_PHOTOS));
+                    ArrayList<String> paths = new ArrayList(Arrays.asList(joinedPaths.split(",")));
+                    item.setPhotoFilePaths(paths);
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                    item.setPhotoFilePaths(null);
+                }
+            }
+            cursor.moveToNext();
+        }
+        db.close();
+        return item;
+    }
+
+    public Collection getCollection(int collectionId){
+        Collection collection = null;
+        SQLiteDatabase db = getWritableDatabase();
+
+        String query = "SELECT * FROM " + CollectionContract.TABLE_NAME +
+                " WHERE " + CollectionContract.TABLE_ID + " = " + collectionId;
+
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            if (cursor.getString(cursor.getColumnIndex(CollectionContract.COLUMN_NAME)) != null) {
+                collection = new Collection(cursor.getString(cursor.getColumnIndex(CollectionContract.COLUMN_NAME)),
+                        cursor.getColumnIndex(CollectionContract.TABLE_ID));
+
+                collection.setId(cursor.getInt(cursor.getColumnIndex(CollectionContract.TABLE_ID)));
+
+            }
+            cursor.moveToNext();
+        }
+        db.close();
+        return collection;
     }
 
     public ArrayList<Collection> getCollections() {
@@ -229,7 +292,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
     }
 
     public int insertFromFile(Context context, int resId) {
-
+        Log.i(" This shouldn't be running", "Who called us???");
         //Insert statement count
         int result = 0;
 
