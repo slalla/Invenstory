@@ -98,7 +98,7 @@ public class NewItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Home.getFAB().setImageResource(R.drawable.ic_save_black_24dp);
+        setSaveItemFAB(Home.getFAB());
         Home.setFabOn();
 
         collectionId = NewItemFragmentArgs.fromBundle(getArguments()).getCollectionID();
@@ -460,6 +460,10 @@ public class NewItemFragment extends Fragment {
     private String pathFinder(Uri uri){
         FileUtils fileUtils = new FileUtils(getActivity());
         return fileUtils.getPath(uri);
+    }
+
+    public void setSaveItemFAB(FloatingActionButton fab) {
+        fab.setImageResource(R.drawable.ic_save_black_24dp);
     }
 
     public void hideKeyboard(Activity activity) {

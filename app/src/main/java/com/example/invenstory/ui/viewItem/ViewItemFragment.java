@@ -9,6 +9,7 @@ import android.app.Application;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -53,7 +54,8 @@ public class ViewItemFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        Home.setFabOff();
+        setEditItemFAB(Home.getFAB());
+        Home.setFabOn();
         View root=  inflater.inflate(R.layout.fragment_view_item, container, false);
 
         int collectionId = ViewItemFragmentArgs.fromBundle(getArguments()).getCollectionId();
@@ -76,8 +78,7 @@ public class ViewItemFragment extends Fragment {
         String purchase_info = "January 23rd 2020";
         String tag = "N/A";
 
-        FloatingActionButton editButton = root.findViewById(R.id.editButton);
-        editButton.setOnClickListener(new View.OnClickListener() {
+        Home.getFAB().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ViewItemFragmentDirections.ActionViewItemFragmentToNewItemFragment actionViewItemFragmentToNewItemFragment =
@@ -187,6 +188,11 @@ public class ViewItemFragment extends Fragment {
         public <T extends ViewModel> T create(Class<T> modelClass) {
             return (T) new ViewItemViewModel(mApplication, itemId, collectionId);
         }
+    }
+
+    // TODO written by Paul: Need to change color as well
+    public void setEditItemFAB(FloatingActionButton fab) {
+        fab.setImageResource(R.drawable.ic_edit_black_24dp);
     }
 
 }
