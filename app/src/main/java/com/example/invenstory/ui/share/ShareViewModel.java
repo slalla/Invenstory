@@ -10,9 +10,12 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.invenstory.db.asyncTasks.DeleteCollectionTask;
+import com.example.invenstory.db.asyncTasks.RetrieveCollectionTask;
 import com.example.invenstory.db.asyncTasks.RetrieveCollectionsTask;
+import com.example.invenstory.db.asyncTasks.RetrieveItemsTask;
 import com.example.invenstory.db.asyncTasks.UpdateCollectionTask;
 import com.example.invenstory.model.Collection;
+import com.example.invenstory.model.Item;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -45,5 +48,32 @@ public class ShareViewModel extends AndroidViewModel {
 
     public LiveData<ArrayList<Collection>> getCollectionList() {
         return collectionListLive;
+    }
+
+    public Collection getCollection(int collectionID){
+        Collection result = null;
+        try {
+            RetrieveCollectionTask retrieveCollectionTask = new RetrieveCollectionTask(context);
+            retrieveCollectionTask.execute(collectionID);
+            result = retrieveCollectionTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    public ArrayList<Item> getItemsFromCollection(int collectionID){
+        ArrayList<Item> results = null;
+        try{
+            RetrieveItemsTask retrieveItemsTask = new RetrieveItemsTask(context);
+            retrieveItemsTask.execute(collectionID);
+            results = retrieveItemsTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return results;
     }
 }
