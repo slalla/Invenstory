@@ -24,6 +24,7 @@ import com.example.invenstory.R;
 import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.synnapps.carouselview.CarouselView;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
@@ -79,8 +80,7 @@ public class ViewItemFragment extends Fragment {
         TextView purchasePriceText = root.findViewById(R.id.textPurchasePrice);
         TextView purchaseDateText = root.findViewById(R.id.textPurchaseDate);
         TextView tagsText = root.findViewById(R.id.textTags);
-
-        ImageView imageImageView = root.findViewById(R.id.imageItemPicture);
+        CarouselView carouselView = root.findViewById(R.id.viewItemCarousel);
 
         nameText.setText(nameText.getText()+" " + name);
         statusText.setText(statusText.getText() + " " + status);
@@ -89,7 +89,6 @@ public class ViewItemFragment extends Fragment {
         purchaseDateText.setText("Purchase Date: " + purchase_info);
         tagsText.setText(tagsText.getText() + " " + tag);
 
-        imageImageView.setImageResource(imageId);
         return root;
 
     }
