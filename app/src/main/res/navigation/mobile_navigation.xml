@@ -30,13 +30,13 @@
     <fragment
         android:id="@+id/nav_share"
         android:name="com.example.invenstory.ui.share.ShareFragment"
-        android:label="@string/share_header"
+        android:label="@string/share_collection_header"
         tools:layout="@layout/fragment_share" />
 
     <fragment
         android:id="@+id/nav_send"
         android:name="com.example.invenstory.ui.send.SendFragment"
-        android:label="@string/send_header"
+        android:label="@string/share_item_header"
         tools:layout="@layout/fragment_send" />
 
     <fragment
@@ -64,7 +64,16 @@
     <fragment
         android:id="@+id/newItemFragment"
         android:name="com.example.invenstory.ui.newItem.NewItemFragment"
-        android:label="@string/new_item_header" />
+        android:label="@string/new_item_header" >
+        <argument
+            android:name="collectionID"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="itemID"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 
     <fragment
         android:id="@+id/viewItemFragment"

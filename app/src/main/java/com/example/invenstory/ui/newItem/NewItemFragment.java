@@ -35,6 +35,7 @@ import com.example.invenstory.R;
 import com.example.invenstory.model.FileUtils;
 import com.example.invenstory.model.Item;
 import com.example.invenstory.ui.collectionList.CollectionListViewModel;
+import com.example.invenstory.ui.viewItem.ViewItemFragmentArgs;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -87,19 +88,42 @@ public class NewItemFragment extends Fragment {
     // check Home activity comment for TODO
     private int collectionId;
 
+    //
+    private int itemId;
+
+    private Item tempItem;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Home.setFabOff();
         //TODO change Temp page id
         Home.setPageID(-1);
-        collectionId = Home.getCollectionId();
+
+        collectionId = NewItemFragmentArgs.fromBundle(getArguments()).getCollectionID();
+        itemId = NewItemFragmentArgs.fromBundle(getArguments()).getItemID();
+
+        Log.i("This is a item ID", ""+itemId);
+
+        //TODO remove this
+        //collectionId = Home.getCollectionId();
 
         View root = inflater.inflate(R.layout.fragment_new_item, container, false);
         newItemViewModel = new ViewModelProvider(this).get(NewItemViewModel.class);
 
         // image input gallery
         itemImageInputGallery = root.findViewById(R.id.imageInputGallery);
+
+        // TODO written by Paul: Decide input types for each input such as drop menu
+        // TODO written by Paul: Specific input type such as Location and Price
+        // TODO written by Paul: Decide which input can be optional / which other input is needed
+        TextInputEditText nameInput = root.findViewById(R.id.itemNameInput);
+        TextInputEditText conditionInput = root.findViewById(R.id.itemConditionInput);
+        TextInputEditText priceInput = root.findViewById(R.id.itemPriceInput);
+        TextInputEditText locationInput = root.findViewById(R.id.itemLocationInput);
+        // TODO written by Paul: Item object doesn't have description yet
+//        TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
+
 
         // when new image gets added
         // TODO written by Paul: images should be able to get removed
@@ -147,15 +171,18 @@ public class NewItemFragment extends Fragment {
         // TODO written by Paul: Decide wether we want to use FAB for save button
         FloatingActionButton saveButton = root.findViewById(R.id.saveItem);
 
-        // TODO written by Paul: Decide input types for each input such as drop menu
-        // TODO written by Paul: Specific input type such as Location and Price
-        // TODO written by Paul: Decide which input can be optional / which other input is needed
-        TextInputEditText nameInput = root.findViewById(R.id.itemNameInput);
-        TextInputEditText conditionInput = root.findViewById(R.id.itemConditionInput);
-        TextInputEditText priceInput = root.findViewById(R.id.itemPriceInput);
-        TextInputEditText locationInput = root.findViewById(R.id.itemConditionInput);
-        // TODO writteb by Paul: Item object doesn't have description yet
-//        TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
+        if(itemId!=-1){
+            tempItem = newItemViewModel.getItem(collectionId,itemId);
+
+            nameInput.setText(tempItem.getName());
+            conditionInput.setText(tempItem.getCondition().ordinal()+"");
+            priceInput.setText(tempItem.getPrice());
+            locationInput.setText(tempItem.getLocation());
+            for(String path:tempItem.getPhotoFilePaths()){
+                newItemViewModel.updateFilePaths(path);
+            }
+        }
+
 
         //TODO save Item
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -214,8 +241,16 @@ public class NewItemFragment extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.i("Name: ", "You clicked good button");
                 // id input in the parameter here is irrelevant
-                newItemViewModel.insertItem(new Item(name, collectionId, condition, price, location, null));
-                Toast.makeText(getActivity(), name + " added to your list.", Toast.LENGTH_SHORT).show();
+                //TODO check if item already exists
+                if(itemId ==-1) {
+                    newItemViewModel.insertItem(new Item(name, collectionId, condition, price, location, null));
+                    Toast.makeText(getActivity(), name + " added to your list.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Item tempItem = new Item(name, collectionId, condition, price, location, null);
+                    tempItem.setItemId(itemId);
+                    newItemViewModel.updateItem(tempItem);
+                }
                 getActivity().onBackPressed();
             }
         });
@@ -311,7 +346,6 @@ public class NewItemFragment extends Fragment {
     }
 
 
-    // TODO written by Paul: There are many bugs such as filepaths saving when it's not suppose to
     /**
      * This method is called after the startActvityForResult method is called.
      * This method currently acts on REQEUST_GALLERY and REQUEST_IMAGE_CAPTURE
@@ -322,7 +356,7 @@ public class NewItemFragment extends Fragment {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == REQUEST_GALLERY) {
+        if(requestCode == REQUEST_GALLERY && resultCode == Activity.RESULT_OK) {
             //multiple images are selected
             if(data.getClipData()!=null) {
                 ClipData imagesInfo = data.getClipData();
@@ -363,7 +397,7 @@ public class NewItemFragment extends Fragment {
             }
         }
         //This will add the current photo path if its valid
-        else if(requestCode == REQUEST_CAPTURE_IMAGE){
+        else if(requestCode == REQUEST_CAPTURE_IMAGE && resultCode == Activity.RESULT_OK){
             Uri imageLoc = Uri.fromFile(new File(currentPhotoPath));
             Log.i("", "Here is a path " + pathFinder(imageLoc));
             //changes the uri to a filepath

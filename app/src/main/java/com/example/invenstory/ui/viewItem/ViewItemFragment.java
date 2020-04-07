@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Application;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,8 +23,15 @@ import android.widget.TextView;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
+import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
+import com.example.invenstory.ui.collectionList.CollectionListFragmentDirections;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
+
+import java.io.File;
+import java.util.ArrayList;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
@@ -45,24 +54,34 @@ public class ViewItemFragment extends Fragment {
         int itemId = ViewItemFragmentArgs.fromBundle(getArguments()).getItemId();
 
         viewItemViewModel = new ViewModelProvider(this, new ViewItemViewModelFactory(getActivity().getApplication(), itemId, collectionId)).get(ViewItemViewModel.class);
+        Item item = viewItemViewModel.getItem();
+        Collection collection = viewItemViewModel.getCollection();
+
+        Log.i("This is an item: ", item.getName());
+        Log.i("This is a collection: ", collection.getName());
 
 
-        //TODO make all these be information grabbed from the database
-        String name = "Seiko";
-        String price = "$999.99";
-        String collectionName = "Watches";
-        String status = "LOST";
+
+        String name = item.getName();
+        String price = item.getPrice();
+        String collectionName = collection.getName();
+        String status = item.getStatusText();
+        ArrayList<String> filePaths = item.getPhotoFilePaths();
+
         String purchase_info = "January 23rd 2020";
-        String tag = "#Watch #Seiko";
-        String image;
-        int imageId = R.mipmap.ic_watch;
+        String tag = "N/A";
+
         FloatingActionButton edit = root.findViewById(R.id.editButton);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO this button should start a new activity or fragment to update the current item, data should be passed through
+                ViewItemFragmentDirections.ActionViewItemFragmentToNewItemFragment actionViewItemFragmentToNewItemFragment =
+                        ViewItemFragmentDirections.actionViewItemFragmentToNewItemFragment();
+                actionViewItemFragmentToNewItemFragment.setCollectionID(collectionId);
+                actionViewItemFragmentToNewItemFragment.setItemID(itemId);
+
                 NavController navController = findNavController(ViewItemFragment.this);
-                navController.navigate(R.id.action_viewItemFragment_to_newItemFragment);
+                navController.navigate(actionViewItemFragmentToNewItemFragment);
             }
         });
 
@@ -72,8 +91,7 @@ public class ViewItemFragment extends Fragment {
         TextView purchasePriceText = root.findViewById(R.id.textPurchasePrice);
         TextView purchaseDateText = root.findViewById(R.id.textPurchaseDate);
         TextView tagsText = root.findViewById(R.id.textTags);
-
-        ImageView imageImageView = root.findViewById(R.id.imageItemPicture);
+        CarouselView carouselView = root.findViewById(R.id.viewItemCarousel);
 
         nameText.setText(nameText.getText()+" " + name);
         statusText.setText(statusText.getText() + " " + status);
@@ -82,7 +100,22 @@ public class ViewItemFragment extends Fragment {
         purchaseDateText.setText("Purchase Date: " + purchase_info);
         tagsText.setText(tagsText.getText() + " " + tag);
 
-        imageImageView.setImageResource(imageId);
+
+        ImageListener imageListener = new ImageListener() {
+            @Override
+            public void setImageForPosition(int position, ImageView imageView) {
+                File imgFile = new File(filePaths.get(position));
+
+                if(imgFile.exists()){
+                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                    imageView.setImageBitmap(myBitmap);
+                }
+            }
+        };
+
+        carouselView.setPageCount(filePaths.size());
+        carouselView.setImageListener(imageListener);
+
         return root;
 
     }

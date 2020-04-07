@@ -5,12 +5,13 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
+import com.example.invenstory.db.asyncTasks.RetrieveCollectionTask;
+import com.example.invenstory.db.asyncTasks.RetrieveItemTask;
+import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
 
-import java.util.HashSet;
+import java.util.concurrent.ExecutionException;
 
 public class ViewItemViewModel extends AndroidViewModel {
 
@@ -32,5 +33,34 @@ public class ViewItemViewModel extends AndroidViewModel {
 
     public int getItemId() {
         return this.itemId;
+    }
+
+    public Item getItem() {
+        Item item = null;
+        try {
+            RetrieveItemTask retrieveItemTask = new RetrieveItemTask(context);
+            retrieveItemTask.execute(collectionId, itemId);
+            item = retrieveItemTask.get();
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return item;
+    }
+
+    public Collection getCollection(){
+        Collection collection = null;
+        try {
+            RetrieveCollectionTask retrieveCollectionTask = new RetrieveCollectionTask(context);
+            retrieveCollectionTask.execute(collectionId);
+            collection = retrieveCollectionTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return collection;
     }
 }

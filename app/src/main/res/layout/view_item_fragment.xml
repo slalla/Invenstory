@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="ui.viewItem.ViewItemFragment">
 
-    <ImageView
+   <!--><ImageView
         android:id="@+id/imageItemPicture"
         android:layout_width="282dp"
         android:layout_height="261dp"
@@ -18,20 +18,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_home_black_24dp" />
+        app:srcCompat="@drawable/ic_home_black_24dp" /> -->
 
     <TextView
         android:id="@+id/textName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="317dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="337dp"
         android:text="Name:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewItemCarousel" />
+
+    <com.synnapps.carouselview.CarouselView
+        android:id="@+id/viewItemCarousel"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="452dp"
+        app:autoPlay="false"
+        app:fillColor="#FFFFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageItemPicture" />
+        app:pageColor="#00000000"
+        app:radius="6dp"
+        app:slideInterval="3000"
+        app:strokeColor="#FF777777"
+        app:strokeWidth="1dp" />
 
     <TextView
         android:id="@+id/textStatus"
@@ -50,8 +66,8 @@
         android:id="@+id/textCollection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="24dp"
         android:text="Collection: "
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -101,12 +117,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="336dp"
-        android:layout_marginTop="311dp"
+        android:layout_marginTop="377dp"
         android:layout_marginBottom="19dp"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageItemPicture"
+        app:layout_constraintTop_toBottomOf="@+id/viewItemCarousel"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,18 +14,29 @@
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_gallery" />
+
+        <!-- TODO Sean use these so that a user can select a file to import files
+        <item
+            android:id ="@+id/nav_import_collection"
+            android:icon ="@drawable/ic_edit_black_24dp"
+            android:title ="@string/import_collection_header"/>
+        <item
+            android:id ="@+id/nav_import_item"
+            android:icon ="@drawable/ic_edit_black_24dp"
+            android:title ="@string/import_item_header"/>
+            -->
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/navTitle_communicate">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="@string/share_header" />
+                android:title="@string/share_collection_header" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:title="@string/send_header" />
+                android:title="@string/share_item_header" />
         </menu>
     </item>
 

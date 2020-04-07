@@ -8,17 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
+
 
 import com.example.invenstory.db.asyncTasks.DeleteItemTask;
 import com.example.invenstory.db.asyncTasks.RetrieveItemsTask;
 import com.example.invenstory.db.asyncTasks.UpdateItemTask;
 import com.example.invenstory.model.Item;
-import com.example.invenstory.ui.collectionList.CollectionListViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class ItemListViewModel extends AndroidViewModel {
@@ -45,6 +42,7 @@ public class ItemListViewModel extends AndroidViewModel {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Log.i("This ", "Still not working " + items.size());
         itemListLive.setValue(items);
     }
 
