@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -190,9 +191,9 @@ public class ViewItemFragment extends Fragment {
         }
     }
 
-    // TODO written by Paul: Need to change color as well
     public void setEditItemFAB(FloatingActionButton fab) {
         fab.setImageResource(R.drawable.ic_edit_black_24dp);
+        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F2486A")));
     }
 
 }
