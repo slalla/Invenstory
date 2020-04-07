@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.AlertDialog;
 import android.app.Application;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -16,10 +18,14 @@ import androidx.navigation.NavController;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
@@ -37,6 +43,7 @@ import static androidx.navigation.fragment.NavHostFragment.findNavController;
 public class ViewItemFragment extends Fragment {
 
     private ViewItemViewModel viewItemViewModel;
+    private Menu viewItemMenu;
 
     public static ViewItemFragment newInstance() {
         return new ViewItemFragment();
@@ -99,6 +106,7 @@ public class ViewItemFragment extends Fragment {
         purchaseDateText.setText("Purchase Date: " + purchase_info);
         tagsText.setText(tagsText.getText() + " " + tag);
 
+        setHasOptionsMenu(true);
 
         ImageListener imageListener = new ImageListener() {
             @Override
@@ -124,6 +132,45 @@ public class ViewItemFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         viewItemViewModel = ViewModelProviders.of(this).get(ViewItemViewModel.class);
         // TODO: Use the ViewModel
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        viewItemMenu = menu;
+        inflater.inflate(R.menu.view_item_menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        Log.i("This deletes", "deleted "+id);
+        if(id == 2131230781){
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setCancelable(true);
+            builder.setMessage("Do you want to delete this Item?");
+            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Log.i("Name: ", "You clicked good button");
+
+                    String name = viewItemViewModel.getItem().getName();
+                    viewItemViewModel.deleteItem();
+                    Toast.makeText(getActivity(), name + " was deleted.", Toast.LENGTH_SHORT).show();
+                    getActivity().onBackPressed();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Log.i("Name: ", "You clicked cancel button");
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public class ViewItemViewModelFactory implements ViewModelProvider.Factory {

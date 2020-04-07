@@ -6,6 +6,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.example.invenstory.db.asyncTasks.DeleteItemTask;
 import com.example.invenstory.db.asyncTasks.RetrieveCollectionTask;
 import com.example.invenstory.db.asyncTasks.RetrieveItemTask;
 import com.example.invenstory.model.Collection;
@@ -62,5 +63,20 @@ public class ViewItemViewModel extends AndroidViewModel {
             e.printStackTrace();
         }
         return collection;
+    }
+
+    public long deleteItem(){
+        Item item = getItem();
+        long result = 0;
+        DeleteItemTask deleteItemTask = new DeleteItemTask(context);
+        try{
+            deleteItemTask.execute(item);
+            result = deleteItemTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
