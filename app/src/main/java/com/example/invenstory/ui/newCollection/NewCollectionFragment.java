@@ -155,6 +155,8 @@ public class NewCollectionFragment extends Fragment {
 
     public void setSaveCollectionFAB(FloatingActionButton fab) {
         fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#009688")));
+        Home.setFabOff();
+        Home.setFabOn();
         fab.setImageResource(R.drawable.ic_save_black_24dp);
     }
 

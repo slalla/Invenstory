@@ -170,14 +170,21 @@ public class CollectionListFragment extends Fragment {
                     // remove edit icon if there's more than one selected
                     // only one item is editable at a time
                     MenuItem edit = actionModeMenu.findItem(R.id.collection_edit);
-                    if (userSelection.size() > 1) {
+                    //TODO fix edit for collection currently does not edit the collection
+                    // only creates a new one. When fixed changed condition to be >1
+                    if (userSelection.size() >= 1) {
                         edit.setVisible(false);
                     } else {
                         edit.setVisible(true);
                     }
 
                     // setting title
-                    CollectionListFragment.actionMode.setTitle(userSelection.size() + " collection selected...");
+                    if (userSelection.size() > 1) {
+                        CollectionListFragment.actionMode.setTitle(userSelection.size() + " collections selected...");
+                    }
+                    else {
+                        CollectionListFragment.actionMode.setTitle(userSelection.size() + " collection selected...");
+                    }
                 }
             });
 
@@ -308,5 +315,7 @@ public class CollectionListFragment extends Fragment {
     public void startNewCollection(){
         NavController navController = findNavController(this);
         navController.navigate(R.id.action_nav_gallery_to_newCollectionFragment);
+        Home.setFabOff();
+        Home.setFabOn();
     }
 }

@@ -198,6 +198,8 @@ public class ViewItemFragment extends Fragment {
     public void setEditItemFAB(FloatingActionButton fab) {
         fab.setImageResource(R.drawable.ic_edit_black_24dp);
         fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F2486A")));
+        Home.setFabOff();
+        Home.setFabOn();
     }
 
 }
