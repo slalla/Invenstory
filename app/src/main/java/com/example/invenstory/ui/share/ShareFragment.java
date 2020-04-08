@@ -1,6 +1,10 @@
 package com.example.invenstory.ui.share;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -11,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -22,6 +27,7 @@ import androidx.navigation.NavController;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
+import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
 import com.example.invenstory.ui.collectionList.CollectionListFragment;
 import com.example.invenstory.ui.collectionList.CollectionListFragmentDirections;
@@ -44,6 +50,7 @@ public class ShareFragment extends Fragment {
 
     private ListView listView;
     private ArrayList<Item> collection;
+    Uri curFile;
 
     // refreshing list data
     public void onStart() {
@@ -78,15 +85,46 @@ public class ShareFragment extends Fragment {
 
             listView.setOnItemClickListener((parent, view, position, id) -> {
                 int collectionId = mCollectionId[position];
-                //TODO send email to self of file.
-                try{
-                    File export = createExportFile();
-                    PrintWriter printWriter = new PrintWriter(export);
-                    printWriter.println("TEST");
-                    printWriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
+                builder.setCancelable(true);
+                builder.setMessage("How would you like to share this Collection?");
+                builder.setPositiveButton("Email", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Log.i("Name: ", "You clicked good button");
+                        //TODO delete file after sending
+                        try {
+                            File export = createExportFile();
+                            writeFile(export, collectionId);
+
+                            Intent intent = new Intent(Intent.ACTION_SENDTO);
+                            intent.setData(Uri.parse("mailto:"));
+
+
+                            intent.putExtra(Intent.EXTRA_SUBJECT, "Invenstory Collection Shared");
+                            intent.putExtra(Intent.EXTRA_TEXT,
+                                    "A collection has been sent to you in the file above., Please import it using your app.");
+                            intent.putExtra(Intent.EXTRA_STREAM, curFile);
+
+                            if (intent.resolveActivity(getActivity().getPackageManager())!=null)
+                            {
+                                startActivity(intent);
+                            }
+                        }
+                        catch(IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Log.i("Name: ", "You clicked bad button");
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             });
         });
 
@@ -94,15 +132,47 @@ public class ShareFragment extends Fragment {
         return root;
     }
 
+    private void writeFile(File export, int collectionId) throws IOException{
+        PrintWriter printWriter = new PrintWriter(export);
+        String collection_query = "INSERT INTO collections(collection_id, name, description) VALUES (";
+        String item_query = "INSERT INTO items(item_id, name, condition, price, location, init_date, picture_file_paths, collection_id, description) VALUES (";
+
+        Collection writeCol = shareViewModel.getCollection(collectionId);
+
+        String writeToFile = collection_query;
+        writeToFile += writeCol.getId() + ",";
+        writeToFile += "\""+writeCol.getName() + "\",";
+        writeToFile += "\"" +writeCol.getDescription() + "\");";
+        printWriter.println(writeToFile);
+
+        ArrayList<Item> list =shareViewModel.getItemsFromCollection(collectionId);
+
+        for(Item writeItem: list){
+            writeToFile = item_query;
+            writeToFile += writeItem.getItemId() +", ";
+            writeToFile += "\"" + writeItem.getName() + "\", ";
+            writeToFile += writeItem.getCondition().ordinal() + ", ";
+            writeToFile += "\""+ writeItem.getPrice() + "\",";
+            writeToFile += "\""+ writeItem.getLocation() +"\", ";
+            writeToFile += "\""+ writeItem.getDate() + "\", ";
+            writeToFile += "\"\",";
+            writeToFile += writeItem.getCollectionID() + ",";
+            writeToFile += "\""+writeItem.getDescription() +"\");";
+            printWriter.println(writeToFile);
+        }
+        printWriter.close();
+    }
+
     private File createExportFile() throws IOException {
         // Create an export file name
         String timeStamp = new SimpleDateFormat(TIME_STAMP_FORMAT).format(new Date());
-        String imageFileName = "EXPORT_" + timeStamp + "_";
+        String exportFileName = "EXPORT_" + timeStamp + "_";
         File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
         File export = new File(storageDir,
-                imageFileName+  // prefix
+                exportFileName+  // prefix
                 ".sql"   // suffix
         );
+        curFile = Uri.fromFile(export);
         return export;
     }
 
