@@ -70,7 +70,7 @@ public class ShareCollectionFragment extends Fragment {
                 images[i] = R.drawable.ic_menu_gallery;
             }
 
-            ShareCollectionFragment.MyAdapter adapter = new ShareCollectionFragment.MyAdapter(getActivity(), mCollectionName, mCollectionId, images);
+            ShareCollectionFragment.MyAdapter adapter = new ShareCollectionFragment.MyAdapter(getActivity(), mCollectionName, images);
             listView.setAdapter(adapter);
 
             listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -169,14 +169,12 @@ public class ShareCollectionFragment extends Fragment {
     class MyAdapter extends ArrayAdapter<String> {
         Context context;
         String[] rCollectionName;
-        int[] rCollectionId;
         int[] rImgs;
 
-        MyAdapter (Context c, String[] collectionName, int[] collectionId, int[] imgs) {
+        MyAdapter (Context c, String[] collectionName, int[] imgs) {
             super(c, R.layout.collection_row, collectionName);
             this.context = c;
             this.rCollectionName = collectionName;
-            this.rCollectionId = collectionId;
             this.rImgs = imgs;
         }
 
@@ -187,11 +185,9 @@ public class ShareCollectionFragment extends Fragment {
             View row = layoutInflater.inflate(R.layout.collection_row, parent, false);
             ImageView images = row.findViewById(R.id.collection_image);
             TextView name = row.findViewById(R.id.collection_name_view);
-            TextView Id = row.findViewById(R.id.collection_id_view);
 
             images.setImageResource(rImgs[position]);
             name.setText(rCollectionName[position]);
-            Id.setText(rCollectionId[position]+"");
 
             return row;
         }

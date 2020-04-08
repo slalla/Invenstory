@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
