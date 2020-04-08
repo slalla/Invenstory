@@ -86,6 +86,7 @@ public class ViewItemFragment extends Fragment {
                         ViewItemFragmentDirections.actionViewItemFragmentToNewItemFragment();
                 actionViewItemFragmentToNewItemFragment.setCollectionID(collectionId);
                 actionViewItemFragmentToNewItemFragment.setItemID(itemId);
+                actionViewItemFragmentToNewItemFragment.setEditFlag(1);
 
                 NavController navController = findNavController(ViewItemFragment.this);
                 navController.navigate(actionViewItemFragmentToNewItemFragment);

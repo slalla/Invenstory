@@ -73,6 +73,10 @@
             android:name="itemID"
             app:argType="integer"
             android:defaultValue="-1" />
+        <argument
+            android:name="editFlag"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 
     <fragment

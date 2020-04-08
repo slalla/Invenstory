@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -126,6 +128,7 @@ public class NewCollectionFragment extends Fragment {
     }
 
     public void setSaveCollectionFAB(FloatingActionButton fab) {
+        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#009688")));
         fab.setImageResource(R.drawable.ic_save_black_24dp);
     }
 

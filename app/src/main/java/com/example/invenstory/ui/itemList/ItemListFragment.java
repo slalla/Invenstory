@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -201,6 +203,7 @@ public class ItemListFragment extends Fragment {
 
     public void setAddItemFAB(FloatingActionButton fab) {
         fab.setImageResource(R.drawable.ic_add_black_24dp);
+        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#009688")));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

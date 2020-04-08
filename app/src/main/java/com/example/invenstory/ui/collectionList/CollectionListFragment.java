@@ -1,6 +1,8 @@
 package com.example.invenstory.ui.collectionList;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -121,6 +123,7 @@ public class CollectionListFragment extends Fragment {
 
     public void setAddCollectionFAB(FloatingActionButton fab) {
         fab.setImageResource(R.drawable.ic_add_black_24dp);
+        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#009688")));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
