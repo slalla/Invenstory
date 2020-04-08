@@ -242,10 +242,10 @@ public class ItemListFragment extends Fragment {
 
                     // setting title
                     if (userSelection.size() >1) {
-                        ItemListFragment.actionMode.setTitle(userSelection.size() + " collection selected...");
+                        ItemListFragment.actionMode.setTitle(userSelection.size() + " items selected...");
                     }
                     else{
-                        ItemListFragment.actionMode.setTitle(userSelection.size() + " collections selected...");
+                        ItemListFragment.actionMode.setTitle(userSelection.size() + " item selected...");
                     }
                 }
             });
