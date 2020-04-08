@@ -14,17 +14,20 @@
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.invenstory.ui.collectionList.CollectionListFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_collection_list" >
+        android:label="@string/menu_gallery">
         <action
             android:id="@+id/action_nav_gallery_to_itemListFragment"
             app:destination="@id/itemListFragment" />
         <action
             android:id="@+id/action_nav_gallery_to_newCollectionFragment"
-            app:destination="@id/newCollectionFragment" />
-        <argument
-            android:name="collectionId"
-            app:argType="integer" />
+            app:destination="@id/newCollectionFragment" >
+            <argument
+                android:name="collectionId"
+                android:defaultValue="-1" />
+            <argument
+                android:name="editFlag"
+                android:defaultValue="0" />
+        </action>
     </fragment>
 
     <fragment
@@ -59,7 +62,16 @@
         android:id="@+id/newCollectionFragment"
         android:name="com.example.invenstory.ui.newCollection.NewCollectionFragment"
         android:label="@string/new_collection_header"
-        tools:layout="@layout/fragment_new_collection" />
+        tools:layout="@layout/fragment_new_collection" >
+        <argument
+            android:name="editFlag"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="collectionID"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 
     <fragment
         android:id="@+id/newItemFragment"

@@ -238,7 +238,14 @@ public class CollectionListFragment extends Fragment {
 
     // edit single collection
     public void editCollection() {
-        Toast.makeText(getContext(), "Collection editing page coming soon!!", Toast.LENGTH_LONG).show();
+        CollectionListFragmentDirections.ActionNavGalleryToNewCollectionFragment actionNavGalleryToNewCollectionFragment =
+                CollectionListFragmentDirections.actionNavGalleryToNewCollectionFragment();
+        actionNavGalleryToNewCollectionFragment.setEditFlag(1);
+        actionNavGalleryToNewCollectionFragment.setCollectionID(Integer.parseInt(userSelection.get(0)));
+
+        NavController navController = findNavController(this);
+        navController.navigate(actionNavGalleryToNewCollectionFragment);
+        actionMode.finish();
     }
 
     // delete selected collections

@@ -25,9 +25,11 @@ import android.widget.Toast;
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Collection;
+import com.example.invenstory.ui.newItem.NewItemFragmentArgs;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+// TODO written by Paul: Implement camera and gallery access for collection thumbnail
 public class NewCollectionFragment extends Fragment {
 
     private NewCollectionViewModel newCollectionViewModel;
@@ -44,12 +46,28 @@ public class NewCollectionFragment extends Fragment {
         setSaveCollectionFAB(Home.getFAB());
         Home.setFabOn();
 
+        int collectionId = NewCollectionFragmentArgs.fromBundle(getArguments()).getCollectionID();
+        int editFlag = NewCollectionFragmentArgs.fromBundle(getArguments()).getEditFlag();
+        // if prev page is view item fragment
+        if (editFlag == 1) {
+            Home.getToolbar().setTitle("Edit Collection");
+        }
+
         View root = inflater.inflate(R.layout.fragment_new_collection, container, false);
         TextInputEditText nameInput = root.findViewById(R.id.NameInput);
         TextInputEditText descInput = root.findViewById(R.id.descriptionInput);
         enterKeyListener(nameInput, descInput);
 
         nameInput.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+
+        newCollectionViewModel = new ViewModelProvider(this).get(NewCollectionViewModel.class);
+        if(collectionId != -1){
+            Collection tempCollection = newCollectionViewModel.getCollection(collectionId);
+
+            Log.i("test2", tempCollection + "");
+            nameInput.setText(tempCollection.getName());
+            descInput.setText(tempCollection.getDescription());
+        }
 
         Home.getFAB().setOnClickListener(new View.OnClickListener() {
             @Override
