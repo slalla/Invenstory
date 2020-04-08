@@ -54,10 +54,19 @@ public class NewCollectionFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String name = nameInput.getText().toString();
+                String description = descInput.getText().toString();
+
                 boolean nameEnt = name != null && !name.equals("") && !name.isEmpty();
+                boolean descriptionEnt =  description != null && !description.equals("") && !description.isEmpty();
+
                 if (!nameEnt) {
                     Toast.makeText(getContext(),
                             "Sorry no value has been entered for name",
+                            Toast.LENGTH_SHORT).show();
+                }
+                if (!descriptionEnt){
+                    Toast.makeText(getContext(),
+                            "Sorry no value has been entered for description",
                             Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -70,7 +79,7 @@ public class NewCollectionFragment extends Fragment {
                             Log.i("Name: ", "You clicked good button");
 
                             // id input in the parameter here is irrelevant
-                            newCollectionViewModel.insertCollection(new Collection(name, 0));
+                            newCollectionViewModel.insertCollection(new Collection(name, 0, description));
                             Toast.makeText(getActivity(), name + " added to your list.", Toast.LENGTH_SHORT).show();
                             getActivity().onBackPressed();
                         }

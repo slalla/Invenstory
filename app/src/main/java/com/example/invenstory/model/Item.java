@@ -58,6 +58,11 @@ public class Item {
      */
     private ArrayList<String> photoFilePaths;
 
+    /**
+     * The item's description
+     */
+    private String description;
+
     // TODO written by Paul: discuss item attribute details with team
     /**
      * Creates Item with no extra attributes.
@@ -66,14 +71,16 @@ public class Item {
      * @param condition The condition of the item Ex: Mint condition
      * @param price The purchase price of the item
      * @param location The current location of the item
+     * @param description The description of the item
      */
-    public Item(String name, int collectionID, int condition, String price, String location, Date initDate) {
+    public Item(String name, int collectionID, int condition, String price, String location, Date initDate, String description) {
         this.name = name;
         this.collectionID = collectionID;
         this.price = price;
         this.location = location;
         setCondition(condition);
         setStatus(0);
+        this.description = description;
         if(initDate == null) {
             this.initDate = new Date();
         }
@@ -91,11 +98,14 @@ public class Item {
      * @param location The current location of the item
      * @param att List of extra attributes of the item.
      */
-    public Item(String name, int collectionID, int condition, String price, String location, Date initDate, ArrayList<String> att) {
-        this(name, collectionID, condition, price, location, initDate);
+    public Item(String name, int collectionID, int condition, String price, String location, Date initDate, String description, ArrayList<String> att) {
+        this(name, collectionID, condition, price, location, initDate, description);
         this.attributes = att;
     }
 
+
+    public String getDescription() {return this.description;}
+    public void setDescription(String description){this.description = description;}
 
     public String getName() { return this.name; }
     public void setName(String name) {this.name = name;}

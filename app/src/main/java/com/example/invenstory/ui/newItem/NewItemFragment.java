@@ -181,6 +181,7 @@ public class NewItemFragment extends Fragment {
             conditionInput.setText(tempItem.getCondition().ordinal()+"");
             priceInput.setText(tempItem.getPrice());
             locationInput.setText(tempItem.getLocation());
+            descInput.setText(tempItem.getDescription());
             for(String path:tempItem.getPhotoFilePaths()){
                 newItemViewModel.updateFilePaths(path);
             }
@@ -192,12 +193,14 @@ public class NewItemFragment extends Fragment {
                 String name = nameInput.getText().toString();
                 String price = priceInput.getText().toString();
                 String location = locationInput.getText().toString();
+                String description = descInput.getText().toString();
                 int condition = -1;
                 String error = "";
 
                 boolean nameEnt = name!= null && !name.equals("") &&!name.isEmpty();
                 boolean priceEnt = price !=null && !price.equals("") &&!price.isEmpty();
                 boolean locationEnt = location !=null && !location.equals("") &&!location.isEmpty();
+                boolean descriptionEnt = description!=null && !description.equals("") && !description.isEmpty();
                 boolean conditionEnt = false;
                 try{
                     condition = Integer.parseInt(conditionInput.getText().toString());
@@ -231,8 +234,13 @@ public class NewItemFragment extends Fragment {
                                 "Sorry an invalid value has been entered for condition",
                                 Toast.LENGTH_SHORT).show();
                     }
+                    else if(!descriptionEnt){
+                        Toast.makeText(getContext(),
+                                "Sorry an invalid value has been entered for description",
+                                Toast.LENGTH_SHORT).show();
+                    }
                     else{
-                        openSaveDialog(name, condition, price, location);
+                        openSaveDialog(name, condition, price, location, description);
                     }
                 }
             }
@@ -274,7 +282,7 @@ public class NewItemFragment extends Fragment {
         alertDialog.show();
     }
 
-    public void openSaveDialog(String name, int condition, String price, String location) {
+    public void openSaveDialog(String name, int condition, String price, String location, String description) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);
         builder.setMessage("You are adding an item");
@@ -285,11 +293,11 @@ public class NewItemFragment extends Fragment {
                 // id input in the parameter here is irrelevant
                 //TODO check if item already exists
                 if(itemId ==-1) {
-                    newItemViewModel.insertItem(new Item(name, collectionId, condition, price, location, null));
+                    newItemViewModel.insertItem(new Item(name, collectionId, condition, price, location, null, description));
                     Toast.makeText(getActivity(), name + " added to your list.", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Item tempItem = new Item(name, collectionId, condition, price, location, null);
+                    Item tempItem = new Item(name, collectionId, condition, price, location, null, description);
                     tempItem.setItemId(itemId);
                     newItemViewModel.updateItem(tempItem);
                     Toast.makeText(getActivity(), name + " was updated.", Toast.LENGTH_SHORT).show();
