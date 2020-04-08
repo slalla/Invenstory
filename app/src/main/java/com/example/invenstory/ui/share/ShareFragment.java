@@ -128,11 +128,9 @@ public class ShareFragment extends Fragment {
             View row = layoutInflater.inflate(R.layout.collection_row, parent, false);
             ImageView images = row.findViewById(R.id.collection_image);
             TextView name = row.findViewById(R.id.collection_name_view);
-            TextView Id = row.findViewById(R.id.collection_id_view);
 
             images.setImageResource(rImgs[position]);
             name.setText(rCollectionName[position]);
-            Id.setText(rCollectionId[position]+"");
 
             return row;
         }
