@@ -120,6 +120,8 @@ public class ViewItemFragment extends Fragment {
                     Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                     imageView.setImageBitmap(myBitmap);
                 }
+
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             }
         };
 
