@@ -133,6 +133,10 @@ public class CollectionListFragment extends Fragment {
             View row = layoutInflater.inflate(R.layout.collection_row, parent, false);
             ImageView images = row.findViewById(R.id.collection_image);
             TextView name = row.findViewById(R.id.collection_name_view);
+
+            images.setImageResource(rImgs[position]);
+            name.setText(rCollectionName[position]);
+
             CheckBox checkBox = (CheckBox) row.findViewById(R.id.collection_checkBox);
             checkBox.setTag(position);
 
@@ -176,9 +180,6 @@ public class CollectionListFragment extends Fragment {
                     CollectionListFragment.actionMode.setTitle(userSelection.size() + " collection selected...");
                 }
             });
-
-            images.setImageResource(rImgs[position]);
-            name.setText(rCollectionName[position]);
 
             return row;
         }
