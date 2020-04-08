@@ -119,7 +119,7 @@ public class NewCollectionFragment extends Fragment {
 
     }
 
-    public void hideSoftKeyboard() {
+    public void hideSoftKeyboard() throws NullPointerException{
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
     }
@@ -155,14 +155,19 @@ public class NewCollectionFragment extends Fragment {
 
     public void setSaveCollectionFAB(FloatingActionButton fab) {
         fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#009688")));
+        fab.setImageResource(R.drawable.ic_save_black_24dp);
         Home.setFabOff();
         Home.setFabOn();
-        fab.setImageResource(R.drawable.ic_save_black_24dp);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        hideSoftKeyboard();
+        try {
+            hideSoftKeyboard();
+        }
+        catch(NullPointerException e){
+            Log.i("New Collection Frag: ", "Don't worry the keyboard just wasn't opened yet.");
+        }
     }
 }

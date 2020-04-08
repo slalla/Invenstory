@@ -524,7 +524,7 @@ public class NewItemFragment extends Fragment {
         Home.setFabOn();
     }
 
-    public void hideSoftKeyboard() {
+    public void hideSoftKeyboard() throws NullPointerException{
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
     }
@@ -555,6 +555,11 @@ public class NewItemFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        hideSoftKeyboard();
+        try {
+            hideSoftKeyboard();
+        }
+        catch(NullPointerException e){
+            Log.i("New Item Frag: ", "Don't worry the keyboard just wasn't opened yet.");
+        }
     }
 }
