@@ -1,4 +1,4 @@
-package com.example.invenstory.ui.share;
+package com.example.invenstory.ui.shareCollection;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,37 +15,27 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Collection;
 import com.example.invenstory.model.Item;
-import com.example.invenstory.ui.collectionList.CollectionListFragment;
-import com.example.invenstory.ui.collectionList.CollectionListFragmentDirections;
-import com.example.invenstory.ui.collectionList.CollectionListViewModel;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static androidx.navigation.fragment.NavHostFragment.findNavController;
+public class ShareCollectionFragment extends Fragment {
 
-public class ShareFragment extends Fragment {
-
-    private ShareViewModel shareViewModel;
+    private ShareCollectionViewModel shareCollectionViewModel;
     private final String TIME_STAMP_FORMAT = "yyyyMMdd_HHmmss";
 
     private ListView listView;
@@ -55,7 +45,7 @@ public class ShareFragment extends Fragment {
     // refreshing list data
     public void onStart() {
         super.onStart();
-        shareViewModel.updateCollectionList();
+        shareCollectionViewModel.updateCollectionList();
     }
 
     // TODO written by Paul: Insert Thumbnail photo for each collection
@@ -64,12 +54,12 @@ public class ShareFragment extends Fragment {
         Home.setFabOff();
 
         // connecting files
-        View root = inflater.inflate(R.layout.fragment_share, container, false);
+        View root = inflater.inflate(R.layout.fragment_share_collection, container, false);
         listView = root.findViewById(R.id.share_collection_list);
 
-        shareViewModel = new ViewModelProvider(this).get(ShareViewModel.class);
+        shareCollectionViewModel = new ViewModelProvider(this).get(ShareCollectionViewModel.class);
 
-        shareViewModel.getCollectionList().observe(getViewLifecycleOwner(), collection -> {
+        shareCollectionViewModel.getCollectionList().observe(getViewLifecycleOwner(), collection -> {
 
             String[] mCollectionName = new String[collection.size()];
             int[] mCollectionId = new int[collection.size()];
@@ -80,7 +70,7 @@ public class ShareFragment extends Fragment {
                 images[i] = R.drawable.ic_menu_gallery;
             }
 
-            ShareFragment.MyAdapter adapter = new ShareFragment.MyAdapter(getActivity(), mCollectionName, mCollectionId, images);
+            ShareCollectionFragment.MyAdapter adapter = new ShareCollectionFragment.MyAdapter(getActivity(), mCollectionName, mCollectionId, images);
             listView.setAdapter(adapter);
 
             listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -88,11 +78,11 @@ public class ShareFragment extends Fragment {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
                 builder.setCancelable(true);
-                builder.setMessage("How would you like to share this Collection?");
+                builder.setMessage("How would you like to share this collection?");
                 builder.setPositiveButton("Email", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Log.i("Name: ", "You clicked good button");
+                        Log.i("Share Collection Frag: ", "You clicked confirm button");
                         //TODO delete file after sending
                         try {
                             File export = createExportFile();
@@ -100,7 +90,6 @@ public class ShareFragment extends Fragment {
 
                             Intent intent = new Intent(Intent.ACTION_SENDTO);
                             intent.setData(Uri.parse("mailto:"));
-
 
                             intent.putExtra(Intent.EXTRA_SUBJECT, "Invenstory Collection Shared");
                             intent.putExtra(Intent.EXTRA_TEXT,
@@ -120,7 +109,7 @@ public class ShareFragment extends Fragment {
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Log.i("Name: ", "You clicked bad button");
+                        Log.i("Share Collection Frag: ", "You clicked cancel button");
                     }
                 });
                 AlertDialog alertDialog = builder.create();
@@ -137,7 +126,7 @@ public class ShareFragment extends Fragment {
         String collection_query = "INSERT INTO collections(collection_id, name, description) VALUES (";
         String item_query = "INSERT INTO items(item_id, name, condition, price, location, init_date, picture_file_paths, collection_id, description) VALUES (";
 
-        Collection writeCol = shareViewModel.getCollection(collectionId);
+        Collection writeCol = shareCollectionViewModel.getCollection(collectionId);
 
         String writeToFile = collection_query;
         writeToFile += writeCol.getId() + ",";
@@ -145,7 +134,7 @@ public class ShareFragment extends Fragment {
         writeToFile += "\"" +writeCol.getDescription() + "\");";
         printWriter.println(writeToFile);
 
-        ArrayList<Item> list =shareViewModel.getItemsFromCollection(collectionId);
+        ArrayList<Item> list = shareCollectionViewModel.getItemsFromCollection(collectionId);
 
         for(Item writeItem: list){
             writeToFile = item_query;

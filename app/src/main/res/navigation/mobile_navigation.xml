@@ -29,15 +29,15 @@
 
     <fragment
         android:id="@+id/nav_share"
-        android:name="com.example.invenstory.ui.share.ShareFragment"
+        android:name="com.example.invenstory.ui.shareCollection.ShareCollectionFragment"
         android:label="@string/share_collection_header"
-        tools:layout="@layout/fragment_share" />
+        tools:layout="@layout/fragment_share_collection" />
 
     <fragment
         android:id="@+id/nav_send"
-        android:name="com.example.invenstory.ui.send.SendFragment"
+        android:name="com.example.invenstory.ui.shareItem.ShareItemFragment"
         android:label="@string/share_item_header"
-        tools:layout="@layout/fragment_send" />
+        tools:layout="@layout/fragment_share_item" />
 
     <fragment
         android:id="@+id/itemListFragment"

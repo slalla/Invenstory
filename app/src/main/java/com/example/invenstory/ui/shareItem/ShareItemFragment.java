@@ -1,4 +1,4 @@
-package com.example.invenstory.ui.send;
+package com.example.invenstory.ui.shareItem;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,19 +14,19 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
+import com.example.invenstory.ui.shareItem.ShareItemViewModel;
 
+public class ShareItemFragment extends Fragment {
 
-public class SendFragment extends Fragment {
-
-    private SendViewModel sendViewModel;
+    private ShareItemViewModel sendViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         Home.setFabOff();
 
         sendViewModel =
-                ViewModelProviders.of(this).get(SendViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_send, container, false);
+                ViewModelProviders.of(this).get(ShareItemViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_share_item, container, false);
         final TextView textView = root.findViewById(R.id.text_send);
 
         sendViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
