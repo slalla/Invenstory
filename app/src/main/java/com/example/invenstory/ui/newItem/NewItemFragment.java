@@ -433,7 +433,7 @@ public class NewItemFragment extends Fragment {
             //Single image is selected
             else if(data.getData()!=null){
                 Uri imageLoc = data.getData();
-                Log.i("", "Here is a path " + pathFinder(imageLoc));
+                Log.i("New Item Frag: ", "Here is the filepath " + pathFinder(imageLoc));
                 //changes the uri to a filepath
                 String path = pathFinder(imageLoc);
                 File imgFile = new File(path);
@@ -450,7 +450,7 @@ public class NewItemFragment extends Fragment {
         //This will add the current photo path if its valid
         else if(requestCode == REQUEST_CAPTURE_IMAGE && resultCode == Activity.RESULT_OK){
             Uri imageLoc = Uri.fromFile(new File(currentPhotoPath));
-            Log.i("", "Here is a path " + pathFinder(imageLoc));
+            Log.i("New Item Frag: ", "Here is the filepath " + pathFinder(imageLoc));
             //changes the uri to a filepath
             String path = pathFinder(imageLoc);
             File imgFile = new File(path);
@@ -464,7 +464,7 @@ public class NewItemFragment extends Fragment {
             }
         }
 
-        Log.i("Tag", "These are the filePaths \n" + newItemViewModel.getFilePaths().getValue().toString());
+        Log.i("New Item Frag: ", "These are the filePaths \n" + newItemViewModel.getFilePaths().getValue().toString());
         super.onActivityResult(requestCode, resultCode, data);
     }
 

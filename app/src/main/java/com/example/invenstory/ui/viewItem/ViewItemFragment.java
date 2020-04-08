@@ -9,7 +9,6 @@ import android.app.Application;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -73,10 +72,11 @@ public class ViewItemFragment extends Fragment {
         String price = item.getPrice();
         String collectionName = collection.getName();
         String status = item.getStatusText();
+        String condition = item.getConditionText();
+        String location = item.getLocation();
+        String description = item.getDescription();
         ArrayList<String> filePaths = item.getPhotoFilePaths();
 
-        String purchase_info = "January 23rd 2020";
-        String tag = "N/A";
 
         Home.getFAB().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,19 +92,19 @@ public class ViewItemFragment extends Fragment {
         });
 
         TextView nameText = root.findViewById(R.id.textName);
-        TextView statusText = root.findViewById(R.id.textStatus);
+        TextView conditionText = root.findViewById(R.id.textCondition);
         TextView collectionText = root.findViewById(R.id.textCollection);
         TextView purchasePriceText = root.findViewById(R.id.textPurchasePrice);
-        TextView purchaseDateText = root.findViewById(R.id.textPurchaseDate);
-        TextView tagsText = root.findViewById(R.id.textTags);
+        TextView locationText = root.findViewById(R.id.textLocation);
+        TextView descriptionText = root.findViewById(R.id.textDescription);
         CarouselView carouselView = root.findViewById(R.id.viewItemCarousel);
 
         nameText.setText(nameText.getText()+" " + name);
-        statusText.setText(statusText.getText() + " " + status);
+        conditionText.setText(conditionText.getText() + " " + condition);
         collectionText.setText(collectionText.getText()+" " + collectionName);
-        purchasePriceText.setText("Purchase Price: "+ price);
-        purchaseDateText.setText("Purchase Date: " + purchase_info);
-        tagsText.setText(tagsText.getText() + " " + tag);
+        purchasePriceText.setText(purchasePriceText.getText() +" "+ price);
+        locationText.setText(locationText.getText() + location);
+        descriptionText.setText(descriptionText.getText() + " " + description);
 
         setHasOptionsMenu(true);
 
@@ -144,16 +144,16 @@ public class ViewItemFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        Log.i("This deletes", "deleted "+id);
+        Log.i("View Item Fragment: ", "This was the menu option selected " + id);
         if(id == 2131230781){
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setCancelable(true);
-            builder.setMessage("Do you want to delete this Item?");
+            builder.setMessage("Do you want to delete this item?");
             builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Log.i("Name: ", "You clicked good button");
+                    Log.i("View Item Fragment: ", "You clicked confirm button");
 
                     String name = viewItemViewModel.getItem().getName();
                     viewItemViewModel.deleteItem();
@@ -164,7 +164,7 @@ public class ViewItemFragment extends Fragment {
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Log.i("Name: ", "You clicked cancel button");
+                    Log.i("View Item Fragment: ", "You clicked cancel button");
                 }
             });
             AlertDialog alertDialog = builder.create();

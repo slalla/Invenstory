@@ -122,7 +122,7 @@ public class ItemListFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        Log.i("This deletes", "deleted "+id);
+        Log.i("Item List Frag:", "The menu item selected was "+id);
         if(id ==2131230781){
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -131,7 +131,7 @@ public class ItemListFragment extends Fragment {
             builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Log.i("Name: ", "You clicked good button");
+                    Log.i("Item List Frag: ", "You clicked confirm button");
                     String name = itemListViewModel.getCollection().getName();
                     itemListViewModel.deleteCollection();
                     Toast.makeText(getActivity(), name + " was deleted.", Toast.LENGTH_SHORT).show();
@@ -141,7 +141,7 @@ public class ItemListFragment extends Fragment {
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Log.i("Name: ", "You clicked cancel button");
+                    Log.i("Item List Frag: ", "You clicked cancel button");
                 }
             });
             AlertDialog alertDialog = builder.create();

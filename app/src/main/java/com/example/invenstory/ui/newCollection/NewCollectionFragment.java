@@ -49,7 +49,6 @@ public class NewCollectionFragment extends Fragment {
 
         nameInput.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
 
-        // TODO written by Paul: User should not be able to save when required field isn't filled
         Home.getFAB().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +75,7 @@ public class NewCollectionFragment extends Fragment {
                     builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Log.i("Name: ", "You clicked good button");
+                            Log.i("New Collection Frag:", "You clicked confirm button");
 
                             // id input in the parameter here is irrelevant
                             newCollectionViewModel.insertCollection(new Collection(name, 0, description));
@@ -87,7 +86,7 @@ public class NewCollectionFragment extends Fragment {
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Log.i("Name: ", "You clicked bad button");
+                            Log.i("New Collection Frag:", "You clicked cancel button");
                         }
                     });
                     AlertDialog alertDialog = builder.create();
@@ -138,7 +137,6 @@ public class NewCollectionFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         newCollectionViewModel = new ViewModelProvider (this).get(NewCollectionViewModel.class);
-        // TODO: Use the ViewModel (I don't think I made this TODO so I'm not sure what it means)
     }
 
     public void setSaveCollectionFAB(FloatingActionButton fab) {
