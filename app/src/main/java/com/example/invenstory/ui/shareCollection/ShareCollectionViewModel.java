@@ -1,4 +1,4 @@
-package com.example.invenstory.ui.share;
+package com.example.invenstory.ui.shareCollection;
 
 import android.app.Application;
 import android.content.Context;
@@ -20,13 +20,13 @@ import com.example.invenstory.model.Item;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class ShareViewModel extends AndroidViewModel {
+public class ShareCollectionViewModel extends AndroidViewModel {
     private ArrayList<Collection> collections;
     private MutableLiveData<ArrayList<Collection>> collectionListLive;
 
     private Context context;
 
-    public ShareViewModel(@NonNull Application application) {
+    public ShareCollectionViewModel(@NonNull Application application) {
         super(application);
         context = application.getApplicationContext();
         collectionListLive = new MutableLiveData<>();

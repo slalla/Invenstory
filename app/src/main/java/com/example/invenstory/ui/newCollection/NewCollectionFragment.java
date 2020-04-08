@@ -51,22 +51,36 @@ public class NewCollectionFragment extends Fragment {
 
         nameInput.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
 
-        // TODO written by Paul: User should not be able to save when required field isn't filled
         Home.getFAB().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String name = nameInput.getText().toString();
+                String description = descInput.getText().toString();
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
+                boolean nameEnt = name != null && !name.equals("") && !name.isEmpty();
+                boolean descriptionEnt =  description != null && !description.equals("") && !description.isEmpty();
+
+                if (!nameEnt) {
+                    Toast.makeText(getContext(),
+                            "Sorry no value has been entered for name",
+                            Toast.LENGTH_SHORT).show();
+                }
+                if (!descriptionEnt){
+                    Toast.makeText(getContext(),
+                            "Sorry no value has been entered for description",
+                            Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
                     builder.setCancelable(true);
                     builder.setMessage("You are adding a collection");
                     builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Log.i("Name: ", "You clicked good button");
+                            Log.i("New Collection Frag:", "You clicked confirm button");
 
                             // id input in the parameter here is irrelevant
-                            newCollectionViewModel.insertCollection(new Collection(name, 0));
+                            newCollectionViewModel.insertCollection(new Collection(name, 0, description));
                             Toast.makeText(getActivity(), name + " added to your list.", Toast.LENGTH_SHORT).show();
                             getActivity().onBackPressed();
                         }
@@ -74,12 +88,13 @@ public class NewCollectionFragment extends Fragment {
                     builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Log.i("Name: ", "You clicked bad button");
+                            Log.i("New Collection Frag:", "You clicked cancel button");
                         }
                     });
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 }
+            }
 
         });
         return root;
@@ -124,7 +139,6 @@ public class NewCollectionFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         newCollectionViewModel = new ViewModelProvider (this).get(NewCollectionViewModel.class);
-        // TODO: Use the ViewModel (I don't think I made this TODO so I'm not sure what it means)
     }
 
     public void setSaveCollectionFAB(FloatingActionButton fab) {

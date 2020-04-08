@@ -23,13 +23,19 @@ public class Collection{
     private ArrayList<Item> collection;
 
     /**
+     * Description of the Collection
+     */
+    private String description;
+
+    /**
      * Creates a new Collection item
      * @param name The name of the collection
      * @param id The collection's id
      */
-    public Collection(String name, int id){
+    public Collection(String name, int id, String description){
         this.name = name;
         this.id = id;
+        this.description = description;
         this.collection = new ArrayList<Item>();
     }
 
@@ -38,6 +44,9 @@ public class Collection{
 
     public int getId() { return id;}
     public void setId(int id) {this.id = id;}
+
+    public String getDescription() { return description;}
+    public void setString(String description) {this.description = description;}
 
     public void addItem(Item val) {
         this.collection.add(val);

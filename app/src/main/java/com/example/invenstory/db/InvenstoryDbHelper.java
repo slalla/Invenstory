@@ -30,7 +30,8 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
     public static final String SQL_CREATE_COLLECTION =
             "CREATE TABLE " + CollectionContract.TABLE_NAME + " (" +
                     CollectionContract.TABLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    CollectionContract.COLUMN_NAME + " TEXT" +
+                    CollectionContract.COLUMN_NAME + " TEXT," +
+                    CollectionContract.COLUMN_DESCRIPTION + " TEXT"+
                     ");"
             ;
 
@@ -45,6 +46,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
                     ItemContract.COLUMN_LOCATION + " TEXT," +
                     ItemContract.COLUMN_DATE + " DATE," +
                     ItemContract.COLUMN_PHOTOS + " TEXT," +
+                    ItemContract.COLUMN_DESCRIPTION+ " TEXT," +
                     ItemContract.COLUMN_COLLECTION + " INTEGER NOT NULL," +
                     "FOREIGN KEY(" + ItemContract.COLUMN_COLLECTION + ") " +
                     "REFERENCES " + CollectionContract.TABLE_NAME + "(" + CollectionContract.TABLE_ID + ")" +
@@ -103,6 +105,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         values.put(ItemContract.COLUMN_PRICE, item.getPrice());
         values.put(ItemContract.COLUMN_LOCATION, item.getLocation());
         values.put(ItemContract.COLUMN_DATE, item.getDate().toString());
+        values.put(ItemContract.COLUMN_DESCRIPTION, item.getDescription());
         if (item.getPhotoFilePaths() != null) {
             values.put(ItemContract.COLUMN_PHOTOS, String.join(",", item.getPhotoFilePaths()));
         } else {
@@ -124,6 +127,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         values.put(ItemContract.COLUMN_PRICE, item.getPrice());
         values.put(ItemContract.COLUMN_LOCATION, item.getLocation());
         values.put(ItemContract.COLUMN_DATE, item.getDate().toString());
+        values.put(ItemContract.COLUMN_DESCRIPTION, item.getDescription());
         if (item.getPhotoFilePaths() != null) {
             values.put(ItemContract.COLUMN_PHOTOS, String.join(",", item.getPhotoFilePaths()));
         } else {
@@ -145,6 +149,7 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(CollectionContract.COLUMN_NAME, collection.getName());
+        values.put(CollectionContract.COLUMN_DESCRIPTION, collection.getDescription());
 
         return db.insert(CollectionContract.TABLE_NAME, null, values);
 
@@ -190,7 +195,8 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
                         cursor.getInt(cursor.getColumnIndex(ItemContract.COLUMN_CONDITION)),
                         cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_PRICE)),
                         cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_LOCATION)),
-                        null);
+                        null,
+                        cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_DESCRIPTION)));
 
                 item.setItemId(cursor.getInt(cursor.getColumnIndex(ItemContract.TABLE_ID)));
                 try {
@@ -226,7 +232,8 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
                         cursor.getInt(cursor.getColumnIndex(ItemContract.COLUMN_CONDITION)),
                         cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_PRICE)),
                         cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_LOCATION)),
-                        null);
+                        null,
+                        cursor.getString(cursor.getColumnIndex(ItemContract.COLUMN_DESCRIPTION)));
 
                 item.setItemId(cursor.getInt(cursor.getColumnIndex(ItemContract.TABLE_ID)));
                 try {
@@ -257,7 +264,8 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         while (!cursor.isAfterLast()) {
             if (cursor.getString(cursor.getColumnIndex(CollectionContract.COLUMN_NAME)) != null) {
                 collection = new Collection(cursor.getString(cursor.getColumnIndex(CollectionContract.COLUMN_NAME)),
-                        cursor.getColumnIndex(CollectionContract.TABLE_ID));
+                        cursor.getColumnIndex(CollectionContract.TABLE_ID),
+                        cursor.getString(cursor.getColumnIndex(CollectionContract.COLUMN_DESCRIPTION)));
 
                 collection.setId(cursor.getInt(cursor.getColumnIndex(CollectionContract.TABLE_ID)));
 
@@ -279,7 +287,8 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
         while (!cursor.isAfterLast()) {
             if (cursor.getString(cursor.getColumnIndex(CollectionContract.COLUMN_NAME)) != null) {
                 Collection collection = new Collection(cursor.getString(cursor.getColumnIndex(CollectionContract.COLUMN_NAME)),
-                        cursor.getColumnIndex(CollectionContract.TABLE_ID));
+                        cursor.getColumnIndex(CollectionContract.TABLE_ID),
+                        cursor.getString(cursor.getColumnIndex(CollectionContract.COLUMN_DESCRIPTION)));
 
                 collection.setId(cursor.getInt(cursor.getColumnIndex(CollectionContract.TABLE_ID)));
 
@@ -292,7 +301,6 @@ public class InvenstoryDbHelper extends SQLiteOpenHelper {
     }
 
     public int insertFromFile(Context context, int resId) {
-        Log.i(" This shouldn't be running", "Who called us???");
         //Insert statement count
         int result = 0;
 

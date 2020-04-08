@@ -186,6 +186,7 @@ public class NewItemFragment extends Fragment {
             conditionInput.setText(tempItem.getCondition().ordinal()+"");
             priceInput.setText(tempItem.getPrice());
             locationInput.setText(tempItem.getLocation());
+            descInput.setText(tempItem.getDescription());
             for(String path:tempItem.getPhotoFilePaths()){
                 newItemViewModel.updateFilePaths(path);
             }
@@ -195,10 +196,58 @@ public class NewItemFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String name = nameInput.getText().toString();
-                int condition = Integer.parseInt(conditionInput.getText().toString());
                 String price = priceInput.getText().toString();
                 String location = locationInput.getText().toString();
-                openSaveDialog(name, condition, price, location);
+                String description = descInput.getText().toString();
+                int condition = -1;
+                String error = "";
+
+                boolean nameEnt = name!= null && !name.equals("") &&!name.isEmpty();
+                boolean priceEnt = price !=null && !price.equals("") &&!price.isEmpty();
+                boolean locationEnt = location !=null && !location.equals("") &&!location.isEmpty();
+                boolean descriptionEnt = description!=null && !description.equals("") && !description.isEmpty();
+                boolean conditionEnt = false;
+                try{
+                    condition = Integer.parseInt(conditionInput.getText().toString());
+                    if(condition >5 || condition<1){
+                        conditionEnt =false;
+                    }
+                    else{
+                        conditionEnt = true;
+                    }
+                } catch (NumberFormatException e) {
+                    conditionEnt = false;
+                }
+                finally{
+                    if(!nameEnt){
+                        Toast.makeText(getContext(),
+                                "Sorry no value has been entered for name",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else if(!priceEnt){
+                        Toast.makeText(getContext(),
+                                "Sorry no value has been entered for price",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else if(!locationEnt){
+                        Toast.makeText(getContext(),
+                                "Sorry no value has been entered for location",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else if(!conditionEnt){
+                        Toast.makeText(getContext(),
+                                "Sorry an invalid value has been entered for condition",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else if(!descriptionEnt){
+                        Toast.makeText(getContext(),
+                                "Sorry an invalid value has been entered for description",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        openSaveDialog(name, condition, price, location, description);
+                    }
+                }
             }
         });
 
@@ -238,7 +287,7 @@ public class NewItemFragment extends Fragment {
         alertDialog.show();
     }
 
-    public void openSaveDialog(String name, int condition, String price, String location) {
+    public void openSaveDialog(String name, int condition, String price, String location, String description) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);
         builder.setMessage("You are adding an item");
@@ -249,13 +298,14 @@ public class NewItemFragment extends Fragment {
                 // id input in the parameter here is irrelevant
                 //TODO check if item already exists
                 if(itemId ==-1) {
-                    newItemViewModel.insertItem(new Item(name, collectionId, condition, price, location, null));
+                    newItemViewModel.insertItem(new Item(name, collectionId, condition, price, location, null, description));
                     Toast.makeText(getActivity(), name + " added to your list.", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Item tempItem = new Item(name, collectionId, condition, price, location, null);
+                    Item tempItem = new Item(name, collectionId, condition, price, location, null, description);
                     tempItem.setItemId(itemId);
                     newItemViewModel.updateItem(tempItem);
+                    Toast.makeText(getActivity(), name + " was updated.", Toast.LENGTH_SHORT).show();
                 }
                 getActivity().onBackPressed();
             }
@@ -388,7 +438,7 @@ public class NewItemFragment extends Fragment {
             //Single image is selected
             else if(data.getData()!=null){
                 Uri imageLoc = data.getData();
-                Log.i("", "Here is a path " + pathFinder(imageLoc));
+                Log.i("New Item Frag: ", "Here is the filepath " + pathFinder(imageLoc));
                 //changes the uri to a filepath
                 String path = pathFinder(imageLoc);
                 File imgFile = new File(path);
@@ -405,7 +455,7 @@ public class NewItemFragment extends Fragment {
         //This will add the current photo path if its valid
         else if(requestCode == REQUEST_CAPTURE_IMAGE && resultCode == Activity.RESULT_OK){
             Uri imageLoc = Uri.fromFile(new File(currentPhotoPath));
-            Log.i("", "Here is a path " + pathFinder(imageLoc));
+            Log.i("New Item Frag: ", "Here is the filepath " + pathFinder(imageLoc));
             //changes the uri to a filepath
             String path = pathFinder(imageLoc);
             File imgFile = new File(path);
@@ -419,7 +469,7 @@ public class NewItemFragment extends Fragment {
             }
         }
 
-        Log.i("Tag", "These are the filePaths \n" + newItemViewModel.getFilePaths().getValue().toString());
+        Log.i("New Item Frag: ", "These are the filePaths \n" + newItemViewModel.getFilePaths().getValue().toString());
         super.onActivityResult(requestCode, resultCode, data);
     }
 
