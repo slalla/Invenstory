@@ -13,7 +13,7 @@
         android:id="@+id/collection_image"/>
 
     <RelativeLayout
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="73dp"
         android:orientation="vertical">
 
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
     </RelativeLayout>
 </LinearLayout>
