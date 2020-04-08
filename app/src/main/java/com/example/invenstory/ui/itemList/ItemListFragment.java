@@ -19,13 +19,17 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,11 +38,14 @@ import android.widget.Toast;
 import com.example.invenstory.Home;
 import com.example.invenstory.R;
 import com.example.invenstory.model.Collection;
+import com.example.invenstory.ui.collectionList.CollectionListFragment;
 import com.example.invenstory.ui.itemList.ItemListFragmentDirections.ActionItemListFragmentToViewItemFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static androidx.navigation.fragment.NavHostFragment.findNavController;
 
@@ -51,6 +58,14 @@ public class ItemListFragment extends Fragment {
     private int collectionId;
 
     private Menu itemListMenu;
+
+    // used for long click to open action mode menu
+    private AbsListView.MultiChoiceModeListener modeListener;
+    private static ActionMode actionMode;
+    private boolean isActionMode = false;
+    private List<String> userSelection = new ArrayList<>();
+    private int clickedPosition = -1; // init as -1 not 0 or nothing. java makes it set to 0 when set to nothing
+    private Menu actionModeMenu;
 
 
     // refreshing list data
@@ -74,9 +89,12 @@ public class ItemListFragment extends Fragment {
         collectionId = ItemListFragmentArgs.fromBundle(getArguments()).getCollectionId();
         Home.setCollectionId(collectionId);
 
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+        initMultipleChoiceModeListener();
+        listView.setMultiChoiceModeListener(modeListener);
+
         // view model
         itemListViewModel = new ViewModelProvider(this, new ItemListViewModelFactory(getActivity().getApplication(), collectionId)).get(ItemListViewModel.class);
-
         itemListViewModel.getItemList().observe(getViewLifecycleOwner(), items -> {
 
             String[] mItemName = new String[items.size()];
@@ -95,7 +113,7 @@ public class ItemListFragment extends Fragment {
                 }
             }
 
-            ItemListFragment.MyAdapter adapter = new ItemListFragment.MyAdapter(getActivity(), mItemName, mItemPrice, images);
+            ItemListFragment.MyAdapter adapter = new ItemListFragment.MyAdapter(getActivity(), mItemId, mItemName, mItemPrice, images);
             listView.setAdapter(adapter);
 
             listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -154,13 +172,15 @@ public class ItemListFragment extends Fragment {
 
     class MyAdapter extends ArrayAdapter<String> {
         Context context;
+        int rItemId[];
         String rItemName[];
         String rItemPrice[];
         String rImgs[];
 
-        MyAdapter (Context c, String itemName[], String priceName[], String imgs[]) {
+        MyAdapter (Context c, int itemId[], String itemName[], String priceName[], String imgs[]) {
             super(c, R.layout.collection_row, itemName);
             this.context = c;
+            this.rItemId = itemId;
             this.rItemName = itemName;
             this.rItemPrice = priceName;
             this.rImgs = imgs;
@@ -181,8 +201,159 @@ public class ItemListFragment extends Fragment {
             name.setText(rItemName[position]);
             price.setText(rItemPrice[position]);
 
+            CheckBox checkBox = (CheckBox) row.findViewById(R.id.item_checkBox);
+            checkBox.setTag(position);
+
+            if (isActionMode) {
+                checkBox.setVisibility(View.VISIBLE);
+            } else {
+                checkBox.setVisibility(View.GONE);
+            }
+
+            if (position == clickedPosition) {
+                checkBox.setChecked(true);
+                userSelection.add(rItemId[position] + "");
+                clickedPosition = -1;
+                Log.i("array1*",""+position);
+                Log.i("array2*",""+userSelection);
+            }
+
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                    int position = (int) buttonView.getTag();
+
+                    if (userSelection.contains(rItemId[position]+"")) {
+                        userSelection.remove(rItemId[position]+"");
+                    } else {
+                        userSelection.add(rItemId[position]+"");
+                    }
+                    Log.i("array*",""+userSelection);
+
+                    // remove edit icon if there's more than one selected
+                    // only one item is editable at a time
+                    MenuItem edit = actionModeMenu.findItem(R.id.collection_edit);
+                    if (userSelection.size() > 1) {
+                        edit.setVisible(false);
+                    } else {
+                        edit.setVisible(true);
+                    }
+
+                    // setting title
+                    ItemListFragment.actionMode.setTitle(userSelection.size() + " collection selected...");
+                }
+            });
+
             return row;
         }
+    }
+
+    /**
+     * Action Mode method.
+     * When user long click, this method is called.
+     */
+    private void initMultipleChoiceModeListener() {
+        modeListener = new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                MenuInflater inflater = mode.getMenuInflater();
+                inflater.inflate(R.menu.list_context_menu, menu);
+                actionMode = mode;
+                isActionMode = true;
+                actionModeMenu = menu;
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.collection_edit:
+                        editItem();
+                        mode.finish();
+                        return true;
+                    case R.id.collection_delete:
+                        deleteItem();
+                        return false;
+                    default:
+                        return false;
+                }
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                actionMode = null;
+                isActionMode = false;
+                actionModeMenu = null;
+                userSelection.clear();
+            }
+
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                mode.setTitle("1 collection selected");
+                clickedPosition = position;
+            }
+        };
+    }
+
+    // edit single item
+    public void editItem() {
+        ItemListFragmentDirections.ActionItemListFragmentToNewItemFragment actionItemListFragmentToNewItemFragment =
+                ItemListFragmentDirections.actionItemListFragmentToNewItemFragment();
+        actionItemListFragmentToNewItemFragment.setCollectionID(collectionId);
+        actionItemListFragmentToNewItemFragment.setItemID(Integer.parseInt(userSelection.get(0)));
+        actionItemListFragmentToNewItemFragment.setEditFlag(1);
+
+        NavController navController = findNavController(this);
+        navController.navigate(actionItemListFragmentToNewItemFragment);
+    }
+
+    // delete selected items
+    public void deleteItem() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        if (userSelection.size() == 0) {
+            builder.setCancelable(true);
+            builder.setMessage("Choose an item first!");
+            builder.setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Log.i("Name: ", "You clicked cancel button");
+                }
+            });
+        } else {
+            builder.setCancelable(true);
+            builder.setMessage("Do you want to delete this item?");
+            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Log.i("Name: ", "You clicked good button");
+
+                    String name = "";
+                    Log.i("name", userSelection.size()+"");
+                    for (int j = 0; j < userSelection.size(); j++) {
+                        name += itemListViewModel.getItem(Integer.parseInt(userSelection.get(j))).getName() + ", ";
+                        itemListViewModel.deleteItem(Integer.parseInt(userSelection.get(j)));
+                    }
+                    Toast.makeText(getActivity(), name + " deleted.", Toast.LENGTH_SHORT).show();
+
+                    itemListViewModel.updateItemsList();
+                    actionMode.finish();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Log.i("Name: ", "You clicked cancel button");
+                }
+            });
+        }
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     // factory is used to pass extra arguments when view model is initiated

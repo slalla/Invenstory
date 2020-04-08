@@ -290,7 +290,7 @@ public class NewItemFragment extends Fragment {
     public void openSaveDialog(String name, int condition, String price, String location, String description) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);
-        builder.setMessage("You are adding an item");
+        builder.setMessage("Are you sure you want to save?");
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -522,15 +522,9 @@ public class NewItemFragment extends Fragment {
         fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#009688")));
     }
 
-    public void hideKeyboard(Activity activity) {
-        InputMethodManager inputManager = (InputMethodManager) activity
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        // check if no view has focus:
-        View currentFocusedView = activity.getCurrentFocus();
-        if (currentFocusedView != null) {
-            inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        }
+    public void hideSoftKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
     }
 
     /**
@@ -559,6 +553,6 @@ public class NewItemFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        hideKeyboard(getActivity());
+        hideSoftKeyboard();
     }
 }

@@ -72,11 +72,6 @@ public class CollectionListViewModel extends AndroidViewModel {
         return result;
     }
 
-    public void deleteCollection(Collection collection) {
-        DeleteCollectionTask deleteCollectionTask = new DeleteCollectionTask(context);
-        deleteCollectionTask.execute(collection);
-    }
-
     public void updateCollection(Collection collection) {
         UpdateCollectionTask updateCollectionTask = new UpdateCollectionTask(context);
         updateCollectionTask.execute(collection);

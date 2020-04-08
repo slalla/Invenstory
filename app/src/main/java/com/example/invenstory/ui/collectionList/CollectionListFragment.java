@@ -133,6 +133,10 @@ public class CollectionListFragment extends Fragment {
             View row = layoutInflater.inflate(R.layout.collection_row, parent, false);
             ImageView images = row.findViewById(R.id.collection_image);
             TextView name = row.findViewById(R.id.collection_name_view);
+
+            images.setImageResource(rImgs[position]);
+            name.setText(rCollectionName[position]);
+
             CheckBox checkBox = (CheckBox) row.findViewById(R.id.collection_checkBox);
             checkBox.setTag(position);
 
@@ -177,9 +181,6 @@ public class CollectionListFragment extends Fragment {
                 }
             });
 
-            images.setImageResource(rImgs[position]);
-            name.setText(rCollectionName[position]);
-
             return row;
         }
     }
@@ -210,7 +211,6 @@ public class CollectionListFragment extends Fragment {
                 switch (item.getItemId()) {
                     case R.id.collection_edit:
                         editCollection();
-                        mode.finish();
                         return true;
                     case R.id.collection_delete:
                         deleteCollection();
@@ -234,6 +234,18 @@ public class CollectionListFragment extends Fragment {
                 clickedPosition = position;
             }
         };
+    }
+
+    // edit single collection
+    public void editCollection() {
+        CollectionListFragmentDirections.ActionNavGalleryToNewCollectionFragment actionNavGalleryToNewCollectionFragment =
+                CollectionListFragmentDirections.actionNavGalleryToNewCollectionFragment();
+        actionNavGalleryToNewCollectionFragment.setEditFlag(1);
+        actionNavGalleryToNewCollectionFragment.setCollectionID(Integer.parseInt(userSelection.get(0)));
+
+        NavController navController = findNavController(this);
+        navController.navigate(actionNavGalleryToNewCollectionFragment);
+        actionMode.finish();
     }
 
     // delete selected collections
@@ -277,11 +289,6 @@ public class CollectionListFragment extends Fragment {
         }
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-    }
-
-    // edit single collection
-    public void editCollection() {
-
     }
 
     public void setAddCollectionFAB(FloatingActionButton fab) {

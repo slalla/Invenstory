@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.invenstory.db.asyncTasks.DeleteCollectionTask;
 import com.example.invenstory.db.asyncTasks.DeleteItemTask;
 import com.example.invenstory.db.asyncTasks.RetrieveCollectionTask;
+import com.example.invenstory.db.asyncTasks.RetrieveItemTask;
 import com.example.invenstory.db.asyncTasks.RetrieveItemsTask;
 import com.example.invenstory.db.asyncTasks.UpdateItemTask;
 import com.example.invenstory.model.Collection;
@@ -47,9 +48,33 @@ public class ItemListViewModel extends AndroidViewModel {
         itemListLive.setValue(items);
     }
 
-    public void deleteItem(Item item) {
-        DeleteItemTask deleteItemTask = new DeleteItemTask(context);
-        deleteItemTask.execute(item);
+    public Item getItem(int itemId) {
+        Item result = null;
+        try{
+            RetrieveItemTask retrieveItemTask = new RetrieveItemTask(context);
+            retrieveItemTask.execute(collectionId,itemId);
+            result = retrieveItemTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public long deleteItem(int itemId) {
+        long result = 0;
+        Item deleting = getItem(itemId);
+        try{
+            DeleteItemTask deleteItemTask = new DeleteItemTask(context);
+            deleteItemTask.execute(deleting);
+            result = deleteItemTask.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public void updateItem(Item item) {

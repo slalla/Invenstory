@@ -13,8 +13,8 @@
         android:id="@+id/collection_image"/>
 
     <RelativeLayout
-        android:layout_width="300dp"
-        android:layout_height="73dp"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
         android:orientation="vertical">
 
         <TextView
@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:buttonTint="#000"
             android:visibility="gone" />
 
     </RelativeLayout>

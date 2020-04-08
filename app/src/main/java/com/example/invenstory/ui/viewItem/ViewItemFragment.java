@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -119,6 +120,8 @@ public class ViewItemFragment extends Fragment {
                     Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                     imageView.setImageBitmap(myBitmap);
                 }
+
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             }
         };
 
