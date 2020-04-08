@@ -36,6 +36,11 @@ public class Home extends AppCompatActivity {
      */
     private static FloatingActionButton fab;
 
+    /**
+     * Contains back button, hamberger button, settings, and title of each page
+     */
+    private static Toolbar toolbar;
+
     // TODO written by Paul: Discuss what the best practice for FAB is when data communication is required
     private static int collectionId;
 
@@ -54,7 +59,7 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         fab = findViewById(R.id.fab);
@@ -66,10 +71,10 @@ public class Home extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery,
-                R.id.nav_share, R.id.nav_send)
-                .setDrawerLayout(drawer)
-                .build();
+            R.id.nav_home, R.id.nav_gallery,
+            R.id.nav_share, R.id.nav_send)
+            .setDrawerLayout(drawer)
+            .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -99,12 +104,10 @@ public class Home extends AppCompatActivity {
      */
     public static void setFabOff(){ fab.hide();}
 
-    /**
-     * Getter method of floating action button
-     */
     public static FloatingActionButton getFAB() {
         return fab;
     }
+    public static Toolbar getToolbar() { return toolbar; }
 
     // see collectionId variable above for TODO comment
     public static void setCollectionId(int id) {

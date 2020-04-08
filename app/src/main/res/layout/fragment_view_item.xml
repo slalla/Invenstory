@@ -20,34 +20,32 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_home_black_24dp" /> -->
 
-    <TextView
-        android:id="@+id/textName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="33dp"
-        android:layout_marginEnd="337dp"
-        android:text="Name:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewItemCarousel" />
+ <TextView
+     android:id="@+id/textName"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginStart="40dp"
+     android:layout_marginTop="40dp"
+     android:text="Name:"
+     android:textSize="20sp"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toBottomOf="@+id/viewItemCarousel" />
 
-    <com.synnapps.carouselview.CarouselView
-        android:id="@+id/viewItemCarousel"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="452dp"
-        app:autoPlay="false"
-        app:fillColor="#FFFFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:pageColor="#00000000"
-        app:radius="6dp"
-        app:slideInterval="3000"
-        app:strokeColor="#FF777777"
-        app:strokeWidth="1dp" />
+ <com.synnapps.carouselview.CarouselView
+     android:id="@+id/viewItemCarousel"
+     android:layout_width="wrap_content"
+     android:layout_height="300dp"
+     android:layout_marginTop="55dp"
+     app:autoPlay="false"
+     app:fillColor="#FFFFFFFF"
+     app:layout_constraintTop_toTopOf="parent"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintHorizontal_bias="0.0"
+     app:pageColor="#00000000"
+     app:radius="6dp"
+     app:slideInterval="3000"
+     app:strokeColor="#FF777777"
+     app:strokeWidth="1dp" />
 
     <TextView
         android:id="@+id/textCondition"
@@ -62,12 +60,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textName" />
 
-    <TextView
+ <TextView
         android:id="@+id/textCollection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
         android:text="Collection: "
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -82,15 +81,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textCondition" />
 
-    <TextView
-        android:id="@+id/textPurchasePrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="13dp"
-        android:text="Price:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text" />
+ <TextView
+     android:id="@+id/textPurchasePrice"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginStart="70dp"
+     android:layout_marginTop="10dp"
+     android:text="Price:"
+     android:textSize="18sp"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toBottomOf="@+id/text" />
 
     <TextView
         android:id="@+id/textLocation"

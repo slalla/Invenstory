@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -85,6 +86,7 @@ public class ViewItemFragment extends Fragment {
                         ViewItemFragmentDirections.actionViewItemFragmentToNewItemFragment();
                 actionViewItemFragmentToNewItemFragment.setCollectionID(collectionId);
                 actionViewItemFragmentToNewItemFragment.setItemID(itemId);
+                actionViewItemFragmentToNewItemFragment.setEditFlag(1);
 
                 NavController navController = findNavController(ViewItemFragment.this);
                 navController.navigate(actionViewItemFragmentToNewItemFragment);
@@ -190,9 +192,9 @@ public class ViewItemFragment extends Fragment {
         }
     }
 
-    // TODO written by Paul: Need to change color as well
     public void setEditItemFAB(FloatingActionButton fab) {
         fab.setImageResource(R.drawable.ic_edit_black_24dp);
+        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#F2486A")));
     }
 
 }

@@ -6,6 +6,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -103,8 +105,11 @@ public class NewItemFragment extends Fragment {
 
         collectionId = NewItemFragmentArgs.fromBundle(getArguments()).getCollectionID();
         itemId = NewItemFragmentArgs.fromBundle(getArguments()).getItemID();
-
-        Log.i("This is a item ID", ""+itemId);
+        int editFlag = NewItemFragmentArgs.fromBundle(getArguments()).getEditFlag();
+        // if prev page is view item fragment
+        if (editFlag==1) {
+            Home.getToolbar().setTitle("Edit Item");
+        }
 
         View root = inflater.inflate(R.layout.fragment_new_item, container, false);
         newItemViewModel = new ViewModelProvider(this).get(NewItemViewModel.class);
@@ -514,6 +519,7 @@ public class NewItemFragment extends Fragment {
 
     public void setSaveItemFAB(FloatingActionButton fab) {
         fab.setImageResource(R.drawable.ic_save_black_24dp);
+        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#009688")));
     }
 
     public void hideKeyboard(Activity activity) {
