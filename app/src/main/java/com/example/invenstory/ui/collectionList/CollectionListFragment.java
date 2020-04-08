@@ -308,5 +308,7 @@ public class CollectionListFragment extends Fragment {
     public void startNewCollection(){
         NavController navController = findNavController(this);
         navController.navigate(R.id.action_nav_gallery_to_newCollectionFragment);
+        Home.setFabOff();
+        Home.setFabOn();
     }
 }

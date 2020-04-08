@@ -520,6 +520,8 @@ public class NewItemFragment extends Fragment {
     public void setSaveItemFAB(FloatingActionButton fab) {
         fab.setImageResource(R.drawable.ic_save_black_24dp);
         fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#009688")));
+        Home.setFabOff();
+        Home.setFabOn();
     }
 
     public void hideSoftKeyboard() {

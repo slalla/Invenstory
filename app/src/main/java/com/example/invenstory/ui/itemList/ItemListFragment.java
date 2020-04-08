@@ -375,6 +375,8 @@ public class ItemListFragment extends Fragment {
     public void setAddItemFAB(FloatingActionButton fab) {
         fab.setImageResource(R.drawable.ic_add_black_24dp);
         fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#009688")));
+        Home.setFabOff();
+        Home.setFabOn();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
