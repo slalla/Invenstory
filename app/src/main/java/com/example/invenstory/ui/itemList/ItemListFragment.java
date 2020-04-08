@@ -241,7 +241,12 @@ public class ItemListFragment extends Fragment {
                     }
 
                     // setting title
-                    ItemListFragment.actionMode.setTitle(userSelection.size() + " collection selected...");
+                    if (userSelection.size() >1) {
+                        ItemListFragment.actionMode.setTitle(userSelection.size() + " collection selected...");
+                    }
+                    else{
+                        ItemListFragment.actionMode.setTitle(userSelection.size() + " collections selected...");
+                    }
                 }
             });
 
