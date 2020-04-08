@@ -290,7 +290,7 @@ public class NewItemFragment extends Fragment {
     public void openSaveDialog(String name, int condition, String price, String location, String description) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);
-        builder.setMessage("You are adding an item");
+        builder.setMessage("Are you sure you want to save?");
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

@@ -73,7 +73,7 @@ public class NewCollectionFragment extends Fragment {
                 else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(root.getContext());
                     builder.setCancelable(true);
-                    builder.setMessage("You are adding a collection");
+                    builder.setMessage("Are you sure you want to save?");
                     builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

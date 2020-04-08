@@ -274,7 +274,7 @@ public class ItemListFragment extends Fragment {
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.collection_edit:
-//                        editCollection();
+                        editItem();
                         mode.finish();
                         return true;
                     case R.id.collection_delete:
@@ -301,6 +301,19 @@ public class ItemListFragment extends Fragment {
         };
     }
 
+    // edit single item
+    public void editItem() {
+        ItemListFragmentDirections.ActionItemListFragmentToNewItemFragment actionItemListFragmentToNewItemFragment =
+                ItemListFragmentDirections.actionItemListFragmentToNewItemFragment();
+        actionItemListFragmentToNewItemFragment.setCollectionID(collectionId);
+        actionItemListFragmentToNewItemFragment.setItemID(Integer.parseInt(userSelection.get(0)));
+        actionItemListFragmentToNewItemFragment.setEditFlag(1);
+
+        NavController navController = findNavController(this);
+        navController.navigate(actionItemListFragmentToNewItemFragment);
+    }
+
+    // delete selected items
     public void deleteItem() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if (userSelection.size() == 0) {

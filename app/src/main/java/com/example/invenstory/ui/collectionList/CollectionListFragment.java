@@ -211,7 +211,6 @@ public class CollectionListFragment extends Fragment {
                 switch (item.getItemId()) {
                     case R.id.collection_edit:
                         editCollection();
-                        mode.finish();
                         return true;
                     case R.id.collection_delete:
                         deleteCollection();
@@ -235,6 +234,11 @@ public class CollectionListFragment extends Fragment {
                 clickedPosition = position;
             }
         };
+    }
+
+    // edit single collection
+    public void editCollection() {
+        Toast.makeText(getContext(), "Collection editing page coming soon!!", Toast.LENGTH_LONG).show();
     }
 
     // delete selected collections
@@ -278,11 +282,6 @@ public class CollectionListFragment extends Fragment {
         }
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-    }
-
-    // edit single collection
-    public void editCollection() {
-
     }
 
     public void setAddCollectionFAB(FloatingActionButton fab) {
