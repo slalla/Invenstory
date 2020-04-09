@@ -307,6 +307,8 @@ public class CollectionListFragment extends Fragment {
                 startNewCollection();
             }
         });
+        Home.setFabOff();
+        Home.setFabOn();
     }
 
     /**
